@@ -1,0 +1,11 @@
+CACHE MANIFEST
+# 7305b4a834d9b60ab400
+
+manifest.json
+serviceworker.js
+js/bundle.js
+css/main.css
+index.html
+
+NETWORK:
+*
