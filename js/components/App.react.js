@@ -10,11 +10,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Logo from '../../img/logo.png';
 
+// <img className="logo" src={Logo} />
 class App extends Component {
   render() {
     return (
       <div className="wrapper">
-        <img className="logo" src={Logo} />
+        <h1 className="app-name">Memorize Ephesians 1-3</h1>
         { this.props.children }
       </div>
     );

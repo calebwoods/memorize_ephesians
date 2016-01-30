@@ -3,42 +3,62 @@
 	color: #222222;
 	max-width: 978px;
 	margin: 0 auto;
+	padding: 1em 0;
 }
 
-.home__wrapper a {
-	color: #222222;
-}
-
-.home__wrapper h1,
-.home__wrapper h2 {
-	text-align: center;
-}
-
-.btn {
-	display: inline-block;
-	background-color: skyblue;
-	padding: 0.5em;
-	color: #FEFEFE;
-	border-radius: 3px;
-	text-decoration: none;
+@media screen and (max-width: 1024px) {
+  .wrapper {
+		width: 100%;
+  }
+	.logo { display: block; }
+	.app-name { display: block; }
 }
 
 .logo {
 	max-height: 5em;
 	margin: 0 auto;
-	display: block;
+	display: inline-block;
 }
 
-.home__label {
-	display: block;
+/*.app-name {
+  display: inline-block;
+	margin: 0 auto;
+	top: 0.3em;
+	position: absolute;
+	padding: 0 1em;
+}*/
+
+.density-control {
+  background: #ddd;
+	padding: 0.5em;
+	position: fixed;
+	bottom: 0;
+	left: 0;
 	width: 100%;
-	margin: 1em 0;
 }
 
-.home__input {
-	margin-left: 0.5em;
-	border-radius: 2px;
-	border-width: 1px;
-	border-color: grey;
-	padding: 0.3em;
+.density-control label {
+	display: inline-block;
+	padding-right: 1em;
+}
+
+.density-control input {
+	display: inline-block;
+	width: 100%;
+}
+
+.passage {
+  line-height: 2em;
+}
+
+.word {
+  border-bottom: 1px solid white;
+	display: inline-block;
+	margin: 0 0.1em;
+	white-space: pre;
+}
+
+.word.hidden {
+  color: white;
+	border-bottom: 1px solid black;
 }

@@ -7,22 +7,50 @@ import { asyncChangeProjectName, asyncChangeOwnerName } from '../../actions/AppA
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
+import * as passage from '../../passage'
 
-class HomePage extends Component {
+class Word extends Component {
   render() {
-    const dispatch = this.props.dispatch;
-    const { projectName, ownerName } = this.props.data;
+    let display = true
+    const levels = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
+    const wordIndex = this.props.wordIndex
+    const density = this.props.density
+    levels.forEach(function (level) {
+      const modulo = wordIndex % (level + 1)
+      if (density < 10 && level >= density && modulo === 0) {
+        display = false
+      }
+    });
+    const displayClass = display ? 'word visable' : 'word hidden';
+    return (
+      <span className={ displayClass }>{ this.props.text }</span>
+    )
+  }
+}
+class HomePage extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      density: 10
+    }
+  }
+  updateDensity() {
+    this.setState({ density: parseInt(this.refs.density.value) });
+  }
+  render() {
+    const density = this.state.density
     return (
       <div>
-        <h1>Hello World!</h1>
-        <h2>This is the demo for the <span className="home__text--red">{ projectName }</span> by <a href={'https://twitter.com/' + ownerName} >@{ ownerName }</a></h2>
-        <label className="home__label">Change to your project name:
-          <input className="home__input" type="text" onChange={(evt) => { dispatch(asyncChangeProjectName(evt.target.value)); }} defaultValue="React.js Boilerplate" value={projectName} />
-        </label>
-        <label className="home__label">Change to your name:
-          <input className="home__input" type="text" onChange={(evt) => { dispatch(asyncChangeOwnerName(evt.target.value)); }} defaultValue="mxstbr" value={ownerName} />
-        </label>
-        <Link className="btn" to="/readme">Setup</Link>
+        <div className="density-control">
+          <input onChange={this.updateDensity.bind(this)} type="range" name="density" ref="density" min="1" max="10" defaultValue="10" />
+        </div>
+        <p className="passage">
+          {
+            passage.words().map(function (word, index) {
+              return <Word density={density} text={word} key={index} wordIndex={index} />;
+            })
+          }
+        </p>
       </div>
     );
   }

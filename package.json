@@ -1,7 +1,7 @@
 {
-  "name": "reactjs-boilerplate",
+  "name": "memorize_ephesians",
   "version": "2.4.0",
-  "description": "Quick setup for new React.js applications featuring Redux, hot–reloading, PostCSS, react-router and Mocha.",
+  "description": "App used to memorize Ephesians 1-3 for Vintage Church, Raleigh, NC",
   "dependencies": {
     "fontfaceobserver": "^1.5.1",
     "history": "1.17.0",
