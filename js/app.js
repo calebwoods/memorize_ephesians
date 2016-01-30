@@ -72,6 +72,7 @@ ReactDOM.render(
     <Router history={createHistory()}>
       <Route component={App}>
         <Route path="/" component={HomePage} />
+        <Route path="/memorize_ephesians" component={HomePage} />
         <Route path="*" component={NotFoundPage} />
       </Route>
     </Router>
