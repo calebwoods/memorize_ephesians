@@ -41,9 +41,6 @@ class HomePage extends Component {
     const density = this.state.density
     return (
       <div>
-        <div className="density-control">
-          <input onChange={this.updateDensity.bind(this)} type="range" name="density" ref="density" min="1" max="10" defaultValue="10" />
-        </div>
         <p className="passage">
           {
             passage.words().map(function (word, index) {
@@ -51,6 +48,10 @@ class HomePage extends Component {
             })
           }
         </p>
+        <p><a href="http://www.esv.org" class="copyright">ESV</a></p>
+        <div className="density-control">
+          <input onChange={this.updateDensity.bind(this)} type="range" name="density" ref="density" min="1" max="10" defaultValue="10" />
+        </div>
       </div>
     );
   }
