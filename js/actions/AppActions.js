@@ -27,7 +27,7 @@
 // It makes more sense to have the asnyc actions before the non-async ones
 /* eslint-disable no-use-before-define */
 
-import { NEXT_VERSE, PREVIOUS_VERSE } from '../constants/AppConstants';
+import { NEXT_VERSE, PREVIOUS_VERSE, ENABLE_RECALL, DISABLE_RECALL } from '../constants/AppConstants';
 
 export function asyncNextVerse() {
   return (dispatch) => {
@@ -53,4 +53,30 @@ export function asyncPreviousVerse() {
 
 export function previousVerse() {
   return { type: PREVIOUS_VERSE };
+}
+
+export function asyncEnableRecall() {
+  return (dispatch) => {
+    // You can do async stuff here!
+    // API fetching, Animations,...
+    // For more information as to how and why you would do this, check https://github.com/gaearon/redux-thunk
+    return dispatch(enableRecall());
+  };
+}
+
+export function enableRecall() {
+  return { type: ENABLE_RECALL };
+}
+
+export function asyncDisableRecall() {
+  return (dispatch) => {
+    // You can do async stuff here!
+    // API fetching, Animations,...
+    // For more information as to how and why you would do this, check https://github.com/gaearon/redux-thunk
+    return dispatch(disableRecall());
+  };
+}
+
+export function disableRecall() {
+  return { type: DISABLE_RECALL };
 }

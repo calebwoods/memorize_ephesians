@@ -8,3 +8,5 @@
  */
 export const NEXT_VERSE = 'NEXT_VERSE';
 export const PREVIOUS_VERSE = 'PREVIOUS_VERSE';
+export const ENABLE_RECALL = 'ENABLE_RECALL';
+export const DISABLE_RECALL = 'DISABLE_RECALL';

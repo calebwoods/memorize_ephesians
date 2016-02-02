@@ -28,30 +28,12 @@
 	padding: 0 1em;
 }*/
 
-.density-control {
-  background: #ddd;
-	padding: 0.5em;
-	position: fixed;
-	bottom: 0;
-	left: 0;
-	width: 100%;
-}
-
-.density-control label {
-	display: inline-block;
-	padding-right: 1em;
-}
-
-.density-control input {
-	display: inline-block;
-	width: 100%;
-}
-
 .passage {
   line-height: 2em;
 }
 
-.word {
+.passage-card {
+	font-family: monospace;
   border-bottom: 1px solid white;
 	display: inline-block;
 	margin: 0 0.1em;

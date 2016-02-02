@@ -13,7 +13,7 @@
  * add it in the rootReducer.js.
  */
 
-import { NEXT_VERSE, PREVIOUS_VERSE } from '../constants/AppConstants';
+import { NEXT_VERSE, PREVIOUS_VERSE, ENABLE_RECALL, DISABLE_RECALL } from '../constants/AppConstants';
 import * as passage from '../passage'
 import assignToEmpty from '../utils/assign';
 
@@ -37,6 +37,14 @@ function passageReducer(state = initialState, action) {
       return assignToEmpty(state, verseByIndex(state.verseIndex + 1));
     case PREVIOUS_VERSE:
       return assignToEmpty(state, verseByIndex(state.verseIndex - 1));
+    case ENABLE_RECALL:
+      return assignToEmpty(state, {
+        verseText: state.verseText.split(' ').map(function (word) {
+          return word[0] + word.slice(1, word.length).replace(/\w/g, ' ');
+        }).join(' ')
+      });
+    case DISABLE_RECALL:
+      return assignToEmpty(state, verseByIndex(state.verseIndex));
     default:
       return state;
   }
