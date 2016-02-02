@@ -3,3 +3,44 @@ export const rawText = "1Paul, an apostle of Christ Jesus by the will of God, To
 export function words() {
   return rawText.split(' ').map(function (word) { return word + ' ' })
 }
+
+export function verses() {
+  return [
+    {
+      'book': 'Ephesians',
+      'chapter': 1,
+      'verse': 1,
+      'text': 'Paul, an apostle of Christ Jesus by the will of God, To the saints who are in Ephesus, and are faithful in Christ Jesus:'
+    },
+    {
+      'book': 'Ephesians',
+      'chapter': 1,
+      'verse': 2,
+      'text': 'Grace to you and peace from God our Father and the Lord Jesus Christ.'
+    },
+    {
+      'book': 'Ephesians',
+      'chapter': 1,
+      'verse': 3,
+      'text': 'Blessed be the God and Father of our Lord Jesus Christ, who has blessed us in Christ with every spiritual blessing in the heavenly places,'
+    },
+    {
+      'book': 'Ephesians',
+      'chapter': 1,
+      'verse': 4,
+      'text': 'even as he chose us in him before the foundation of the world, that we should be holy and blameless before him. In love'
+    },
+    {
+      'book': 'Ephesians',
+      'chapter': 1,
+      'verse': 5,
+      'text': 'he predestined us for adoption as sons through Jesus Christ, according to the purpose of his will,'
+    },
+    {
+      'book': 'Ephesians',
+      'chapter': 1,
+      'verse': 6,
+      'text': 'to the praise of his glorious grace, with which he has blessed us in the Beloved.'
+    }
+  ]
+}
