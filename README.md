@@ -1,19 +1,24 @@
-# React.js Boilerplate
+# Memorize Ephesians
 
-[![Dependency Status][dep-status-img]][dep-status-link] [![devDependency Status][dev-dep-status-img]][dev-dep-status-link] [![Build Status][ci-img]][ci] [![Join the chat at https://gitter.im/mxstbr/react-boilerplate](https://badges.gitter.im/mxstbr/react-boilerplate.svg)](https://gitter.im/mxstbr/react-boilerplate?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+Web app used by Vintage Church in 2016 to memorize Ephesians 1-3.  Initial project structure build using https://github.com/mxstbr/react-boilerplate
 
-Quick setup for new performance orientated, offline–first React.js applications featuring Redux, hot–reloading, PostCSS, react-router, ServiceWorker, AppCache, FontFaceObserver and Mocha.
+## Development
 
-Made with :heart: by [Max Stoiber](https://twitter.com/mxstbr)!
+1. Clone this repo using `git clone https://github.com/calebwoods/memorize_ephesians.git`.
 
-[dep-status-img]: https://david-dm.org/mxstbr/react-boilerplate.svg
-[dep-status-link]: https://david-dm.org/mxstbr/react-boilerplate
-[dev-dep-status-img]: https://david-dm.org/mxstbr/react-boilerplate/dev-status.svg
-[dev-dep-status-link]: https://david-dm.org/mxstbr/react-boilerplate#info=devDependencies
-[ci-img]: https://travis-ci.org/mxstbr/react-boilerplate.svg?branch=master
-[ci]: https://travis-ci.org/mxstbr/react-boilerplate
+2. Run `npm install` to install the dependencies.
 
------
+3. Run `npm start` to start the local web server.
+
+4. Go to `http://localhost:3000` and you should see the app running!
+
+Note the server is setup to auto reload assets as they change.
+
+## Building & Deploying
+
+1. Run `npm run build`, which will compile all the necessary files in a `build` folder.
+
+2. Run `npm run deploy` to deploy to github pages [ephesians.calebwoods.com](http://ephesians.calebwoods.com).
 
 ## Features
 
@@ -31,35 +36,6 @@ Made with :heart: by [Max Stoiber](https://twitter.com/mxstbr)!
 
 - [**ServiceWorker**](http://www.html5rocks.com/en/tutorials/service-worker/introduction/) and [**AppCache**](http://www.html5rocks.com/en/tutorials/appcache/beginner/) make it possible to use your application offline. As soon as the website has been opened once, it is cached and available without a network connection. See [this talk](http://mxs.is/swtalk) for an explanation of the ServiceWorker used in this boilerplate. [**`manifest.json`**](https://developer.chrome.com/multidevice/android/installtohomescreen) is specifically for Chrome on Android. Users can add the website to the homescreen and use it like a native app!
 
-## Getting started
-
-1. Clone this repo using `git clone https://github.com/mxstbr/react-boilerplate.git`.
-
-2. Delete the existing git repository by running `rm -rf .git`.
-
-3. Initialize a new git repository with `git init`, `git add .` and `git commit -m "Initial commit"`.
-
-4. Run `npm install` to install the dependencies.
-
-5. Run `npm start` to start the local web server.
-
-6. Go to `http://localhost:3000` and you should see the app running!
-
-## Building & Deploying
-
-1. Run `npm run build`, which will compile all the necessary files in a `build` folder.
-
-2. Upload the contents of the `build` folder to your web server.
-
-### Server Configuration
-
-#### Apache
-
-This boilerplate includes a `.htaccess` file that does two things:
-
-1. Redirect all traffic to HTTPS because ServiceWorker only works for encrypted traffic
-
-2. Rewrite all pages (e.g. yourdomain.com/subpage) to the `index.html` to let `react-router` take care of presenting the correct page
 
 ## CSS
 
@@ -156,11 +132,3 @@ import 'file?name=[name].[ext]!../img/yourimg.png';
 ```
 
 Then webpack will correctly transfer the image to the build folder.
-
-## How to contribute
-
-See [`CONTRIBUTING.md`](CONTRIBUTING.md) for infos on how you can help!
-
-## License
-
-This project is licensed under the MIT license, Copyright (c) 2016 Maximilian Stoiber. For more information see `LICENSE.md`.
