@@ -48,6 +48,7 @@
     "postcss-reporter": "^1.2.1",
     "postcss-simple-vars": "^1.0.0",
     "react-transform-hmr": "^1.0.1",
+    "static-loader": "^0.1.8",
     "style-loader": "^0.13.0",
     "url-loader": "^0.5.6",
     "webpack": "^1.12.1",
@@ -64,8 +65,8 @@
     "start": "cross-env NODE_ENV=development node server.dev.js",
     "build": "npm run test && cross-env NODE_ENV=production webpack --config webpack.prod.config.js --progress --colors -p",
     "serve": "cross-env NODE_ENV=production node server.prod.js",
-    "deploy": "node publish.js"
+    "deploy": "npm run build && node publish.js"
   },
-  "author": "Max Stoiber",
+  "author": "Caleb Woods",
   "license": "MIT"
 }

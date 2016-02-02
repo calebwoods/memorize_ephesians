@@ -11,6 +11,7 @@ module.exports = function(options) {
   if (options.prod) {
     // Entry
     entry = [
+      'static?!./CNAME?output=CNAME',
       path.resolve(__dirname, 'js/app.js') // Start with js/app.js...
     ];
     cssLoaders = ExtractTextPlugin.extract('style-loader', 'css-loader!postcss-loader');
@@ -85,6 +86,9 @@ module.exports = function(options) {
         }, {
           test: /\.jpe?g$|\.gif$|\.png$/i,
           loader: "url-loader?limit=10000"
+        }, {
+          test: /CNAME/i,
+          loader: "static-loader"
         }
       ]
     },
