@@ -23,7 +23,8 @@ function verseByIndex(index) {
   return {
     verseMetadata: verse.book + ' ' + verse.chapter + ':' + verse.verse,
     verseText: verse.text,
-    verseIndex: index
+    verseIndex: index,
+    isRecalling: false
   }
 }
 const initialState = assignToEmpty(verseByIndex(0), {
@@ -38,10 +39,16 @@ function passageReducer(state = initialState, action) {
     case PREVIOUS_VERSE:
       return assignToEmpty(state, verseByIndex(state.verseIndex - 1));
     case ENABLE_RECALL:
+      // don't attempt to parse the text if we're already in recall mode
+      if (state.isRecalling) {
+        return state;
+      }
+
       return assignToEmpty(state, {
         verseText: state.verseText.split(' ').map(function (word) {
           return word[0] + word.slice(1, word.length).replace(/\w/g, ' ');
-        }).join(' ')
+        }).join(' '),
+        isRecalling: true
       });
     case DISABLE_RECALL:
       return assignToEmpty(state, verseByIndex(state.verseIndex));
