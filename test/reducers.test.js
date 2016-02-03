@@ -1,42 +1,48 @@
 import expect from 'expect';
-import homeReducer from '../js/reducers/homeReducer';
+import passageReducer from '../js/reducers/passageReducer';
 import * as constants from '../js/constants/AppConstants';
+import * as passage from '../js/passage'
 
-// Test Reducer
 describe('defaultReducer', () => {
-  // Test that the initial state is returning correctly
   it('should return the initial state', () => {
-    expect(homeReducer(undefined, {})).toEqual({
-      projectName: 'React.js Boilerplate',
-      ownerName: 'mxstbr'
+    const verse = passage.verses()[0];
+    expect(passageReducer(undefined, {})).toEqual({
+      verseMetadata: verse.book + ' ' + verse.chapter + ':' + verse.verse,
+      verseText: verse.text,
+      verseIndex: 0,
+      verseCount: passage.verses().length
     });
   });
 
-  // Test that it handles changing the owner correctly
-  it('should handle the CHANGE_OWNER_NAME action', () => {
-    const name = 'samsmith';
-
+  it('should handle the NEXT_VERSE action', () => {
+    const nextVerse = passage.verses()[1];
     expect(
-      homeReducer({}, {
-        type: constants.CHANGE_OWNER_NAME,
-        name
+      passageReducer(undefined, {
+        type: constants.NEXT_VERSE
       })
     ).toEqual({
-      ownerName: name
+      verseMetadata: nextVerse.book + ' ' + nextVerse.chapter + ':' + nextVerse.verse,
+      verseText: nextVerse.text,
+      verseIndex: 1,
+      verseCount: passage.verses().length
     });
   });
 
   // Test that it handles changing the project name correctly
-  it('should handle the CHANGE_PROJECT_NAME action', () => {
-    const name = 'Webapplication Boilerplate';
-
+  it('should handle the PREVIOUS_VERSE action', () => {
+    const newVerse = passage.verses()[0];
+    const firstState = passageReducer(undefined, {
+      type: constants.NEXT_VERSE
+    })
     expect(
-      homeReducer({}, {
-        type: constants.CHANGE_PROJECT_NAME,
-        name
+      passageReducer(firstState, {
+        type: constants.PREVIOUS_VERSE
       })
     ).toEqual({
-      projectName: name
+      verseMetadata: newVerse.book + ' ' + newVerse.chapter + ':' + newVerse.verse,
+      verseText: newVerse.text,
+      verseIndex: 0,
+      verseCount: passage.verses().length
     });
   });
 });
