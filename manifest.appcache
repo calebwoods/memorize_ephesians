@@ -1,9 +1,10 @@
 CACHE MANIFEST
-# 53b82b29175a6ce37594
+# 60b14a4b4fdcf46abf87
 
 manifest.json
 serviceworker.js
 CNAME
+d37380ea6ac9abdb6c8fd3c00fbaf410.png
 js/bundle.js
 css/main.css
 index.html
