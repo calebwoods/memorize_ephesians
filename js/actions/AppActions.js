@@ -55,28 +55,28 @@ export function previousVerse() {
   return { type: PREVIOUS_VERSE };
 }
 
-export function asyncEnableRecall() {
+export function asyncEnableRecall(index) {
   return (dispatch) => {
     // You can do async stuff here!
     // API fetching, Animations,...
     // For more information as to how and why you would do this, check https://github.com/gaearon/redux-thunk
-    return dispatch(enableRecall());
+    return dispatch(enableRecall(index));
   };
 }
 
-export function enableRecall() {
-  return { type: ENABLE_RECALL };
+export function enableRecall(index) {
+  return { type: ENABLE_RECALL, index };
 }
 
-export function asyncDisableRecall() {
+export function asyncDisableRecall(index) {
   return (dispatch) => {
     // You can do async stuff here!
     // API fetching, Animations,...
     // For more information as to how and why you would do this, check https://github.com/gaearon/redux-thunk
-    return dispatch(disableRecall());
+    return dispatch(disableRecall(index));
   };
 }
 
-export function disableRecall() {
-  return { type: DISABLE_RECALL };
+export function disableRecall(index) {
+  return { type: DISABLE_RECALL, index };
 }

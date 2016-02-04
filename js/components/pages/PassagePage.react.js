@@ -2,43 +2,53 @@
  * PassagePage
  */
 
-import { asyncNextVerse, asyncPreviousVerse, asyncEnableRecall, asyncDisableRecall } from '../../actions/AppActions';
+import { asyncNextVerse, asyncPreviousVerse } from '../../actions/AppActions';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
+import Verse from '../Verse.react';
+
 class PassagePage extends Component {
   render() {
     const dispatch = this.props.dispatch;
-    const { verse, verseCount, verseIndex, verseText, verseMetadata } = this.props.data;
+    const { activeVerse, totalVerses, verses, mode } = this.props.data;
+
     let nextButton = ''
-    if (verseIndex < verseCount - 1) {
+    if (mode === 'single' && activeVerse < totalVerses - 1) {
       nextButton = <button className="next" onClick={() => { dispatch(asyncNextVerse()) }}>Next</button>
     }
     let previousButton = ''
-    if (verseIndex > 0) {
+    if (mode === 'single' && activeVerse > 0) {
       previousButton = <button className="previous" onClick={() => { dispatch(asyncPreviousVerse()) }}>Previous</button>
     }
 
     return (
       <div>
-        <div className="passage-card">
+        <div className="verse-controls">
           { previousButton }
-          <p className="passage-metadata">{ verseMetadata }</p>
-          <p>{ verseText }</p>
           { nextButton }
-          <button className="enable-recall" onClick={() => { dispatch(asyncEnableRecall()) }}>Enable Recall</button>
-          <button className="disable-recall" onClick={() => { dispatch(asyncDisableRecall()) }}>Disable Recall</button>
         </div>
-        <p><a href="http://www.esv.org" class="copyright">ESV</a></p>
+
+        <div className="verse-wrapper">
+          <ul>
+            {verses.map(function(verse, index) {
+              return <Verse key={ index }
+                            index={ index }
+                            dispatch={ dispatch }
+                            {...verse} />;
+            })}
+          </ul>
+        </div>
+
+        <div>
+          <p><a href="http://www.esv.org" className="copyright">ESV</a></p>
+        </div>
       </div>
     );
   }
 }
 
-// REDUX STUFF
-
-// Which props do we want to inject, given the global state?
 function select(state) {
   return {
     data: state

@@ -5,44 +5,72 @@ import * as passage from '../js/passage'
 
 describe('defaultReducer', () => {
   it('should return the initial state', () => {
-    const verse = passage.verses()[0];
-    expect(passageReducer(undefined, {})).toEqual({
-      verseMetadata: verse.book + ' ' + verse.chapter + ':' + verse.verse,
-      verseText: verse.text,
-      verseIndex: 0,
-      verseCount: passage.verses().length
-    });
+    const verses = passage.verses();
+
+    const initialReducer = passageReducer(undefined, {});
+
+    expect(initialReducer.activeVerse).toEqual(0);
+    expect(initialReducer.totalVerses).toEqual(verses.length);
+    expect(initialReducer.verses).toEqual(verses);
+    expect(initialReducer.mode).toEqual('multi');
   });
 
   it('should handle the NEXT_VERSE action', () => {
-    const nextVerse = passage.verses()[1];
-    expect(
-      passageReducer(undefined, {
-        type: constants.NEXT_VERSE
-      })
-    ).toEqual({
-      verseMetadata: nextVerse.book + ' ' + nextVerse.chapter + ':' + nextVerse.verse,
-      verseText: nextVerse.text,
-      verseIndex: 1,
-      verseCount: passage.verses().length
+    const initialReducer = passageReducer(undefined, {
+      type: constants.NEXT_VERSE
     });
+
+    expect(initialReducer.activeVerse).toEqual(1);
+
+    const secondReducer = passageReducer(initialReducer, {
+      type: constants.NEXT_VERSE
+    });
+
+    expect(secondReducer.activeVerse).toEqual(2);
   });
 
   // Test that it handles changing the project name correctly
   it('should handle the PREVIOUS_VERSE action', () => {
-    const newVerse = passage.verses()[0];
-    const firstState = passageReducer(undefined, {
-      type: constants.NEXT_VERSE
-    })
-    expect(
-      passageReducer(firstState, {
-        type: constants.PREVIOUS_VERSE
-      })
-    ).toEqual({
-      verseMetadata: newVerse.book + ' ' + newVerse.chapter + ':' + newVerse.verse,
-      verseText: newVerse.text,
-      verseIndex: 0,
-      verseCount: passage.verses().length
+    const initialState = {
+      activeVerse: 6
+    };
+
+    const initialReducer = passageReducer(initialState, {
+      type: constants.PREVIOUS_VERSE
+    });
+
+    expect(initialReducer.activeVerse).toEqual(5);
+
+    const secondReducer = passageReducer(initialReducer, {
+      type: constants.PREVIOUS_VERSE
+    });
+
+    expect(secondReducer.activeVerse).toEqual(4);
+  });
+
+  describe('enabling recall', () => {
+    it('should be able to set isRecalling for individual verses', () => {
+      const initialState = {
+        verses: [
+          {
+            text: 'First'
+          }, {
+            text: 'Second'
+          }
+        ]
+      };
+
+      const initialReducer = passageReducer(initialState, {
+        type: constants.ENABLE_RECALL,
+        index: 1
+      });
+
+      expect(initialReducer.verses[0].isRecalling).toBeFalsy();
+      expect(initialReducer.verses[1].isRecalling).toBeTruthy();
+    });
+
+    it('should be able to set isRecalling for all verses at once', () => {
+
     });
   });
 });

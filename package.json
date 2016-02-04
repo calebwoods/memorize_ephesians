@@ -47,6 +47,7 @@
     "postcss-loader": "^0.8.0",
     "postcss-reporter": "^1.2.1",
     "postcss-simple-vars": "^1.0.0",
+    "postcss-nested": "^1.0.0",
     "react-transform-hmr": "^1.0.1",
     "static-loader": "^0.1.8",
     "style-loader": "^0.13.0",

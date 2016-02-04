@@ -18,33 +18,46 @@ import * as passage from '../passage'
 import assignToEmpty from '../utils/assign';
 
 const verses = passage.verses();
-function verseByIndex(index) {
-  const verse = verses[index];
-  return {
-    verseMetadata: verse.book + ' ' + verse.chapter + ':' + verse.verse,
-    verseText: verse.text,
-    verseIndex: index
-  }
-}
-const initialState = assignToEmpty(verseByIndex(0), {
-  verseCount: verses.length
+
+const initialState = assignToEmpty({
+  activeVerse: 0,
+  totalVerses: verses.length,
+  verses     : verses,
+  mode       : 'multi'
 });
 
 function passageReducer(state = initialState, action) {
   Object.freeze(state); // Don't mutate state directly, always use assign()!
+
   switch (action.type) {
     case NEXT_VERSE:
-      return assignToEmpty(state, verseByIndex(state.verseIndex + 1));
+      return assignToEmpty(state, {
+        activeVerse: state.activeVerse + 1
+      });
     case PREVIOUS_VERSE:
-      return assignToEmpty(state, verseByIndex(state.verseIndex - 1));
+      return assignToEmpty(state, {
+        activeVerse: state.activeVerse - 1
+      });
     case ENABLE_RECALL:
       return assignToEmpty(state, {
-        verseText: state.verseText.split(' ').map(function (word) {
-          return word[0] + word.slice(1, word.length).replace(/\w/g, ' ');
-        }).join(' ')
+        verses: [
+          ...state.verses.slice(0, action.index),
+          Object.assign({}, state.verses[action.index], {
+            isRecalling: true
+          }),
+          ...state.verses.slice(action.index + 1)
+        ]
       });
     case DISABLE_RECALL:
-      return assignToEmpty(state, verseByIndex(state.verseIndex));
+      return assignToEmpty(state, {
+        verses: [
+          ...state.verses.slice(0, action.index),
+          Object.assign({}, state.verses[action.index], {
+            isRecalling: false
+          }),
+          ...state.verses.slice(action.index + 1)
+        ]
+      });
     default:
       return state;
   }
