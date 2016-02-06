@@ -1,7 +1,9 @@
 import expect from 'expect';
-import passageReducer from '../js/reducers/passageReducer';
+
 import * as constants from '../js/constants/AppConstants';
 import * as passage from '../js/passage'
+
+import passageReducer from '../js/reducers/passageReducer';
 
 describe('passageReducer', () => {
   it('should return the initial state', () => {

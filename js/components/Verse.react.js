@@ -3,6 +3,7 @@
  */
 
 import { asyncEnableRecall, asyncDisableRecall } from '../actions/AppActions';
+
 import React, { Component } from 'react';
 
 class Verse extends Component {

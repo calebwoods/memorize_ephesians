@@ -2,8 +2,9 @@ import expect from 'expect';
 import jsdomify from 'jsdomify';
 
 import { MODES, SINGLE_MODE, MULTI_MODE } from '../js/constants/AppConstants';
-import { PassagePage } from '../js/components/pages/PassagePage.react';
 import * as passage from '../js/passage';
+
+import { PassagePage } from '../js/components/pages/PassagePage.react';
 
 describe('PassagePage', () => {
   let React, TestUtils, getInstance;

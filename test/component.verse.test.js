@@ -1,8 +1,9 @@
 import expect from 'expect';
 import jsdomify from 'jsdomify';
 
-import Verse from '../js/components/Verse.react';
 import * as passage from '../js/passage';
+
+import Verse from '../js/components/Verse.react';
 
 describe('Verse', () => {
   let React, TestUtils, getInstance;

@@ -1,12 +1,12 @@
 /*
  * PassagePage
  */
-
-import { asyncNextVerse, asyncPreviousVerse, asyncChangeMode } from '../../actions/AppActions';
-import { MODES, SINGLE_MODE, MULTI_MODE } from '../../constants/AppConstants';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
+
+import { asyncNextVerse, asyncPreviousVerse, asyncChangeMode } from '../../actions/AppActions';
+import { MODES, SINGLE_MODE, MULTI_MODE } from '../../constants/AppConstants';
 
 import Verse from '../Verse.react';
 
