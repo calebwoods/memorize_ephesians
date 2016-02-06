@@ -32,6 +32,17 @@ describe('PassagePage', () => {
   });
 
   describe('changing modes', function() {
+    let verses = passage.verses(),
+        props  = {
+          activeVerse: 0,
+          totalVerses: verses.length,
+          verses     : verses
+        };
+
+    after(() => {
+      props.mode = null
+    });
+
     it('should assign the correct button text based on mode', () => {
       let element     = getInstance({ mode: SINGLE_MODE });
       let modeElement = TestUtils.findRenderedDOMComponentWithClass(element, 'scripture-mode');
@@ -42,6 +53,24 @@ describe('PassagePage', () => {
       modeElement = TestUtils.findRenderedDOMComponentWithClass(element, 'scripture-mode');
 
       expect(modeElement.textContent).toEqual(MODES[SINGLE_MODE]);
+    });
+
+    it('should render the active verse in single mode', () => {
+      props.mode = SINGLE_MODE;
+
+      let element      = getInstance(props);
+      let passageCards = TestUtils.scryRenderedDOMComponentsWithClass(element, 'passage-card');
+
+      expect(passageCards.length).toEqual(1);
+    });
+
+    it('should render all verses in multi mode', () => {
+      props.mode = MULTI_MODE;
+
+      let element      = getInstance(props);
+      let passageCards = TestUtils.scryRenderedDOMComponentsWithClass(element, 'passage-card');
+
+      expect(passageCards.length).toEqual(props.totalVerses);
     });
   })
 });

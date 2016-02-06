@@ -17,17 +17,20 @@ export class PassagePage extends Component {
     const { activeVerse, totalVerses, verses, mode } = this.props.data;
 
     let nextButton = ''
-    if (mode === 'single' && activeVerse < totalVerses - 1) {
+    if (mode === SINGLE_MODE && activeVerse < totalVerses - 1) {
       nextButton = <button className="next" onClick={() => { dispatch(asyncNextVerse()) }}>Next</button>
     }
     let previousButton = ''
-    if (mode === 'single' && activeVerse > 0) {
+    if (mode === SINGLE_MODE && activeVerse > 0) {
       previousButton = <button className="previous" onClick={() => { dispatch(asyncPreviousVerse()) }}>Previous</button>
     }
 
     let renderedVerses = ''
     if (verses) {
-      renderedVerses = verses.map(function(verse, index) {
+      // render the verses based on mode
+      let targetVerses = (mode === SINGLE_MODE) ? [verses[activeVerse]] : verses;
+
+      renderedVerses = targetVerses.map(function(verse, index) {
         return <Verse key={ index }
                       index={ index }
                       dispatch={ dispatch }
