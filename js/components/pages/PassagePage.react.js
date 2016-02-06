@@ -5,6 +5,7 @@
 import { asyncNextVerse, asyncPreviousVerse, asyncEnableRecall, asyncDisableRecall } from '../../actions/AppActions';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import AudioPlayer from "../AudioPlayer.react";
 import { Link } from 'react-router';
 
 class PassagePage extends Component {
@@ -29,6 +30,7 @@ class PassagePage extends Component {
           { nextButton }
           <button className="enable-recall" onClick={() => { dispatch(asyncEnableRecall()) }}>Enable Recall</button>
           <button className="disable-recall" onClick={() => { dispatch(asyncDisableRecall()) }}>Disable Recall</button>
+          <AudioPlayer/>
         </div>
         <p><a href="http://www.esv.org" class="copyright">ESV</a></p>
       </div>
