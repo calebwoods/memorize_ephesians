@@ -33,14 +33,20 @@
 }
 
 .passage-card {
-	font-family: monospace;
+	background: #eee;
   border-bottom: 1px solid white;
 	display: inline-block;
+	font-family: monospace;
 	margin: 0 0.1em;
-	white-space: pre;
+	padding: 1em;
+	white-space: pre-wrap;
+	width: 100%;
 }
 
-.word.hidden {
-  color: white;
-	border-bottom: 1px solid black;
+body.js-source-code-pro-loaded .passage-card {
+	font-family: 'Source Code Pro', monospace;
+}
+
+.passage-metadata {
+	color: #999;
 }
