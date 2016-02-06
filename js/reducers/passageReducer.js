@@ -14,8 +14,7 @@
  */
 import assignToEmpty from '../utils/assign';
 
-import { NEXT_VERSE, PREVIOUS_VERSE, ENABLE_RECALL, DISABLE_RECALL, CHANGE_MODE } from '../constants/AppConstants';
-import { MULTI_MODE } from '../constants/AppConstants';
+import { NEXT_VERSE, PREVIOUS_VERSE, ENABLE_RECALL, DISABLE_RECALL, CHANGE_MODE, MULTI_MODE, PLAY_AUDIO, PAUSE_AUDIO } from '../constants/AppConstants';
 import * as passage from '../passage'
 
 const verses = passage.verses();
@@ -63,6 +62,10 @@ function passageReducer(state = initialState, action) {
       return assignToEmpty(state, {
         mode : action.mode
       });
+    case PLAY_AUDIO:
+      return assignToEmpty(state, { isAudioPlaying: true });
+    case PAUSE_AUDIO:
+      return assignToEmpty(state, { isAudioPlaying: false });
     default:
       return state;
   }

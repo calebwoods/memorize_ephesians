@@ -3,6 +3,7 @@
  */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import AudioPlayer from "../AudioPlayer.react";
 import { Link } from 'react-router';
 
 import { asyncNextVerse, asyncPreviousVerse, asyncChangeMode } from '../../actions/AppActions';
@@ -40,6 +41,9 @@ export class PassagePage extends Component {
 
     let newMode = (mode === SINGLE_MODE) ? MULTI_MODE : SINGLE_MODE;
 
+    const audioUrl = "http://www.esvapi.org/v2/rest/passageQuery?key=IP&passage=" +
+      encodeURI(verseMetadata) + "&output-format=mp3";
+
     return (
       <div>
         <div className="verse-controls">
@@ -57,6 +61,11 @@ export class PassagePage extends Component {
 
         <div>
           <p><a href="http://www.esv.org" className="copyright">ESV</a></p>
+
+          <button className="enable-recall" onClick={() => { dispatch(asyncEnableRecall()) }}>Enable Recall</button>
+          <button className="disable-recall" onClick={() => { dispatch(asyncDisableRecall()) }}>Disable Recall</button>
+
+          <AudioPlayer src={ audioUrl }/>
         </div>
       </div>
     );

@@ -12,6 +12,9 @@ export const ENABLE_RECALL  = 'ENABLE_RECALL';
 export const DISABLE_RECALL = 'DISABLE_RECALL';
 export const CHANGE_MODE    = 'CHANGE_MODE';
 
+export const PLAY_AUDIO  = 'PLAY_AUDIO';
+export const PAUSE_AUDIO = 'PAUSE_AUDIO';
+
 export const SINGLE_MODE = 'SINGLE_MODE';
 export const MULTI_MODE  = 'MULTI_MODE';
 
