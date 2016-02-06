@@ -53,7 +53,8 @@
     "style-loader": "^0.13.0",
     "url-loader": "^0.5.6",
     "webpack": "^1.12.1",
-    "webpack-dev-server": "^1.11.0"
+    "webpack-dev-server": "^1.11.0",
+    "jsdomify": "^1.1.0"
   },
   "repository": {
     "type": "git",
@@ -61,7 +62,7 @@
   },
   "scripts": {
     "lint": "eslint .",
-    "test": "mocha --compilers js:babel-core/register --recursive",
+    "test": "NODE_ENV=test mocha --compilers js:babel-core/register --recursive test/**/*.js",
     "test:watch": "npm test -- --watch",
     "start": "cross-env NODE_ENV=development node server.dev.js",
     "build": "npm run test && cross-env NODE_ENV=production webpack --config webpack.prod.config.js --progress --colors -p",

@@ -3,7 +3,7 @@ import passageReducer from '../js/reducers/passageReducer';
 import * as constants from '../js/constants/AppConstants';
 import * as passage from '../js/passage'
 
-describe('defaultReducer', () => {
+describe('passageReducer', () => {
   it('should return the initial state', () => {
     const verses = passage.verses();
 
