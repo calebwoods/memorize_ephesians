@@ -14,7 +14,7 @@ describe('passageReducer', () => {
     expect(initialReducer.activeVerse).toEqual(0);
     expect(initialReducer.totalVerses).toEqual(verses.length);
     expect(initialReducer.verses).toEqual(verses);
-    expect(initialReducer.mode).toEqual('multi');
+    expect(initialReducer.mode).toEqual(constants.MULTI_MODE);
   });
 
   it('should handle the NEXT_VERSE action', () => {

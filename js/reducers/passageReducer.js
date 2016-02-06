@@ -15,6 +15,7 @@
 import assignToEmpty from '../utils/assign';
 
 import { NEXT_VERSE, PREVIOUS_VERSE, ENABLE_RECALL, DISABLE_RECALL, CHANGE_MODE } from '../constants/AppConstants';
+import { MULTI_MODE } from '../constants/AppConstants';
 import * as passage from '../passage'
 
 const verses = passage.verses();
@@ -23,7 +24,7 @@ const initialState = assignToEmpty({
   activeVerse: 0,
   totalVerses: verses.length,
   verses     : verses,
-  mode       : 'multi'
+  mode       : MULTI_MODE
 });
 
 function passageReducer(state = initialState, action) {
