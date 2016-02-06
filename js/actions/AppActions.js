@@ -26,8 +26,7 @@
 // Disable the no-use-before-define eslint rule for this file
 // It makes more sense to have the asnyc actions before the non-async ones
 /* eslint-disable no-use-before-define */
-
-import { NEXT_VERSE, PREVIOUS_VERSE, ENABLE_RECALL, DISABLE_RECALL, PLAY_AUDIO, PAUSE_AUDIO } from '../constants/AppConstants';
+import { NEXT_VERSE, PREVIOUS_VERSE, ENABLE_RECALL, DISABLE_RECALL, CHANGE_MODE, PLAY_AUDIO, PAUSE_AUDIO } from '../constants/AppConstants';
 
 export function asyncNextVerse() {
   return (dispatch) => {
@@ -55,54 +54,67 @@ export function previousVerse() {
   return { type: PREVIOUS_VERSE };
 }
 
-export function asyncEnableRecall() {
+export function asyncEnableRecall(index) {
   return (dispatch) => {
     // You can do async stuff here!
     // API fetching, Animations,...
     // For more information as to how and why you would do this, check https://github.com/gaearon/redux-thunk
-    return dispatch(enableRecall());
+    return dispatch(enableRecall(index));
   };
 }
 
-export function enableRecall() {
-  return { type: ENABLE_RECALL };
+export function enableRecall(index) {
+  return { type: ENABLE_RECALL, index };
 }
 
-export function asyncDisableRecall() {
+export function asyncDisableRecall(index) {
   return (dispatch) => {
     // You can do async stuff here!
     // API fetching, Animations,...
     // For more information as to how and why you would do this, check https://github.com/gaearon/redux-thunk
-    return dispatch(disableRecall());
+    return dispatch(disableRecall(index));
   };
 }
 
-export function disableRecall() {
-  return { type: DISABLE_RECALL };
+export function disableRecall(index) {
+  return { type: DISABLE_RECALL, index };
 }
 
-export function asyncPlayAudio() {
+export function asyncChangeMode(mode) {
   return (dispatch) => {
     // You can do async stuff here!
     // API fetching, Animations,...
     // For more information as to how and why you would do this, check https://github.com/gaearon/redux-thunk
-    return dispatch(playAudio());
-  }
+    return dispatch(changeMode(mode));
+  };
 }
 
-export function playAudio() {
-  return { type: PLAY_AUDIO };
+export function changeMode(mode) {
+  return { type: CHANGE_MODE, mode };
 }
 
-export function asyncPauseAudio() {
+export function asyncPlayAudio(index) {
   return (dispatch) => {
     // You can do async stuff here!
     // API fetching, Animations,...
     // For more information as to how and why you would do this, check https://github.com/gaearon/redux-thunk
-    return dispatch(pauseAudio());
+    return dispatch(playAudio(index));
   }
 }
 
-export function pauseAudio() {
-  return { type: PAUSE_AUDIO };
+export function playAudio(index) {
+  return { type: PLAY_AUDIO, index };
+}
+
+export function asyncPauseAudio(index) {
+  return (dispatch) => {
+    // You can do async stuff here!
+    // API fetching, Animations,...
+    // For more information as to how and why you would do this, check https://github.com/gaearon/redux-thunk
+    return dispatch(pauseAudio(index));
+  }
+}
+
+export function pauseAudio(index) {
+  return { type: PAUSE_AUDIO, index };
 }

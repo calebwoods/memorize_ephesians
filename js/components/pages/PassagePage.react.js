@@ -1,49 +1,68 @@
 /*
  * PassagePage
  */
-
-import { asyncNextVerse, asyncPreviousVerse, asyncEnableRecall, asyncDisableRecall } from '../../actions/AppActions';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import AudioPlayer from "../AudioPlayer.react";
 import { Link } from 'react-router';
 
-class PassagePage extends Component {
+import { asyncNextVerse, asyncPreviousVerse, asyncChangeMode } from '../../actions/AppActions';
+import { MODES, SINGLE_MODE, MULTI_MODE } from '../../constants/AppConstants';
+
+import Verse from '../Verse.react';
+
+// use named export for unconnected component (unit tests)
+export class PassagePage extends Component {
   render() {
     const dispatch = this.props.dispatch;
-    const { verse, verseCount, verseIndex, verseText, verseMetadata } = this.props.data;
+    const { activeVerse, totalVerses, verses, mode } = this.props.data;
+
     let nextButton = ''
-    if (verseIndex < verseCount - 1) {
+    if (mode === SINGLE_MODE && activeVerse < totalVerses - 1) {
       nextButton = <button className="next" onClick={() => { dispatch(asyncNextVerse()) }}>Next</button>
     }
     let previousButton = ''
-    if (verseIndex > 0) {
+    if (mode === SINGLE_MODE && activeVerse > 0) {
       previousButton = <button className="previous" onClick={() => { dispatch(asyncPreviousVerse()) }}>Previous</button>
     }
 
-    const audioUrl = "http://www.esvapi.org/v2/rest/passageQuery?key=IP&passage=" +
-      encodeURI(verseMetadata) + "&output-format=mp3";
+    let renderedVerses = ''
+    if (verses) {
+      // render the verses based on mode
+      let targetVerses = (mode === SINGLE_MODE) ? [verses[activeVerse]] : verses;
+
+      renderedVerses = targetVerses.map(function(verse, index) {
+        return <Verse key={ index }
+                      index={ index }
+                      dispatch={ dispatch }
+                      {...verse} />;
+      })
+    }
+
+    let newMode = (mode === SINGLE_MODE) ? MULTI_MODE : SINGLE_MODE;
 
     return (
       <div>
-        <div className="passage-card">
+        <div className="verse-controls">
           { previousButton }
-          <p className="passage-metadata">{ verseMetadata }</p>
-          <p>{ verseText }</p>
           { nextButton }
-          <button className="enable-recall" onClick={() => { dispatch(asyncEnableRecall()) }}>Enable Recall</button>
-          <button className="disable-recall" onClick={() => { dispatch(asyncDisableRecall()) }}>Disable Recall</button>
-          <AudioPlayer src={ audioUrl }/>
+
+          <button className="scripture-mode" onClick={() => { dispatch(asyncChangeMode(newMode)) }}>{ MODES[newMode] }</button>
         </div>
-        <p><a href="http://www.esv.org" class="copyright">ESV</a></p>
+
+        <div className="verse-wrapper">
+          <ul>
+            { renderedVerses }
+          </ul>
+        </div>
+
+        <div>
+          <p><a href="http://www.esv.org" className="copyright">ESV</a></p>
+        </div>
       </div>
     );
   }
 }
 
-// REDUX STUFF
-
-// Which props do we want to inject, given the global state?
 function select(state) {
   return {
     data: state
