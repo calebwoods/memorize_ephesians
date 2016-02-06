@@ -21,6 +21,9 @@ class PassagePage extends Component {
       previousButton = <button className="previous" onClick={() => { dispatch(asyncPreviousVerse()) }}>Previous</button>
     }
 
+    const audioUrl = "http://www.esvapi.org/v2/rest/passageQuery?key=IP&passage=" +
+      verseMetadata.replace(/ /, "+") + "&output-format=mp3";
+
     return (
       <div>
         <div className="passage-card">
@@ -30,7 +33,7 @@ class PassagePage extends Component {
           { nextButton }
           <button className="enable-recall" onClick={() => { dispatch(asyncEnableRecall()) }}>Enable Recall</button>
           <button className="disable-recall" onClick={() => { dispatch(asyncDisableRecall()) }}>Disable Recall</button>
-          <AudioPlayer/>
+          <AudioPlayer src={ audioUrl }/>
         </div>
         <p><a href="http://www.esv.org" class="copyright">ESV</a></p>
       </div>

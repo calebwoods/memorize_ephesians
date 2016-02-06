@@ -8,17 +8,14 @@ import { connect } from 'react-redux';
 
 class AudioPlayer extends Component {
 	render() {
-		const dispatch = this.props.dispatch;
-		const { verseMetadata, audioPlaying } = this.props.data;
-
-		const encodedVerseMeta = verseMetadata.replace(/ /, "+");
-		const audioUrl = "http://www.esvapi.org/v2/rest/passageQuery?key=IP&passage=" + encodedVerseMeta + "&output-format=mp3";
+		const { dispatch, src } = this.props;
+		const { audioPlaying } = this.props.data;
 
 		if (audioPlaying) {
 			return (
 				<span className="audioContainer">
 					<button className="pauseAudio" onClick={() => {dispatch(asyncPauseAudio())} }>Pause Audio</button>
-					<audio src={ audioUrl } autoPlay="autoPlay" loop="loop"/>
+					<audio src={ src } autoPlay="autoPlay" loop="loop"/>
 				</span>
 			);
 		} else {
