@@ -10,7 +10,8 @@ describe('defaultReducer', () => {
       verseMetadata: verse.book + ' ' + verse.chapter + ':' + verse.verse,
       verseText: verse.text,
       verseIndex: 0,
-      verseCount: passage.verses().length
+      verseCount: passage.verses().length,
+      isAudioPlaying: false
     });
   });
 
@@ -24,7 +25,8 @@ describe('defaultReducer', () => {
       verseMetadata: nextVerse.book + ' ' + nextVerse.chapter + ':' + nextVerse.verse,
       verseText: nextVerse.text,
       verseIndex: 1,
-      verseCount: passage.verses().length
+      verseCount: passage.verses().length,
+      isAudioPlaying: false
     });
   });
 
@@ -42,7 +44,39 @@ describe('defaultReducer', () => {
       verseMetadata: newVerse.book + ' ' + newVerse.chapter + ':' + newVerse.verse,
       verseText: newVerse.text,
       verseIndex: 0,
-      verseCount: passage.verses().length
+      verseCount: passage.verses().length,
+      isAudioPlaying: false
+    });
+  });
+
+  it('should handle the PLAY_AUDIO action', () => {
+    const verse = passage.verses()[0];
+    expect(
+      passageReducer(undefined, {
+        type: constants.PLAY_AUDIO
+      })
+    ).toEqual({
+      verseMetadata: verse.book + ' ' + verse.chapter + ':' + verse.verse,
+      verseText: verse.text,
+      verseIndex: 0,
+      verseCount: passage.verses().length,
+      isAudioPlaying: true
+    });
+  });
+
+  it('should handle the PAUSE_AUDIO action', () => {
+    const verse = passage.verses()[0];
+    expect(
+      passageReducer(
+        passageReducer(undefined, { type: constants.PLAY_AUDIO }),
+        { type: constants.PAUSE_AUDIO }
+      )
+    ).toEqual({
+      verseMetadata: verse.book + ' ' + verse.chapter + ':' + verse.verse,
+      verseText: verse.text,
+      verseIndex: 0,
+      verseCount: passage.verses().length,
+      isAudioPlaying: false
     });
   });
 });

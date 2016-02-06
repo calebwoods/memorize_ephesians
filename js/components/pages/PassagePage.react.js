@@ -5,6 +5,7 @@
 import { asyncNextVerse, asyncPreviousVerse, asyncEnableRecall, asyncDisableRecall } from '../../actions/AppActions';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import AudioPlayer from "../AudioPlayer.react";
 import { Link } from 'react-router';
 
 class PassagePage extends Component {
@@ -20,6 +21,9 @@ class PassagePage extends Component {
       previousButton = <button className="previous" onClick={() => { dispatch(asyncPreviousVerse()) }}>Previous</button>
     }
 
+    const audioUrl = "http://www.esvapi.org/v2/rest/passageQuery?key=IP&passage=" +
+      encodeURI(verseMetadata) + "&output-format=mp3";
+
     return (
       <div>
         <div className="passage-card">
@@ -29,6 +33,7 @@ class PassagePage extends Component {
           { nextButton }
           <button className="enable-recall" onClick={() => { dispatch(asyncEnableRecall()) }}>Enable Recall</button>
           <button className="disable-recall" onClick={() => { dispatch(asyncDisableRecall()) }}>Disable Recall</button>
+          <AudioPlayer src={ audioUrl }/>
         </div>
         <p><a href="http://www.esv.org" class="copyright">ESV</a></p>
       </div>
