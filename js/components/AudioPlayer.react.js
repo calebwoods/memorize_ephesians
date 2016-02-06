@@ -7,25 +7,25 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 class AudioPlayer extends Component {
-	render() {
-		const { dispatch, src } = this.props;
-		const { audioPlaying } = this.props.data;
+  render() {
+    const { dispatch, src } = this.props;
+    const { isAudioPlaying } = this.props.data;
 
-		if (audioPlaying) {
-			return (
-				<span className="audioContainer">
-					<button className="pauseAudio" onClick={() => {dispatch(asyncPauseAudio())} }>Pause Audio</button>
-					<audio src={ src } autoPlay="autoPlay" loop="loop"/>
-				</span>
-			);
-		} else {
-			return (
-				<span className="audioContainer">
-					<button className="playAudio" onClick={() => {dispatch(asyncPlayAudio())} }>Play Audio</button>
-				</span>
-			);
-		}
-	}
+    if (isAudioPlaying) {
+      return (
+        <span className="audioContainer">
+          <button className="pauseAudio" onClick={() => {dispatch(asyncPauseAudio())} }>Pause Audio</button>
+          <audio src={ src } autoPlay="autoPlay" loop="loop"/>
+        </span>
+      );
+    } else {
+      return (
+        <span className="audioContainer">
+          <button className="playAudio" onClick={() => {dispatch(asyncPlayAudio())} }>Play Audio</button>
+        </span>
+      );
+    }
+  }
 }
 
 // REDUX STUFF

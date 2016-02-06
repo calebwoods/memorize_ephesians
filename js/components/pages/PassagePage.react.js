@@ -22,7 +22,7 @@ class PassagePage extends Component {
     }
 
     const audioUrl = "http://www.esvapi.org/v2/rest/passageQuery?key=IP&passage=" +
-      verseMetadata.replace(/ /, "+") + "&output-format=mp3";
+      encodeURI(verseMetadata) + "&output-format=mp3";
 
     return (
       <div>

@@ -28,7 +28,7 @@ function verseByIndex(index) {
 }
 const initialState = assignToEmpty(verseByIndex(0), {
   verseCount: verses.length,
-  audioPlaying: false
+  isAudioPlaying: false
 });
 
 function passageReducer(state = initialState, action) {
@@ -47,9 +47,9 @@ function passageReducer(state = initialState, action) {
     case DISABLE_RECALL:
       return assignToEmpty(state, verseByIndex(state.verseIndex));
     case PLAY_AUDIO:
-      return assignToEmpty(state, { audioPlaying: true });
+      return assignToEmpty(state, { isAudioPlaying: true });
     case PAUSE_AUDIO:
-      return assignToEmpty(state, { audioPlaying: false });
+      return assignToEmpty(state, { isAudioPlaying: false });
     default:
       return state;
   }

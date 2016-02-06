@@ -11,7 +11,7 @@ describe('defaultReducer', () => {
       verseText: verse.text,
       verseIndex: 0,
       verseCount: passage.verses().length,
-      audioPlaying: false
+      isAudioPlaying: false
     });
   });
 
@@ -26,7 +26,7 @@ describe('defaultReducer', () => {
       verseText: nextVerse.text,
       verseIndex: 1,
       verseCount: passage.verses().length,
-      audioPlaying: false
+      isAudioPlaying: false
     });
   });
 
@@ -45,7 +45,7 @@ describe('defaultReducer', () => {
       verseText: newVerse.text,
       verseIndex: 0,
       verseCount: passage.verses().length,
-      audioPlaying: false
+      isAudioPlaying: false
     });
   });
 
@@ -60,7 +60,7 @@ describe('defaultReducer', () => {
       verseText: verse.text,
       verseIndex: 0,
       verseCount: passage.verses().length,
-      audioPlaying: true
+      isAudioPlaying: true
     });
   });
 
@@ -76,7 +76,7 @@ describe('defaultReducer', () => {
       verseText: verse.text,
       verseIndex: 0,
       verseCount: passage.verses().length,
-      audioPlaying: false
+      isAudioPlaying: false
     });
   });
 });
