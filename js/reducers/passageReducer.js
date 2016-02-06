@@ -63,9 +63,25 @@ function passageReducer(state = initialState, action) {
         mode : action.mode
       });
     case PLAY_AUDIO:
-      return assignToEmpty(state, { isAudioPlaying: true });
+      return assignToEmpty(state, {
+        verses: [
+          ...state.verses.slice(0, action.index),
+          Object.assign({}, state.verses[action.index], {
+            isAudioPlaying: true
+          }),
+          ...state.verses.slice(action.index + 1)
+        ]
+      });
     case PAUSE_AUDIO:
-      return assignToEmpty(state, { isAudioPlaying: false });
+    return assignToEmpty(state, {
+      verses: [
+        ...state.verses.slice(0, action.index),
+        Object.assign({}, state.verses[action.index], {
+          isAudioPlaying: false
+        }),
+        ...state.verses.slice(action.index + 1)
+      ]
+    });
     default:
       return state;
   }
