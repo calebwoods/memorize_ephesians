@@ -26,3 +26,18 @@ body {
 body {
 	font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
 }
+
+.wrapper {
+	background-color: #FEFEFE;
+	color: #222222;
+	max-width: 978px;
+	margin: 0 auto;
+	padding: 0.5em 0;
+}
+
+.app-name {
+  font-size: 1.5em;
+	padding: 0 1em;
+  text-align: center;
+  width: 100%
+}

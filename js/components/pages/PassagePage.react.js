@@ -4,6 +4,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
+import Swipeable from 'react-swipeable';
 
 import { asyncNextVerse, asyncPreviousVerse, asyncChangeMode } from '../../actions/AppActions';
 import { MODES, SINGLE_MODE, MULTI_MODE } from '../../constants/AppConstants';
@@ -55,9 +56,7 @@ export class PassagePage extends Component {
           </ul>
         </div>
 
-        <div>
-          <p><a href="http://www.esv.org" className="copyright">ESV</a></p>
-        </div>
+        <p><a href="http://www.esv.org" class="copyright">ESV</a></p>
       </div>
     );
   }
