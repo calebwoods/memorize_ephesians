@@ -13,7 +13,7 @@
  * add it in the rootReducer.js.
  */
 
-import { NEXT_VERSE, PREVIOUS_VERSE, ENABLE_RECALL, DISABLE_RECALL } from '../constants/AppConstants';
+import { NEXT_VERSE, PREVIOUS_VERSE, ENABLE_RECALL, DISABLE_RECALL, CHANGE_MODE } from '../constants/AppConstants';
 import * as passage from '../passage'
 import assignToEmpty from '../utils/assign';
 
@@ -57,6 +57,10 @@ function passageReducer(state = initialState, action) {
           }),
           ...state.verses.slice(action.index + 1)
         ]
+      });
+    case CHANGE_MODE:
+      return assignToEmpty(state, {
+        mode : action.mode
       });
     default:
       return state;

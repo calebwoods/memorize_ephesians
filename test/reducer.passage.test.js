@@ -73,4 +73,13 @@ describe('passageReducer', () => {
 
     });
   });
+
+  it('should handle the CHANGE_MODE action', () => {
+    const initialReducer = passageReducer(undefined, {
+      type: constants.CHANGE_MODE,
+      mode: constants.MULTI_MODE
+    });
+
+    expect(initialReducer.mode).toEqual(constants.MULTI_MODE);
+  });
 });
