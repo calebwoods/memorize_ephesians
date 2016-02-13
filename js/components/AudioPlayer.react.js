@@ -4,7 +4,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { asyncPlayAudio, asyncPauseAudio } from '../actions/AppActions';
+import { asyncEnableListen, asyncPauseAudio } from '../actions/AppActions';
 import { VERSE_STATES } from '../constants/AppConstants';
 
 class AudioPlayer extends Component {

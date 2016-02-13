@@ -2,7 +2,7 @@
  * Verse
  */
 
-import { asyncEnableRecall, asyncEnableRead, asyncPlayAudio } from '../actions/AppActions';
+import { asyncEnableRecall, asyncEnableRead, asyncEnableListen } from '../actions/AppActions';
 import { VERSE_STATES } from '../constants/AppConstants';
 
 import React, { Component } from 'react';
@@ -27,7 +27,7 @@ class Verse extends Component {
       if (verseState == VERSE_STATES.READ) {
         dispatch(asyncEnableRecall(index))
       } else if (verseState == VERSE_STATES.RECALL) {
-        dispatch(asyncPlayAudio(index))
+        dispatch(asyncEnableListen(index))
       }
 
     }
@@ -64,7 +64,7 @@ class Verse extends Component {
           >Recall</li>
           <li
             className={ verseState == VERSE_STATES.LISTEN ? "active" : ""}
-            onClick={() => { dispatch(asyncPlayAudio(index)) } }
+            onClick={() => { dispatch(asyncEnableListen(index)) } }
           >Listen</li>
         </ol>
       </Swipeable>

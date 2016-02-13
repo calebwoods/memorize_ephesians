@@ -4,6 +4,7 @@ import * as constants from '../js/constants/AppConstants';
 import * as passage from '../js/passage'
 
 import passageReducer from '../js/reducers/passageReducer';
+import { VERSE_STATES } from '../js/constants/AppConstants';
 
 describe('passageReducer', () => {
   it('should return the initial state', () => {
@@ -50,14 +51,40 @@ describe('passageReducer', () => {
     expect(secondReducer.activeVerse).toEqual(4);
   });
 
-  describe('enabling recall', () => {
+  describe('enabling READ', () => {
     it('should be able to set isRecalling for individual verses', () => {
       const initialState = {
         verses: [
           {
-            text: 'First'
+            text: 'First',
+            verseState: VERSE_STATES.RECALL
           }, {
-            text: 'Second'
+            text: 'Second',
+            verseState: VERSE_STATES.RECALL
+          }
+        ]
+      };
+
+      const initialReducer = passageReducer(initialState, {
+        type: constants.ENABLE_READ,
+        index: 1
+      });
+
+      expect(initialReducer.verses[0].verseState).toEqual(VERSE_STATES.RECALL);
+      expect(initialReducer.verses[1].verseState).toEqual(VERSE_STATES.READ);
+    });
+  });
+
+  describe('enabling RECALL', () => {
+    it('should be able to set isRecalling for individual verses', () => {
+      const initialState = {
+        verses: [
+          {
+            text: 'First',
+            verseState: VERSE_STATES.READ
+          }, {
+            text: 'Second',
+            verseState: VERSE_STATES.READ
           }
         ]
       };
@@ -67,12 +94,32 @@ describe('passageReducer', () => {
         index: 1
       });
 
-      expect(initialReducer.verses[0].isRecalling).toBeFalsy();
-      expect(initialReducer.verses[1].isRecalling).toBeTruthy();
+      expect(initialReducer.verses[0].verseState).toEqual(VERSE_STATES.READ);
+      expect(initialReducer.verses[1].verseState).toEqual(VERSE_STATES.RECALL);
     });
+  });
 
-    it('should be able to set isRecalling for all verses at once', () => {
+  describe('enabling LISTEN', () => {
+    it('should be able to set isRecalling for individual verses', () => {
+      const initialState = {
+        verses: [
+          {
+            text: 'First',
+            verseState: VERSE_STATES.READ
+          }, {
+            text: 'Second',
+            verseState: VERSE_STATES.READ
+          }
+        ]
+      };
 
+      const initialReducer = passageReducer(initialState, {
+        type: constants.ENABLE_LISTEN,
+        index: 1
+      });
+
+      expect(initialReducer.verses[0].verseState).toEqual(VERSE_STATES.READ);
+      expect(initialReducer.verses[1].verseState).toEqual(VERSE_STATES.LISTEN);
     });
   });
 

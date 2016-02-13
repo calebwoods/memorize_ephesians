@@ -60,7 +60,7 @@ export class PassagePage extends Component {
 
         { renderedVerses }
 
-        <p><a href="http://www.esv.org" class="copyright">ESV</a></p>
+        <p><a href="http://www.esv.org" className="copyright">ESV</a></p>
       </div>
     );
   }
