@@ -17,8 +17,9 @@ import assignToEmpty from '../utils/assign';
 import { NEXT_VERSE, PREVIOUS_VERSE, ENABLE_RECALL, ENABLE_READ, CHANGE_MODE, MULTI_MODE, PLAY_AUDIO, PAUSE_AUDIO, VERSE_STATES } from '../constants/AppConstants';
 import * as passage from '../passage'
 
-const verses = passage.verses().map(function (verse) {
+const verses = passage.verses().map(function (verse, index) {
   verse.verseState = VERSE_STATES.READ;
+  verse.verseIndex = index;
   return verse;
 });
 

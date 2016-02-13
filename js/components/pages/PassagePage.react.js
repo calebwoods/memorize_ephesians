@@ -39,8 +39,8 @@ export class PassagePage extends Component {
       let targetVerses = (mode === SINGLE_MODE) ? [verses[activeVerse]] : verses;
 
       renderedVerses = targetVerses.map(function(verse, index) {
-        return <Verse key={ index }
-                      index={ index }
+        return <Verse key={ verse.verseIndex }
+                      index={ verse.verseIndex }
                       dispatch={ dispatch }
                       {...verse} />;
       })
