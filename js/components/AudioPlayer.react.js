@@ -10,11 +10,9 @@ import { VERSE_STATES } from '../constants/AppConstants';
 class AudioPlayer extends Component {
   render() {
     const { dispatch, src, verseState, index } = this.props;
-
-    if (verseState == VERSE_STATES.AUDIO) {
+    if (verseState == VERSE_STATES.LISTEN) {
       return (
         <span className="audioContainer">
-          <span>audio playing...</span>
           <audio src={ src } autoPlay="autoPlay" loop="loop"/>
         </span>
       );
