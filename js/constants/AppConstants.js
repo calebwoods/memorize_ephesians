@@ -9,7 +9,7 @@
 export const NEXT_VERSE     = 'NEXT_VERSE';
 export const PREVIOUS_VERSE = 'PREVIOUS_VERSE';
 export const ENABLE_RECALL  = 'ENABLE_RECALL';
-export const DISABLE_RECALL = 'DISABLE_RECALL';
+export const ENABLE_READ = 'ENABLE_READ';
 export const CHANGE_MODE    = 'CHANGE_MODE';
 
 export const PLAY_AUDIO  = 'PLAY_AUDIO';
@@ -22,4 +22,10 @@ export const MULTI_MODE  = 'MULTI_MODE';
 export const MODES = {
   SINGLE_MODE : 'Single scripture mode',
   MULTI_MODE  : 'Multi scripture mode'
+}
+
+export const VERSE_STATES = {
+  READ : 'Reading passage',
+  RECALL : 'Assisted Recall',
+  LISTEN : 'Looping over audio'
 }

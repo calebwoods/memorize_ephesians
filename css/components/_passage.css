@@ -2,38 +2,30 @@
   line-height: 2em;
 }
 
-.passage-card {
-	background: #eee;
-  border-bottom: 1px solid white;
-	display: inline-block;
-	font-family: monospace;
-	margin: 0 0.1em;
-	padding: 1em;
-	white-space: pre-wrap;
-	width: 100%;
-}
-
-body.js-source-code-pro-loaded .passage-card {
-	font-family: 'Source Code Pro', monospace;
-}
-
-.passage-card .navigation {
+.verse-controls {
 	display: flex;
 	flex-direction: row;
-}
 
-@media screen and (max-width: 319px) {
-	.passage-card .navigation .previous {
-		order: -2;
-	}
+  button {
+    background: #27ae60;
+    border: 0;
+    color: white;
+    flex-grow: 1;
+    margin: 0 0.2em;
+    text-transform: uppercase;
 
-	.passage-card .navigation .next {
-		order: -1;
-	}
-}
+    &:disabled {
+      background: #95a5a6;
+    }
+  }
 
-.passage-metadata {
-	color: #999;
-	flex-grow: 2;
-	margin: 0 1em;
+  @media screen and (max-width: 319px) {
+  	.previous {
+  		order: -2;
+  	}
+
+  	.next {
+  		order: -1;
+  	}
+  }
 }

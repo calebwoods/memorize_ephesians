@@ -4,7 +4,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
-import Swipeable from 'react-swipeable';
 
 import { asyncNextVerse, asyncPreviousVerse, asyncChangeMode } from '../../actions/AppActions';
 import { MODES, SINGLE_MODE, MULTI_MODE } from '../../constants/AppConstants';
@@ -18,12 +17,20 @@ export class PassagePage extends Component {
     const { activeVerse, totalVerses, verses, mode } = this.props.data;
 
     let nextButton = ''
-    if (mode === SINGLE_MODE && activeVerse < totalVerses - 1) {
-      nextButton = <button className="next" onClick={() => { dispatch(asyncNextVerse()) }}>Next</button>
-    }
     let previousButton = ''
-    if (mode === SINGLE_MODE && activeVerse > 0) {
-      previousButton = <button className="previous" onClick={() => { dispatch(asyncPreviousVerse()) }}>Previous</button>
+    if (mode === SINGLE_MODE) {
+      previousButton = <button
+        title="Previous"
+        disabled={activeVerse == 0}
+        className="previous"
+        onClick={() => { dispatch(asyncPreviousVerse()) }}
+      >Previous</button>
+      nextButton = <button
+        title="Next"
+        disabled={activeVerse >= totalVerses - 1}
+        className="next"
+        onClick={() => { dispatch(asyncNextVerse()) }}
+      >Next</button>
     }
 
     let renderedVerses = ''
@@ -45,16 +52,13 @@ export class PassagePage extends Component {
       <div>
         <div className="verse-controls">
           { previousButton }
-          { nextButton }
 
           <button className="scripture-mode" onClick={() => { dispatch(asyncChangeMode(newMode)) }}>{ MODES[newMode] }</button>
+
+          { nextButton }
         </div>
 
-        <div className="verse-wrapper">
-          <ul>
-            { renderedVerses }
-          </ul>
-        </div>
+        { renderedVerses }
 
         <p><a href="http://www.esv.org" class="copyright">ESV</a></p>
       </div>

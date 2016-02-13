@@ -5,23 +5,22 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { asyncPlayAudio, asyncPauseAudio } from '../actions/AppActions';
+import { VERSE_STATES } from '../constants/AppConstants';
 
 class AudioPlayer extends Component {
   render() {
-    const { dispatch, src, isAudioPlaying, index } = this.props;
+    const { dispatch, src, verseState, index } = this.props;
 
-    if (isAudioPlaying) {
+    if (verseState == VERSE_STATES.AUDIO) {
       return (
         <span className="audioContainer">
-          <button className="pauseAudio" onClick={() => {dispatch(asyncPauseAudio(index))} }>Pause Audio</button>
+          <span>audio playing...</span>
           <audio src={ src } autoPlay="autoPlay" loop="loop"/>
         </span>
       );
     } else {
       return (
-        <span className="audioContainer">
-          <button className="playAudio" onClick={() => {dispatch(asyncPlayAudio(index))} }>Play Audio</button>
-        </span>
+        <span className="audioContainer"></span>
       );
     }
   }

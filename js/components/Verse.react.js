@@ -2,14 +2,16 @@
  * Verse
  */
 
-import { asyncEnableRecall, asyncDisableRecall } from '../actions/AppActions';
+import { asyncEnableRecall, asyncEnableRead, asyncPlayAudio } from '../actions/AppActions';
+import { VERSE_STATES } from '../constants/AppConstants';
 
 import React, { Component } from 'react';
 import AudioPlayer from './AudioPlayer.react';
+import Swipeable from 'react-swipeable';
 
 class Verse extends Component {
   render() {
-    const { index, book, chapter, text, verse, isRecalling, isAudioPlaying, dispatch } = this.props;
+    const { index, book, chapter, text, verse, verseState, dispatch } = this.props;
     const verseMeta = book + ' ' + chapter + ':' + verse;
 
     const audioUrl = "http://www.esvapi.org/v2/rest/passageQuery?key=IP&passage=" +
@@ -21,21 +23,51 @@ class Verse extends Component {
       }).join(' ');
     }
 
+    function nextState(index) {
+      if (verseState == VERSE_STATES.READ) {
+        dispatch(asyncEnableRecall(index))
+      } else if (verseState == VERSE_STATES.RECALL) {
+        dispatch(asyncPlayAudio(index))
+      }
+
+    }
+
+    function previousState(index) {
+      if (verseState == VERSE_STATES.RECALL) {
+        dispatch(asyncEnableRead(index))
+      } else if (verseState == VERSE_STATES.LISTEN) {
+        dispatch(asyncEnableRecall(index))
+      }
+    }
+
     return (
-      <li>
-        <div className="passage-card">
-          <p className="passage-metadata">{ verseMeta }</p>
-          <p className="passage-text">{ isRecalling ? splitText(text) : text }</p>
+      <Swipeable
+        className="passage-card"
+        onSwipedLeft={() => { nextState(index) }}
+        onSwipedRight={() => { previousState(index) }}
+      >
+        <p className="passage-metadata">{ verseMeta }</p>
+        <p className="passage-text">{ verseState == VERSE_STATES.RECALL ? splitText(text) : text }</p>
 
-          <button className="enable-recall" onClick={() => { dispatch(asyncEnableRecall(index)) }}>Enable Recall</button>
-          <button className="disable-recall" onClick={() => { dispatch(asyncDisableRecall(index)) }}>Disable Recall</button>
-
-          <AudioPlayer src={ audioUrl }
-                       dispatch={ dispatch }
-                       isAudioPlaying={ isAudioPlaying }
-                       index={ index } />
-        </div>
-      </li>
+        <AudioPlayer src={ audioUrl }
+                     dispatch={ dispatch }
+                     verseState={ verseState }
+                     index={ index } />
+        <ol className="passage-states">
+          <li
+            className={ verseState == VERSE_STATES.READ ? "active" : ""}
+            onClick={() => { dispatch(asyncEnableRead(index)) }}
+          >Read</li>
+          <li
+            className={ verseState == VERSE_STATES.RECALL ? "active" : ""}
+            onClick={() => { dispatch(asyncEnableRecall(index)) }}
+          >Recall</li>
+          <li
+            className={ verseState == VERSE_STATES.LISTEN ? "active" : ""}
+            onClick={() => { dispatch(asyncPlayAudio(index)) } }
+          >Listen</li>
+        </ol>
+      </Swipeable>
     );
   }
 }
