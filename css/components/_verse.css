@@ -34,6 +34,11 @@ body.js-source-code-pro-loaded .passage-card {
     margin: 0 0.5em;
     padding: 0.2em 0;
     text-align: center;
+
+    i.fa {
+      width: 2em;
+    }
+
     &.active {
       background: #27ae60;
     }

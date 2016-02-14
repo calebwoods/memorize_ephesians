@@ -13,14 +13,18 @@ class AudioPlayer extends Component {
     if (isAudioPlaying) {
       return (
         <span className="audioContainer">
-          <li className="pauseAudio" onClick={() => {dispatch(asyncPauseAudio(index))} }>"</li>
+          <li className="pauseAudio" onClick={() => {dispatch(asyncPauseAudio(index))} }>
+            <i className="fa fa-pause" title="pause"></i>
+          </li>
           <audio src={ src } autoPlay="autoPlay" loop="loop"/>
         </span>
       );
     } else {
       return (
         <span className="audioContainer">
-          <li className="playAudio" onClick={() => {dispatch(asyncPlayAudio(index))} }>&#9654;</li>
+          <li className="playAudio" onClick={() => {dispatch(asyncPlayAudio(index))} }>
+            <i className="fa fa-play" title="play"></i>
+          </li>
         </span>
       );
     }
