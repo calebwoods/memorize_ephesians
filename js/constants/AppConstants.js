@@ -12,7 +12,7 @@ export const ENABLE_RECALL  = 'ENABLE_RECALL';
 export const ENABLE_READ = 'ENABLE_READ';
 export const CHANGE_MODE    = 'CHANGE_MODE';
 
-export const ENABLE_LISTEN  = 'ENABLE_LISTEN';
+export const PLAY_AUDIO  = 'PLAY_AUDIO';
 export const PAUSE_AUDIO = 'PAUSE_AUDIO';
 
 export const SINGLE_MODE = 'SINGLE_MODE';
@@ -26,6 +26,5 @@ export const MODES = {
 
 export const VERSE_STATES = {
   READ : 'Reading passage',
-  RECALL : 'Assisted Recall',
-  LISTEN : 'Looping over audio'
+  RECALL : 'Assisted Recall'
 }

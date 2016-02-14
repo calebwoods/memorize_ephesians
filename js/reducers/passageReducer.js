@@ -14,7 +14,7 @@
  */
 import assignToEmpty from '../utils/assign';
 
-import { NEXT_VERSE, PREVIOUS_VERSE, ENABLE_RECALL, ENABLE_READ, CHANGE_MODE, MULTI_MODE, ENABLE_LISTEN, PAUSE_AUDIO, VERSE_STATES } from '../constants/AppConstants';
+import { NEXT_VERSE, PREVIOUS_VERSE, ENABLE_RECALL, ENABLE_READ, CHANGE_MODE, MULTI_MODE, PLAY_AUDIO, PAUSE_AUDIO, VERSE_STATES } from '../constants/AppConstants';
 import * as passage from '../passage'
 
 const verses = passage.verses().map(function (verse, index) {
@@ -66,12 +66,22 @@ function passageReducer(state = initialState, action) {
       return assignToEmpty(state, {
         mode : action.mode
       });
-    case ENABLE_LISTEN:
+    case PLAY_AUDIO:
       return assignToEmpty(state, {
         verses: [
           ...state.verses.slice(0, action.index),
           Object.assign({}, state.verses[action.index], {
-            verseState: VERSE_STATES.LISTEN
+            isAudioPlaying: true
+          }),
+          ...state.verses.slice(action.index + 1)
+        ]
+      });
+    case PAUSE_AUDIO:
+      return assignToEmpty(state, {
+        verses: [
+          ...state.verses.slice(0, action.index),
+          Object.assign({}, state.verses[action.index], {
+            isAudioPlaying: false
           }),
           ...state.verses.slice(action.index + 1)
         ]

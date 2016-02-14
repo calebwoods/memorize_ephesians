@@ -52,7 +52,7 @@ describe('passageReducer', () => {
   });
 
   describe('enabling READ', () => {
-    it('should be able to set isRecalling for individual verses', () => {
+    it('should be able to set verseState for individual verses', () => {
       const initialState = {
         verses: [
           {
@@ -76,7 +76,7 @@ describe('passageReducer', () => {
   });
 
   describe('enabling RECALL', () => {
-    it('should be able to set isRecalling for individual verses', () => {
+    it('should be able to set verseState for individual verses', () => {
       const initialState = {
         verses: [
           {
@@ -100,7 +100,7 @@ describe('passageReducer', () => {
   });
 
   describe('enabling LISTEN', () => {
-    it('should be able to set isRecalling for individual verses', () => {
+    it('should be able to set isAudioPlaying for individual verses', () => {
       const initialState = {
         verses: [
           {
@@ -114,12 +114,12 @@ describe('passageReducer', () => {
       };
 
       const initialReducer = passageReducer(initialState, {
-        type: constants.ENABLE_LISTEN,
+        type: constants.PLAY_AUDIO,
         index: 1
       });
 
-      expect(initialReducer.verses[0].verseState).toEqual(VERSE_STATES.READ);
-      expect(initialReducer.verses[1].verseState).toEqual(VERSE_STATES.LISTEN);
+      expect(initialReducer.verses[0].isAudioPlaying).toBeFalsy();
+      expect(initialReducer.verses[1].verseState).toBeTruthy();
     });
   });
 
