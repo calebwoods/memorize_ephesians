@@ -4,6 +4,7 @@ import jsdomify from 'jsdomify';
 import * as passage from '../js/passage';
 
 import Verse from '../js/components/Verse.react';
+import { VERSE_STATES } from '../js/constants/AppConstants';
 
 describe('Verse', () => {
   let React, TestUtils, getInstance;
@@ -57,7 +58,7 @@ describe('Verse', () => {
       'A c       L     '
     ];
 
-    verse.isRecalling = true;
+    verse.verseState = VERSE_STATES.RECALL;
 
     for (let i in sampleStrings) {
       verse.text = sampleStrings[i];

@@ -2,14 +2,16 @@
  * Verse
  */
 
-import { asyncEnableRecall, asyncDisableRecall } from '../actions/AppActions';
+import { asyncEnableRecall, asyncEnableRead, asyncPlayAudio, asyncPauseAudio, asyncNextVerse, asyncPreviousVerse } from '../actions/AppActions';
+import { VERSE_STATES } from '../constants/AppConstants';
 
 import React, { Component } from 'react';
 import AudioPlayer from './AudioPlayer.react';
+import Swipeable from 'react-swipeable';
 
 class Verse extends Component {
   render() {
-    const { index, book, chapter, text, verse, isRecalling, isAudioPlaying, dispatch } = this.props;
+    const { index, book, chapter, text, verse, isAudioPlaying, verseState, dispatch } = this.props;
     const verseMeta = book + ' ' + chapter + ':' + verse;
 
     const audioUrl = "http://www.esvapi.org/v2/rest/passageQuery?key=IP&passage=" +
@@ -22,20 +24,29 @@ class Verse extends Component {
     }
 
     return (
-      <li>
-        <div className="passage-card">
-          <p className="passage-metadata">{ verseMeta }</p>
-          <p className="passage-text">{ isRecalling ? splitText(text) : text }</p>
+      <Swipeable
+        className="passage-card"
+        onSwipedLeft={() => { dispatch(asyncNextVerse()) }}
+        onSwipedRight={() => { dispatch(asyncPreviousVerse()) }}
+      >
+        <p className="passage-metadata">{ verseMeta }</p>
+        <p className="passage-text">{ verseState == VERSE_STATES.RECALL ? splitText(text) : text }</p>
 
-          <button className="enable-recall" onClick={() => { dispatch(asyncEnableRecall(index)) }}>Enable Recall</button>
-          <button className="disable-recall" onClick={() => { dispatch(asyncDisableRecall(index)) }}>Disable Recall</button>
-
+        <ol className="passage-states">
+          <li
+            className={ verseState == VERSE_STATES.READ ? "active" : ""}
+            onClick={() => { dispatch(asyncEnableRead(index)) }}
+          >Know</li>
+          <li
+            className={ verseState == VERSE_STATES.RECALL ? "active" : ""}
+            onClick={() => { dispatch(asyncEnableRecall(index)) }}
+          >K___</li>
           <AudioPlayer src={ audioUrl }
                        dispatch={ dispatch }
                        isAudioPlaying={ isAudioPlaying }
                        index={ index } />
-        </div>
-      </li>
+        </ol>
+      </Swipeable>
     );
   }
 }

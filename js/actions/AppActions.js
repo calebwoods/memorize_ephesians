@@ -26,7 +26,7 @@
 // Disable the no-use-before-define eslint rule for this file
 // It makes more sense to have the asnyc actions before the non-async ones
 /* eslint-disable no-use-before-define */
-import { NEXT_VERSE, PREVIOUS_VERSE, ENABLE_RECALL, DISABLE_RECALL, CHANGE_MODE, PLAY_AUDIO, PAUSE_AUDIO } from '../constants/AppConstants';
+import { NEXT_VERSE, PREVIOUS_VERSE, ENABLE_RECALL, ENABLE_READ, CHANGE_MODE, PLAY_AUDIO, PAUSE_AUDIO } from '../constants/AppConstants';
 
 export function asyncNextVerse() {
   return (dispatch) => {
@@ -67,17 +67,17 @@ export function enableRecall(index) {
   return { type: ENABLE_RECALL, index };
 }
 
-export function asyncDisableRecall(index) {
+export function asyncEnableRead(index) {
   return (dispatch) => {
     // You can do async stuff here!
     // API fetching, Animations,...
     // For more information as to how and why you would do this, check https://github.com/gaearon/redux-thunk
-    return dispatch(disableRecall(index));
+    return dispatch(enableRead(index));
   };
 }
 
-export function disableRecall(index) {
-  return { type: DISABLE_RECALL, index };
+export function enableRead(index) {
+  return { type: ENABLE_READ, index };
 }
 
 export function asyncChangeMode(mode) {
@@ -86,7 +86,7 @@ export function asyncChangeMode(mode) {
     // API fetching, Animations,...
     // For more information as to how and why you would do this, check https://github.com/gaearon/redux-thunk
     return dispatch(changeMode(mode));
-  };
+  }
 }
 
 export function changeMode(mode) {

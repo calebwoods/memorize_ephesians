@@ -17,12 +17,20 @@ export class PassagePage extends Component {
     const { activeVerse, totalVerses, verses, mode } = this.props.data;
 
     let nextButton = ''
-    if (mode === SINGLE_MODE && activeVerse < totalVerses - 1) {
-      nextButton = <button className="next" onClick={() => { dispatch(asyncNextVerse()) }}>Next</button>
-    }
     let previousButton = ''
-    if (mode === SINGLE_MODE && activeVerse > 0) {
-      previousButton = <button className="previous" onClick={() => { dispatch(asyncPreviousVerse()) }}>Previous</button>
+    if (mode === SINGLE_MODE) {
+      previousButton = <button
+        title="Previous"
+        disabled={activeVerse == 0}
+        className="previous"
+        onClick={() => { dispatch(asyncPreviousVerse()) }}
+      >Previous</button>
+      nextButton = <button
+        title="Next"
+        disabled={activeVerse >= totalVerses - 1}
+        className="next"
+        onClick={() => { dispatch(asyncNextVerse()) }}
+      >Next</button>
     }
 
     let renderedVerses = ''
@@ -31,8 +39,8 @@ export class PassagePage extends Component {
       let targetVerses = (mode === SINGLE_MODE) ? [verses[activeVerse]] : verses;
 
       renderedVerses = targetVerses.map(function(verse, index) {
-        return <Verse key={ index }
-                      index={ index }
+        return <Verse key={ verse.verseIndex }
+                      index={ verse.verseIndex }
                       dispatch={ dispatch }
                       {...verse} />;
       })
@@ -44,20 +52,15 @@ export class PassagePage extends Component {
       <div>
         <div className="verse-controls">
           { previousButton }
-          { nextButton }
 
           <button className="scripture-mode" onClick={() => { dispatch(asyncChangeMode(newMode)) }}>{ MODES[newMode] }</button>
+
+          { nextButton }
         </div>
 
-        <div className="verse-wrapper">
-          <ul>
-            { renderedVerses }
-          </ul>
-        </div>
+        { renderedVerses }
 
-        <div>
-          <p><a href="http://www.esv.org" className="copyright">ESV</a></p>
-        </div>
+        <p><a href="http://www.esv.org" className="copyright">ESV</a></p>
       </div>
     );
   }

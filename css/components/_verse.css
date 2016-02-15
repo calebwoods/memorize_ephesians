@@ -1,11 +1,46 @@
-.verse-wrapper {
-  ul {
-    padding-left: 0;
+.passage-card {
+	background: #ecf0f1;
+  border-bottom: 1px solid white;
+	display: inline-block;
+	font-family: monospace;
+	margin: 0 0.1em;
+	padding: 1em;
+	white-space: pre-wrap;
+	width: 100%;
+}
 
-    list-style: none;
+body.js-source-code-pro-loaded .passage-card {
+	font-family: 'Source Code Pro', monospace;
+}
 
-    li {
-      margin-bottom: 30px;
+.passage-metadata {
+	color: #999;
+	flex-grow: 2;
+	margin: 0 1em;
+}
+
+.passage-states {
+  list-style: none;
+  padding-left: 0;
+	display: flex;
+	flex-direction: row;
+
+  li {
+    background: #95a5a6;
+    border-radius: 2em;
+    color: #bdc3c7;
+    display: inline-block;
+    flex-grow: 1;
+    margin: 0 0.5em;
+    padding: 0.2em 0;
+    text-align: center;
+
+    i.fa {
+      width: 2em;
+    }
+
+    &.active {
+      background: #27ae60;
     }
   }
 }
