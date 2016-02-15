@@ -26,7 +26,7 @@
 // Disable the no-use-before-define eslint rule for this file
 // It makes more sense to have the asnyc actions before the non-async ones
 /* eslint-disable no-use-before-define */
-import { NEXT_VERSE, PREVIOUS_VERSE, ENABLE_RECALL, ENABLE_READ, CHANGE_MODE, PLAY_AUDIO, PAUSE_AUDIO } from '../constants/AppConstants';
+import { NEXT_VERSE, PREVIOUS_VERSE, ENABLE_RECALL, ENABLE_READ, CHANGE_MODE, CHANGE_RECALL, PLAY_AUDIO, PAUSE_AUDIO } from '../constants/AppConstants';
 
 export function asyncNextVerse() {
   return (dispatch) => {
@@ -93,28 +93,41 @@ export function changeMode(mode) {
   return { type: CHANGE_MODE, mode };
 }
 
-export function asyncPlayAudio(index) {
+export function asyncChangeRecall(mode) {
   return (dispatch) => {
     // You can do async stuff here!
     // API fetching, Animations,...
     // For more information as to how and why you would do this, check https://github.com/gaearon/redux-thunk
-    return dispatch(playAudio(index));
+    return dispatch(changeRecall(mode));
   }
 }
 
-export function playAudio(index) {
-  return { type: PLAY_AUDIO, index };
+export function changeRecall(mode) {
+  return { type: CHANGE_RECALL, mode };
 }
 
-export function asyncPauseAudio(index) {
+export function asyncPlayAudio() {
   return (dispatch) => {
     // You can do async stuff here!
     // API fetching, Animations,...
     // For more information as to how and why you would do this, check https://github.com/gaearon/redux-thunk
-    return dispatch(pauseAudio(index));
+    return dispatch(playAudio());
   }
 }
 
-export function pauseAudio(index) {
-  return { type: PAUSE_AUDIO, index };
+export function playAudio() {
+  return { type: PLAY_AUDIO };
+}
+
+export function asyncPauseAudio() {
+  return (dispatch) => {
+    // You can do async stuff here!
+    // API fetching, Animations,...
+    // For more information as to how and why you would do this, check https://github.com/gaearon/redux-thunk
+    return dispatch(pauseAudio());
+  }
+}
+
+export function pauseAudio() {
+  return { type: PAUSE_AUDIO };
 }

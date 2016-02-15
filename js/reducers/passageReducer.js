@@ -56,11 +56,12 @@ const initialState = assignToEmpty({
     'SEGMENT_MODE': 0,
     'CHAPTER_MODE': '1'
   },
-  lowerBound : segments[0].lower,
-  upperBound : segments[0].upper,
-  verses     : verses,
-  mode       : SEGMENT_MODE,
-  recallStage: RECALL_STAGES.FULL
+  lowerBound    : segments[0].lower,
+  upperBound    : segments[0].upper,
+  verses        : verses,
+  mode          : SEGMENT_MODE,
+  recallStage   : RECALL_STAGES.FULL,
+  isAudioPlaying: false
 });
 
 function passageReducer(state = initialState, action) {

@@ -5,16 +5,18 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
-import { asyncNextVerse, asyncPreviousVerse, asyncChangeMode } from '../../actions/AppActions';
-import { VERSE_MODE, SEGMENT_MODE, CHAPTER_MODE } from '../../constants/AppConstants';
+import { asyncNextVerse, asyncPreviousVerse, asyncChangeMode, asyncChangeRecall } from '../../actions/AppActions';
+import { VERSE_MODE, SEGMENT_MODE, CHAPTER_MODE, RECALL_STAGES } from '../../constants/AppConstants';
 
 import Verse from '../Verse.react';
+import AudioPlayer from '../AudioPlayer.react';
+import Swipeable from 'react-swipeable';
 
 // use named export for unconnected component (unit tests)
 export class PassagePage extends Component {
   render() {
     const dispatch = this.props.dispatch;
-    const { active, lowerBound, upperBound, verses, mode, recallStage } = this.props.data;
+    const { active, lowerBound, upperBound, verses, mode, recallStage, isAudioPlaying } = this.props.data;
 
     /**
      * Take into account the current mode, and determine if we can navigation backward.
@@ -150,9 +152,26 @@ export class PassagePage extends Component {
           </button>
         </div>
 
-        <div className="verse-wrapper">
+        <Swipeable
+          className="verse-wrapper"
+          onSwipedLeft={() => { dispatch(asyncNextVerse()) }}
+          onSwipedRight={() => { dispatch(asyncPreviousVerse()) }}>
+
           { renderedVerses }
+        </Swipeable>
+
+        <div className="stage-controls">
+          <button className="recall-stage" onClick={() => { dispatch(asyncChangeRecall(RECALL_STAGES.FULL)) }}>Know</button>
+
+          <button className="recall-stage" onClick={() => { dispatch(asyncChangeRecall(RECALL_STAGES.FIRST)) }}>K___</button>
+
+          <button className="recall-stage" onClick={() => { dispatch(asyncChangeRecall(RECALL_STAGES.NONE)) }}>____</button>
         </div>
+
+        <AudioPlayer className="audio-controls"
+                     src={ audioURL() }
+                     dispatch={ dispatch }
+                     isAudioPlaying={ isAudioPlaying } />
 
         <p><a href="http://www.esv.org" className="copyright">ESV</a></p>
       </div>

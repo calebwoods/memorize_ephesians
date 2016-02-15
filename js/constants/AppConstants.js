@@ -19,6 +19,7 @@ export const VERSE_MODE   = 'VERSE_MODE';
 export const SEGMENT_MODE = 'SEGMENT_MODE';
 export const CHAPTER_MODE = 'CHAPTER_MODE';
 
+export const CHANGE_RECALL = 'CHANGE_RECALL';
 export const RECALL_STAGES = {
   FULL : 'FULL',
   FIRST: 'FIRST',
