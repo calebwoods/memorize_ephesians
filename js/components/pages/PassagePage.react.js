@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
 import { asyncNextVerse, asyncPreviousVerse, asyncChangeMode } from '../../actions/AppActions';
-import { MODES, SINGLE_MODE, MULTI_MODE } from '../../constants/AppConstants';
+import { VERSE_MODE, SEGMENT_MODE, CHAPTER_MODE } from '../../constants/AppConstants';
 
 import Verse from '../Verse.react';
 
@@ -14,51 +14,76 @@ import Verse from '../Verse.react';
 export class PassagePage extends Component {
   render() {
     const dispatch = this.props.dispatch;
-    const { activeVerse, totalVerses, verses, mode } = this.props.data;
+    const { active, lowerBound, upperBound, verses, mode, recallStage } = this.props.data;
 
-    let nextButton = ''
-    let previousButton = ''
-    if (mode === SINGLE_MODE) {
-      previousButton = <button
-        title="Previous"
-        disabled={activeVerse == 0}
-        className="previous"
-        onClick={() => { dispatch(asyncPreviousVerse()) }}
-      >Previous</button>
-      nextButton = <button
-        title="Next"
-        disabled={activeVerse >= totalVerses - 1}
-        className="next"
-        onClick={() => { dispatch(asyncNextVerse()) }}
-      >Next</button>
+    /**
+     * Take into account the current mode, and determine if we can navigation backward.
+     *
+     * @TODO make this better than a simple index check (which is only good for verse mode)
+     *
+     * @return boolean Whether or not we can navigate backward
+     */
+    function canNavigatePrevious() {
+      return activeVerse > 0;
+    }
+
+    /**
+     * Take into account the current mode, and determine if we can navigation backward.
+     *
+     * @TODO make this better than a simple index check (which is only good for verse mode)
+     *
+     * @return boolean Whether or not we can navigate forward
+     */
+    function canNavigateNext() {
+      return activeVerse < verses.length - 1;
     }
 
     let renderedVerses = ''
+
     if (verses) {
-      // render the verses based on mode
-      let targetVerses = (mode === SINGLE_MODE) ? [verses[activeVerse]] : verses;
+      renderedVerses = verses.map(function(verse, index) {
+        if (index < lowerBound || index > upperBound) {
+          return '';
+        }
 
-      renderedVerses = targetVerses.map(function(verse, index) {
-        return <Verse key={ verse.verseIndex }
-                      index={ verse.verseIndex }
-                      dispatch={ dispatch }
-                      {...verse} />;
-      })
+        return <span key={ index }>
+                 <span className="verse-number">
+                   <strong>{ verse.verse }</strong>
+                 </span>
+                 <span className="verse-text">{ verse.text }</span>
+               </span>;
+      });
     }
-
-    let newMode = (mode === SINGLE_MODE) ? MULTI_MODE : SINGLE_MODE;
 
     return (
       <div>
-        <div className="verse-controls">
-          { previousButton }
+        <div className="mode-controls">
+          <button className="scripture-mode" onClick={() => { dispatch(asyncChangeMode(VERSE_MODE)) }}>'Single verse'</button>
 
-          <button className="scripture-mode" onClick={() => { dispatch(asyncChangeMode(newMode)) }}>{ MODES[newMode] }</button>
+          <button className="scripture-mode" onClick={() => { dispatch(asyncChangeMode(SEGMENT_MODE)) }}>'Group of verses'</button>
 
-          { nextButton }
+          <button className="scripture-mode" onClick={() => { dispatch(asyncChangeMode(CHAPTER_MODE)) }}>'Full chapter'</button>
         </div>
 
-        { renderedVerses }
+        <div className="verse-controls">
+          <button className="previous"
+                  title="Previous"
+                  disabled="{ canNavigatePrevious() }"
+                  onClick={() => { dispatch(asyncPreviousVerse()) }}>
+            Previous
+          </button>
+
+          <button className="next"
+                  title="Next"
+                  disabled="{ canNavigateNext() }"
+                  onClick={() => { dispatch(asyncNextVerse()) }}>
+            Next
+          </button>
+        </div>
+
+        <div className="verse-wrapper">
+          { renderedVerses }
+        </div>
 
         <p><a href="http://www.esv.org" className="copyright">ESV</a></p>
       </div>

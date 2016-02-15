@@ -14,20 +14,53 @@
  */
 import assignToEmpty from '../utils/assign';
 
-import { NEXT_VERSE, PREVIOUS_VERSE, ENABLE_RECALL, ENABLE_READ, CHANGE_MODE, MULTI_MODE, PLAY_AUDIO, PAUSE_AUDIO, VERSE_STATES } from '../constants/AppConstants';
+import { NEXT_VERSE, PREVIOUS_VERSE, ENABLE_RECALL, DISABLE_RECALL, CHANGE_MODE, SEGMENT_MODE, PLAY_AUDIO, PAUSE_AUDIO, RECALL_STAGES } from '../constants/AppConstants';
 import * as passage from '../passage'
 
-const verses = passage.verses().map(function (verse, index) {
-  verse.verseState = VERSE_STATES.READ;
-  verse.verseIndex = index;
-  return verse;
-});
+// import all verse data
+const verses = passage.verses();
+
+// import the segment data
+const segments = passage.segments();
+
+// import all chapter data
+const chapters = passage.chapters();
+
+/**
+ * Set the render bounds based on the current mode and the active index.
+ */
+function setBounds(mode, active) {
+  let lower = 0,
+      upper = 0;
+
+  switch (mode) {
+    case VERSE_MODE:
+      lower = upper = active[VERSE_MODE]
+      break;
+
+    default:
+      lower = segments[active[mode]].lower;
+      upper = segments[active[mode]].upper;
+      break;
+  }
+
+  return {
+    lower: lower,
+    upper: upper
+  };
+}
 
 const initialState = assignToEmpty({
-  activeVerse: 0,
-  totalVerses: verses.length,
+  active: {
+    'VERSE_MODE'  : 0,
+    'SEGMENT_MODE': 0,
+    'CHAPTER_MODE': '1'
+  },
+  lowerBound : segments[0].lower,
+  upperBound : segments[0].upper,
   verses     : verses,
-  mode       : MULTI_MODE
+  mode       : SEGMENT_MODE,
+  recallStage: RECALL_STAGES.FULL
 });
 
 function passageReducer(state = initialState, action) {
@@ -63,8 +96,12 @@ function passageReducer(state = initialState, action) {
         ]
       });
     case CHANGE_MODE:
+      let newBounds = setBounds(action.mode, state.active);
+
       return assignToEmpty(state, {
-        mode : action.mode
+        lowerBound : newBounds.lower,
+        upperBound : newBounds.upper,
+        mode       : action.mode
       });
     case PLAY_AUDIO:
       return assignToEmpty(state, {

@@ -401,3 +401,52 @@ const passage = Object.freeze([
 export function verses() {
   return passage;
 }
+
+// this is a temporary random sorting sorting into segments,
+// just to get something in place
+export function segments() {
+  let segments = [];
+
+  for (let i = 0, lengthI = passage.length; i < lengthI; i++) {
+    let newSegment = {
+      lower: i
+    };
+
+    let length = Math.floor(Math.random() * (5 - 2 + 1)) + 2;
+
+    i += length;
+
+    // make sure the upper bound is valid
+    if (!passage[i]) {
+      newSegment.upper = passage.length - 1;
+    } else {
+      newSegment.upper = i;
+    }
+
+    segments[segments.length] = newSegment;
+  }
+
+  return segments;
+}
+
+export function chapters() {
+  let chapters = {};
+
+  for (let i in passage) {
+    let currentVerse = passage[i];
+
+    // if this is the first verse in the chapter, assign the lower bound
+    if (!chapters[currentVerse.chapter]) {
+      chapters[currentVerse.chapter] = {
+        lower: parseInt(i)
+      };
+    }
+
+    // if this is the last verse in a chapter, assign the upper bound
+    if (!passage[i + 1] || passage[i + 1].chapter !== currentVerse.chapter) {
+      chapters[currentVerse.chapter].upper = parseInt(i);
+    }
+  }
+
+  return chapters;
+}

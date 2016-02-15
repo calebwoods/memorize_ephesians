@@ -9,22 +9,18 @@
 export const NEXT_VERSE     = 'NEXT_VERSE';
 export const PREVIOUS_VERSE = 'PREVIOUS_VERSE';
 export const ENABLE_RECALL  = 'ENABLE_RECALL';
-export const ENABLE_READ = 'ENABLE_READ';
+export const ENABLE_READ    = 'ENABLE_READ';
 export const CHANGE_MODE    = 'CHANGE_MODE';
 
 export const PLAY_AUDIO  = 'PLAY_AUDIO';
 export const PAUSE_AUDIO = 'PAUSE_AUDIO';
 
-export const SINGLE_MODE = 'SINGLE_MODE';
-export const MULTI_MODE  = 'MULTI_MODE';
+export const VERSE_MODE   = 'VERSE_MODE';
+export const SEGMENT_MODE = 'SEGMENT_MODE';
+export const CHAPTER_MODE = 'CHAPTER_MODE';
 
-// these could eventually be repalced with translation strings
-export const MODES = {
-  SINGLE_MODE : 'Single scripture mode',
-  MULTI_MODE  : 'Multi scripture mode'
-}
-
-export const VERSE_STATES = {
-  READ : 'Reading passage',
-  RECALL : 'Assisted Recall'
-}
+export const RECALL_STAGES = {
+  FULL : 'FULL',
+  FIRST: 'FIRST',
+  NONE : 'NONE'
+};
