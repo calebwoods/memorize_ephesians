@@ -9,7 +9,7 @@ import { PassagePage } from '../js/components/pages/PassagePage.react';
 describe('PassagePage', () => {
   let React, TestUtils, getInstance;
 
-  before(() => {
+  beforeEach(() => {
     jsdomify.create();
 
     React     = require('react');
@@ -22,7 +22,7 @@ describe('PassagePage', () => {
     };
   });
 
-  after(() => {
+  afterEach(() => {
     jsdomify.destroy();
   });
 
@@ -32,7 +32,7 @@ describe('PassagePage', () => {
     expect(element).toBeTruthy();
   });
 
-  describe('changing modes', function() {
+  describe('changing modes', () => {
     let verses = passage.verses(),
         props  = {
           active: {
@@ -43,7 +43,7 @@ describe('PassagePage', () => {
           verses: verses
         };
 
-    after(() => {
+    afterEach(() => {
       props.mode = null
     });
 
@@ -85,13 +85,13 @@ describe('PassagePage', () => {
     });
   });
 
-  describe('rendering meta', function() {
+  describe('rendering meta', () => {
     let verses = passage.verses(),
         props  = {
           verses: verses
         };
 
-    after(() => {
+    afterEach(() => {
       props.verses = verses;
     });
 

@@ -11,7 +11,7 @@ describe('Verse', () => {
 
   let verse = passage.verses()[0];
 
-  before(() => {
+  beforeEach(() => {
     jsdomify.create();
 
     React     = require('react');
@@ -24,7 +24,7 @@ describe('Verse', () => {
     };
   });
 
-  after(() => {
+  afterEach(() => {
     jsdomify.destroy();
   });
 

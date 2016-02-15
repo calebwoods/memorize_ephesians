@@ -26,58 +26,32 @@
 // Disable the no-use-before-define eslint rule for this file
 // It makes more sense to have the asnyc actions before the non-async ones
 /* eslint-disable no-use-before-define */
-import { NEXT_VERSE, PREVIOUS_VERSE, ENABLE_RECALL, ENABLE_READ, CHANGE_MODE, CHANGE_RECALL, PLAY_AUDIO, PAUSE_AUDIO } from '../constants/AppConstants';
+import { NAVIGATE_NEXT, NAVIGATE_PREVIOUS, CHANGE_MODE, CHANGE_RECALL, PLAY_AUDIO, PAUSE_AUDIO } from '../constants/AppConstants';
 
-export function asyncNextVerse() {
+export function asyncNavigateNext() {
   return (dispatch) => {
     // You can do async stuff here!
     // API fetching, Animations,...
     // For more information as to how and why you would do this, check https://github.com/gaearon/redux-thunk
-    return dispatch(nextVerse());
+    return dispatch(navigateNext());
   };
 }
 
-export function nextVerse() {
-  return { type: NEXT_VERSE };
+export function navigateNext() {
+  return { type: NAVIGATE_NEXT };
 }
 
-export function asyncPreviousVerse() {
+export function asyncNavigatePrevious() {
   return (dispatch) => {
     // You can do async stuff here!
     // API fetching, Animations,...
     // For more information as to how and why you would do this, check https://github.com/gaearon/redux-thunk
-    return dispatch(previousVerse());
+    return dispatch(navigatePrevious());
   };
 }
 
-export function previousVerse() {
-  return { type: PREVIOUS_VERSE };
-}
-
-export function asyncEnableRecall(index) {
-  return (dispatch) => {
-    // You can do async stuff here!
-    // API fetching, Animations,...
-    // For more information as to how and why you would do this, check https://github.com/gaearon/redux-thunk
-    return dispatch(enableRecall(index));
-  };
-}
-
-export function enableRecall(index) {
-  return { type: ENABLE_RECALL, index };
-}
-
-export function asyncEnableRead(index) {
-  return (dispatch) => {
-    // You can do async stuff here!
-    // API fetching, Animations,...
-    // For more information as to how and why you would do this, check https://github.com/gaearon/redux-thunk
-    return dispatch(enableRead(index));
-  };
-}
-
-export function enableRead(index) {
-  return { type: ENABLE_READ, index };
+export function navigatePrevious() {
+  return { type: NAVIGATE_PREVIOUS };
 }
 
 export function asyncChangeMode(mode) {

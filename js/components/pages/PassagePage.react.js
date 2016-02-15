@@ -5,7 +5,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
-import { asyncNextVerse, asyncPreviousVerse, asyncChangeMode, asyncChangeRecall } from '../../actions/AppActions';
+import { asyncNavigateNext, asyncNavigatePrevious, asyncChangeMode, asyncChangeRecall } from '../../actions/AppActions';
 import { VERSE_MODE, SEGMENT_MODE, CHAPTER_MODE, RECALL_STAGES } from '../../constants/AppConstants';
 
 import Verse from '../Verse.react';
@@ -140,22 +140,22 @@ export class PassagePage extends Component {
           <button className="previous"
                   title="Previous"
                   disabled="{ canNavigatePrevious() }"
-                  onClick={() => { dispatch(asyncPreviousVerse()) }}>
+                  onClick={() => { dispatch(asyncNavigatePrevious()) }}>
             Previous
           </button>
 
           <button className="next"
                   title="Next"
                   disabled="{ canNavigateNext() }"
-                  onClick={() => { dispatch(asyncNextVerse()) }}>
+                  onClick={() => { dispatch(asyncNavigateNext()) }}>
             Next
           </button>
         </div>
 
         <Swipeable
           className="verse-wrapper"
-          onSwipedLeft={() => { dispatch(asyncNextVerse()) }}
-          onSwipedRight={() => { dispatch(asyncPreviousVerse()) }}>
+          onSwipedLeft={() => { dispatch(asyncNavigateNext()) }}
+          onSwipedRight={() => { dispatch(asyncNavigatePrevious()) }}>
 
           { renderedVerses }
         </Swipeable>

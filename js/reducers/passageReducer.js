@@ -14,7 +14,8 @@
  */
 import assignToEmpty from '../utils/assign';
 
-import { NEXT_VERSE, PREVIOUS_VERSE, ENABLE_RECALL, DISABLE_RECALL, CHANGE_MODE, SEGMENT_MODE, PLAY_AUDIO, PAUSE_AUDIO, RECALL_STAGES } from '../constants/AppConstants';
+import { NAVIGATE_NEXT, NAVIGATE_PREVIOUS, CHANGE_RECALL, PLAY_AUDIO, PAUSE_AUDIO, RECALL_STAGES } from '../constants/AppConstants';
+import { VERSE_MODE, SEGMENT_MODE, CHAPTER_MODE, CHANGE_MODE } from '../constants/AppConstants';
 import * as passage from '../passage'
 
 // import all verse data
@@ -28,6 +29,7 @@ const chapters = passage.chapters();
 
 /**
  * Set the render bounds based on the current mode and the active index.
+ * This will also need smarts to set the bounds when navigating between modes.
  */
 function setBounds(mode, active) {
   let lower = 0,
@@ -38,9 +40,14 @@ function setBounds(mode, active) {
       lower = upper = active[VERSE_MODE]
       break;
 
-    default:
+    case SEGMENT_MODE:
       lower = segments[active[mode]].lower;
       upper = segments[active[mode]].upper;
+      break;
+
+    case CHAPTER_MODE:
+      lower = chapters[active[mode]].lower;
+      upper = chapters[active[mode]].upper;
       break;
   }
 
@@ -67,35 +74,42 @@ const initialState = assignToEmpty({
 function passageReducer(state = initialState, action) {
   Object.freeze(state); // Don't mutate state directly, always use assign()!
 
+  let newActive = {},
+      newLower,
+      newUpper;
+
   switch (action.type) {
-    case NEXT_VERSE:
+    case NAVIGATE_NEXT:
+      newLower = state.lowerBound + 1;
+      newUpper = state.upperBound + 1;
+
+      newActive = state.active;
+      newActive[state.mode]++;
+
       return assignToEmpty(state, {
-        activeVerse: state.activeVerse + 1
+        lowerBound : newLower,
+        upperBound : newUpper,
+        active     : newActive
       });
-    case PREVIOUS_VERSE:
+
+    case NAVIGATE_PREVIOUS:
+      newLower = state.lowerBound - 1;
+      newUpper = state.upperBound - 1;
+
+      newActive = state.active;
+      newActive[state.mode]--;
+
       return assignToEmpty(state, {
-        activeVerse: state.activeVerse - 1
+        lowerBound : newLower,
+        upperBound : newUpper,
+        active     : newActive
       });
-    case ENABLE_RECALL:
+
+    case CHANGE_RECALL:
       return assignToEmpty(state, {
-        verses: [
-          ...state.verses.slice(0, action.index),
-          Object.assign({}, state.verses[action.index], {
-            verseState: VERSE_STATES.RECALL
-          }),
-          ...state.verses.slice(action.index + 1)
-        ]
+        recallStage: action.mode
       });
-    case ENABLE_READ:
-      return assignToEmpty(state, {
-        verses: [
-          ...state.verses.slice(0, action.index),
-          Object.assign({}, state.verses[action.index], {
-            verseState: VERSE_STATES.READ
-          }),
-          ...state.verses.slice(action.index + 1)
-        ]
-      });
+
     case CHANGE_MODE:
       let newBounds = setBounds(action.mode, state.active);
 
@@ -104,26 +118,17 @@ function passageReducer(state = initialState, action) {
         upperBound : newBounds.upper,
         mode       : action.mode
       });
+
     case PLAY_AUDIO:
       return assignToEmpty(state, {
-        verses: [
-          ...state.verses.slice(0, action.index),
-          Object.assign({}, state.verses[action.index], {
-            isAudioPlaying: true
-          }),
-          ...state.verses.slice(action.index + 1)
-        ]
+        isAudioPlaying: true
       });
+
     case PAUSE_AUDIO:
       return assignToEmpty(state, {
-        verses: [
-          ...state.verses.slice(0, action.index),
-          Object.assign({}, state.verses[action.index], {
-            isAudioPlaying: false
-          }),
-          ...state.verses.slice(action.index + 1)
-        ]
+        isAudioPlaying: false
       });
+
     default:
       return state;
   }
