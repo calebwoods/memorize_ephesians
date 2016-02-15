@@ -46,12 +46,12 @@ export class PassagePage extends Component {
           return '';
         }
 
-        return <span key={ index }>
-                 <span className="verse-number">
-                   <strong>{ verse.verse }</strong>
-                 </span>
-                 <span className="verse-text">{ verse.text }</span>
-               </span>;
+        return (
+          <Verse key={ index }
+                 verse={ verse.verse }
+                 text={ verse.text }
+                 recallStage={ recallStage } />
+        );
       });
     }
 
