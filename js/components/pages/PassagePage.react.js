@@ -26,18 +26,18 @@ export class PassagePage extends Component {
      * @return boolean Whether or not we can navigate backward
      */
     function canNavigatePrevious() {
-      return activeVerse > 0;
+      return true;
     }
 
     /**
      * Take into account the current mode, and determine if we can navigation backward.
      *
-     * @TODO make this better than a simple index check (which is only good for verse mode)
+     * @TODO make this work.
      *
      * @return boolean Whether or not we can navigate forward
      */
     function canNavigateNext() {
-      return activeVerse < verses.length - 1;
+      return true;
     }
 
     /**
@@ -105,9 +105,13 @@ export class PassagePage extends Component {
              assembleMeta(assembleMeta()) + '&output-format=mp3';
     }
 
-    let renderedVerses = ''
+    function renderVerses() {
+      let renderedVerses = '';
 
-    if (verses) {
+      if (!verses) {
+        return;
+      }
+
       renderedVerses = verses.map(function(verse, index) {
         if (index < lowerBound || index > upperBound) {
           return '';
@@ -120,16 +124,18 @@ export class PassagePage extends Component {
                  recallStage={ recallStage } />
         );
       });
+
+      return renderedVerses;
     }
 
     return (
       <div>
         <div className="mode-controls">
-          <button className="scripture-mode" onClick={() => { dispatch(asyncChangeMode(VERSE_MODE)) }}>'Single verse'</button>
+          <button className="scripture-mode" onClick={() => { dispatch(asyncChangeMode(VERSE_MODE)) }}>Single verse</button>
 
-          <button className="scripture-mode" onClick={() => { dispatch(asyncChangeMode(SEGMENT_MODE)) }}>'Group of verses'</button>
+          <button className="scripture-mode" onClick={() => { dispatch(asyncChangeMode(SEGMENT_MODE)) }}>Group of verses</button>
 
-          <button className="scripture-mode" onClick={() => { dispatch(asyncChangeMode(CHAPTER_MODE)) }}>'Full chapter'</button>
+          <button className="scripture-mode" onClick={() => { dispatch(asyncChangeMode(CHAPTER_MODE)) }}>Full chapter</button>
         </div>
 
         <div className="meta-information">
@@ -139,14 +145,14 @@ export class PassagePage extends Component {
         <div className="verse-controls">
           <button className="previous"
                   title="Previous"
-                  disabled="{ canNavigatePrevious() }"
+                  disabled={ !canNavigatePrevious() }
                   onClick={() => { dispatch(asyncNavigatePrevious()) }}>
             Previous
           </button>
 
           <button className="next"
                   title="Next"
-                  disabled="{ canNavigateNext() }"
+                  disabled={ !canNavigateNext() }
                   onClick={() => { dispatch(asyncNavigateNext()) }}>
             Next
           </button>
@@ -157,7 +163,7 @@ export class PassagePage extends Component {
           onSwipedLeft={() => { dispatch(asyncNavigateNext()) }}
           onSwipedRight={() => { dispatch(asyncNavigatePrevious()) }}>
 
-          { renderedVerses }
+          { renderVerses() }
         </Swipeable>
 
         <div className="stage-controls">

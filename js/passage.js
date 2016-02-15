@@ -402,9 +402,23 @@ export function verses() {
   return passage;
 }
 
+let _staticSegments = [];
+
+export function staticSegments() {
+  if (!_staticSegments) {
+    segments();
+  }
+
+  return _staticSegments;
+}
+
 // this is a temporary random sorting sorting into segments,
 // just to get something in place
 export function segments() {
+  if (_staticSegments.length) {
+    return _staticSegments;
+  }
+
   let segments = [];
 
   for (let i = 0, lengthI = passage.length; i < lengthI; i++) {
@@ -426,7 +440,9 @@ export function segments() {
     segments[segments.length] = newSegment;
   }
 
-  return segments;
+  _staticSegments = segments;
+
+  return _staticSegments;
 }
 
 export function chapters() {

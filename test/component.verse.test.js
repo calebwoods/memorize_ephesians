@@ -81,6 +81,13 @@ describe('Verse', () => {
       'A capital Letter'
     ];
 
+    let expectedStrings = [
+      '   ',
+      '         ',
+      '           ',
+      '                '
+    ];
+
     verse.recallStage = RECALL_STAGES.NONE;
 
     for (let i in sampleStrings) {
@@ -89,7 +96,7 @@ describe('Verse', () => {
       let element     = getInstance(verse);
       let textElement = TestUtils.findRenderedDOMComponentWithClass(element, 'verse-text');
 
-      expect(textElement.textContent).toBeFalsy();
+      expect(textElement.textContent).toEqual(expectedStrings[i]);
     }
   });
 });

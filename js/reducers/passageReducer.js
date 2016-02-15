@@ -32,8 +32,8 @@ const chapters = passage.chapters();
  * This will also need smarts to set the bounds when navigating between modes.
  */
 function setBounds(mode, active) {
-  let lower = 0,
-      upper = 0;
+  let lower,
+      upper;
 
   switch (mode) {
     case VERSE_MODE:
@@ -75,33 +75,30 @@ function passageReducer(state = initialState, action) {
   Object.freeze(state); // Don't mutate state directly, always use assign()!
 
   let newActive = {},
-      newLower,
-      newUpper;
+      newBounds;
 
   switch (action.type) {
     case NAVIGATE_NEXT:
-      newLower = state.lowerBound + 1;
-      newUpper = state.upperBound + 1;
-
       newActive = state.active;
       newActive[state.mode]++;
 
+      newBounds = setBounds(state.mode, newActive);
+
       return assignToEmpty(state, {
-        lowerBound : newLower,
-        upperBound : newUpper,
+        lowerBound : newBounds.lower,
+        upperBound : newBounds.upper,
         active     : newActive
       });
 
     case NAVIGATE_PREVIOUS:
-      newLower = state.lowerBound - 1;
-      newUpper = state.upperBound - 1;
-
       newActive = state.active;
       newActive[state.mode]--;
 
+      newBounds = setBounds(state.mode, newActive);
+
       return assignToEmpty(state, {
-        lowerBound : newLower,
-        upperBound : newUpper,
+        lowerBound : newBounds.lower,
+        upperBound : newBounds.upper,
         active     : newActive
       });
 
@@ -111,7 +108,7 @@ function passageReducer(state = initialState, action) {
       });
 
     case CHANGE_MODE:
-      let newBounds = setBounds(action.mode, state.active);
+      newBounds = setBounds(action.mode, state.active);
 
       return assignToEmpty(state, {
         lowerBound : newBounds.lower,

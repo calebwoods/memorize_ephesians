@@ -25,12 +25,12 @@ class Verse extends Component {
         // the eventual fourth recall stage for random words would live here
 
         case RECALL_STAGES.NONE:
-          return '';
+          return text.replace(/./g, ' ');
       }
     }
 
     return (
-      <span>
+      <span className="verse-wrapper">
         <span className="verse-number">
           <strong>{ verse }</strong>
         </span>
