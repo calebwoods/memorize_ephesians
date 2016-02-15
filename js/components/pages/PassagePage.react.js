@@ -38,6 +38,71 @@ export class PassagePage extends Component {
       return activeVerse < verses.length - 1;
     }
 
+    /**
+     * Take the current range of verses and generate meta information.
+     *
+     * @return string A string of verse meta information
+     */
+    function assembleMeta() {
+      let meta = '';
+
+      if (!verses || typeof lowerBound === 'undefined' || typeof upperBound === 'undefined') {
+        return;
+      }
+
+      let lower = verses[lowerBound];
+
+      // assemble the information for the lower bound
+      meta += lower.book + ' ' + lower.chapter + ':' + lower.verse;
+
+      // no need to continue if upper and lower are the same
+      if (lowerBound === upperBound) {
+        return meta;
+      }
+
+      let upper = verses[upperBound];
+
+      // fill in the appropriate information for the upper bound
+      // meaning we don't want to duplicate the same book
+      // or the same chapter
+      let bookTriggered = false,
+          onlyVerse     = true;
+
+      if (upper.book !== lower.book) {
+        meta += ' - ' + upper.book + ' ';
+
+        bookTriggered = true;
+      }
+
+      if (bookTriggered || upper.chapter !== lower.chapter) {
+        if (!bookTriggered) {
+          meta += ' - ';
+        }
+
+        meta += upper.chapter + ':';
+
+        onlyVerse = false;
+      }
+
+      if (onlyVerse) {
+        meta += '-';
+      }
+
+      meta += upper.verse;
+
+      return meta;
+    }
+
+    /**
+     * URL encode a string that can be used to get audio from the Crossway API.
+     *
+     * @return string The mp3 request string
+     */
+    function audioURL() {
+      return 'http://www.esvapi.org/v2/rest/passageQuery?key=IP&passage=' +
+             assembleMeta(assembleMeta()) + '&output-format=mp3';
+    }
+
     let renderedVerses = ''
 
     if (verses) {
@@ -63,6 +128,10 @@ export class PassagePage extends Component {
           <button className="scripture-mode" onClick={() => { dispatch(asyncChangeMode(SEGMENT_MODE)) }}>'Group of verses'</button>
 
           <button className="scripture-mode" onClick={() => { dispatch(asyncChangeMode(CHAPTER_MODE)) }}>'Full chapter'</button>
+        </div>
+
+        <div className="meta-information">
+          { assembleMeta() }
         </div>
 
         <div className="verse-controls">

@@ -83,5 +83,100 @@ describe('PassagePage', () => {
 
       expect(renderedVerses.length).toEqual(props.upperBound - props.lowerBound + 1);
     });
-  })
+  });
+
+  describe('rendering meta', function() {
+    let verses = passage.verses(),
+        props  = {
+          verses: verses
+        };
+
+    after(() => {
+      props.verses = verses;
+    });
+
+    it('should render the meta information on a single verse', () => {
+      props.lowerBound = 0;
+      props.upperBound = 0;
+
+      let element  = getInstance(props);
+      let metaInfo = TestUtils.findRenderedDOMComponentWithClass(element, 'meta-information');
+
+      var expectedMeta = verses[props.lowerBound].book + ' ' +
+                         verses[props.lowerBound].chapter + ':' +
+                         verses[props.lowerBound].verse;
+
+      expect(metaInfo.textContent).toEqual(expectedMeta);
+    });
+
+    it('should render the meta information on verses in the same chapter and book', () => {
+      props.lowerBound = 0;
+      props.upperBound = 1;
+
+      let element  = getInstance(props);
+      let metaInfo = TestUtils.findRenderedDOMComponentWithClass(element, 'meta-information');
+
+      var expectedMeta = verses[props.lowerBound].book + ' ' +
+                         verses[props.lowerBound].chapter + ':' +
+                         verses[props.lowerBound].verse + '-' +
+                         verses[props.upperBound].verse;
+
+      expect(metaInfo.textContent).toEqual(expectedMeta);
+    });
+
+    it('should render the meta information on verses in two different books', () => {
+      let newVerses = [{
+          "book": "First",
+          "chapter": 1,
+          "verse": 1,
+      }, {
+          "book": "Second",
+          "chapter": 1,
+          "verse": 2,
+      }];
+
+      props.verses     = newVerses;
+      props.lowerBound = 0;
+      props.upperBound = 1;
+
+      let element  = getInstance(props);
+      let metaInfo = TestUtils.findRenderedDOMComponentWithClass(element, 'meta-information');
+
+      var expectedMeta = newVerses[props.lowerBound].book + ' ' +
+                         newVerses[props.lowerBound].chapter + ':' +
+                         newVerses[props.lowerBound].verse + ' - ' +
+                         newVerses[props.upperBound].book + ' ' +
+                         newVerses[props.upperBound].chapter + ':' +
+                         newVerses[props.upperBound].verse;
+
+      expect(metaInfo.textContent).toEqual(expectedMeta);
+    });
+
+    it('should render the meta information on verses in two different chapters', () => {
+      let newVerses = [{
+          "book": "First",
+          "chapter": 1,
+          "verse": 1,
+      }, {
+          "book": "First",
+          "chapter": 2,
+          "verse": 2,
+      }];
+
+      props.verses     = newVerses;
+      props.lowerBound = 0;
+      props.upperBound = 1;
+
+      let element  = getInstance(props);
+      let metaInfo = TestUtils.findRenderedDOMComponentWithClass(element, 'meta-information');
+
+      var expectedMeta = newVerses[props.lowerBound].book + ' ' +
+                         newVerses[props.lowerBound].chapter + ':' +
+                         newVerses[props.lowerBound].verse + ' - ' +
+                         newVerses[props.upperBound].chapter + ':' +
+                         newVerses[props.upperBound].verse;
+
+      expect(metaInfo.textContent).toEqual(expectedMeta);
+    });
+  });
 });
