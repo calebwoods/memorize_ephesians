@@ -48,72 +48,46 @@ export class Passage {
 }
 
 export function verses() {
-  return rawVerses;
-}
-
-let _staticSegments = [];
-
-export function staticSegments() {
-  if (!_staticSegments) {
-    segments();
-  }
-
-  return _staticSegments;
+  return rawVerses.map((verse) => {
+    return new Passage([ verse ]);
+  });
 }
 
 // this is a temporary random sorting sorting into segments,
 // just to get something in place
 export function segments() {
-  if (_staticSegments.length) {
-    return _staticSegments;
-  }
+  const segmentIndexes = [
+    [0,  2], // 1:1-2
+    [2,  2], // 1:3-4
+    [4,  2], // 1:5-6
+    [6,  2], // 1:7-8
+    [8,  2], // 1:9-10
+    [10, 2], // 1:11-12
+    [12, 2], // 1:13-14
+    [14, 2], // 1:15-16
+    [16, 1], // 1:17
+    [17, 1], // 1:18
+    [18, 2], // 1:19-20
+    [20, 1], // 1:21
+    [21, 2], // 1:22-23
+    [0, 23]  // 1:1-23
+  ];
 
-  let segments = [];
-
-  for (let i = 0, lengthI = rawVerses.length; i < lengthI; i++) {
-    let newSegment = {
-      lower: i
-    };
-
-    let length = Math.floor(Math.random() * (5 - 2 + 1)) + 2;
-
-    i += length;
-
-    // make sure the upper bound is valid
-    if (!rawVerses[i]) {
-      newSegment.upper = rawVerses.length - 1;
-    } else {
-      newSegment.upper = i;
-    }
-
-    segments[segments.length] = newSegment;
-  }
-
-  _staticSegments = segments;
-
-  return _staticSegments;
+  return segmentIndexes.map((touple) => {
+    return new Passage(rawVerses.slice(touple[0], (touple[0] + touple[1])));
+  });
 }
 
 export function chapters() {
-  let chapters = {};
+  const chapterIndexes = [
+    [0,  23], // 1:1-23
+    [23, 22], // 2:1-22
+    [45, 21]  // 3:1-21
+  ];
 
-  for (let i in rawVerses) {
-    let currentVerse = rawVerses[i];
-
-    // if this is the first verse in the chapter, assign the lower bound
-    if (!chapters[currentVerse.chapter]) {
-      chapters[currentVerse.chapter] = {
-        lower: parseInt(i)
-      };
-    }
-
-    // if this is the last verse in a chapter, assign the upper bound
-    if (!rawVerses[i + 1] || rawVerses[i + 1].chapter !== currentVerse.chapter) {
-      chapters[currentVerse.chapter].upper = parseInt(i);
-    }
-  }
-
-  return chapters;
+  return chapterIndexes.map((touple) => {
+    return new Passage(rawVerses.slice(touple[0], (touple[0] + touple[1])));
+  });
 }
 
 const rawVerses = Object.freeze([
