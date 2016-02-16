@@ -25,6 +25,26 @@ export class Passage {
       return '<sup>' + rawVerse.verse + '</sup>' + rawVerse.text;
     }).join('');
   }
+
+  recallFirstText() {
+    return this._verses.map(function (rawVerse) {
+      return '<sup>' + rawVerse.verse + '</sup>' + rawVerse.text.split(' ').map(function (word) {
+        if (word[0]) {
+          return word[0] + word.slice(1, word.length).replace(/\w/g, ' ');
+        } else {
+          return '';
+        }
+      }).join(' ');
+    }).join('');
+  }
+
+  recallNoneText() {
+    return this._verses.map(function (rawVerse) {
+      return '<sup>' + rawVerse.verse + '</sup>' + rawVerse.text.split(' ').map(function (word) {
+        return word.replace(/\w/g, ' ');
+      }).join(' ');
+    }).join('');
+  }
 }
 
 export function verses() {

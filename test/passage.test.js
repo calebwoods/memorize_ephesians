@@ -55,4 +55,32 @@ describe('Passage', () => {
       expect(new Passage(twoVerses).readText()).toEqual('<sup>1</sup>Text, of verse 1 <sup>2</sup>and verse 2 ends like this.');
     });
   });
+
+  describe('#recallFirstText', () => {
+    it('single verse', () => {
+      expect(new Passage(oneVerse).recallFirstText()).toEqual(
+        '<sup>1</sup>T   , o  v     1 '
+      );
+    });
+
+    it('multiple verses', () => {
+      expect(new Passage(twoVerses).recallFirstText()).toEqual(
+        '<sup>1</sup>T   , o  v     1 <sup>2</sup>a   v     2 e    l    t   .'
+      );
+    });
+  });
+
+  describe('#recallNoneText', () => {
+    it('single verse', () => {
+      expect(new Passage(oneVerse).recallNoneText()).toEqual(
+        '<sup>1</sup>    ,            '
+      );
+    });
+
+    it('multiple verses', () => {
+      expect(new Passage(twoVerses).recallNoneText()).toEqual(
+        '<sup>1</sup>    ,            <sup>2</sup>                          .'
+      );
+    });
+  });
 });
