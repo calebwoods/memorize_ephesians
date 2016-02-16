@@ -1,4 +1,87 @@
-const passage = Object.freeze([
+export class Passage {
+  constructor(verses) {
+    this._verses = verses;
+  }
+
+  metadata() {
+    let bookChapter = this._verses[0].book + ' ' + this._verses[0].chapter + ':';
+    if (this._verses.length > 1) {
+      return bookChapter + this._verses[0].verse + '-' + this._verses[this._verses.length - 1].verse;
+    } else {
+      return bookChapter + this._verses[0].verse;
+    }
+  }
+}
+export function verses() {
+  return rawVerses;
+}
+
+let _staticSegments = [];
+
+export function staticSegments() {
+  if (!_staticSegments) {
+    segments();
+  }
+
+  return _staticSegments;
+}
+
+// this is a temporary random sorting sorting into segments,
+// just to get something in place
+export function segments() {
+  if (_staticSegments.length) {
+    return _staticSegments;
+  }
+
+  let segments = [];
+
+  for (let i = 0, lengthI = rawVerses.length; i < lengthI; i++) {
+    let newSegment = {
+      lower: i
+    };
+
+    let length = Math.floor(Math.random() * (5 - 2 + 1)) + 2;
+
+    i += length;
+
+    // make sure the upper bound is valid
+    if (!rawVerses[i]) {
+      newSegment.upper = rawVerses.length - 1;
+    } else {
+      newSegment.upper = i;
+    }
+
+    segments[segments.length] = newSegment;
+  }
+
+  _staticSegments = segments;
+
+  return _staticSegments;
+}
+
+export function chapters() {
+  let chapters = {};
+
+  for (let i in rawVerses) {
+    let currentVerse = rawVerses[i];
+
+    // if this is the first verse in the chapter, assign the lower bound
+    if (!chapters[currentVerse.chapter]) {
+      chapters[currentVerse.chapter] = {
+        lower: parseInt(i)
+      };
+    }
+
+    // if this is the last verse in a chapter, assign the upper bound
+    if (!rawVerses[i + 1] || rawVerses[i + 1].chapter !== currentVerse.chapter) {
+      chapters[currentVerse.chapter].upper = parseInt(i);
+    }
+  }
+
+  return chapters;
+}
+
+const rawVerses = Object.freeze([
     {
         "book": "Ephesians",
         "chapter": 1,
@@ -396,73 +479,3 @@ const passage = Object.freeze([
         "text": "to him be glory in the church and in Christ Jesus throughout all generations, forever and ever. Amen."
     }
 ]);
-
-
-export function verses() {
-  return passage;
-}
-
-let _staticSegments = [];
-
-export function staticSegments() {
-  if (!_staticSegments) {
-    segments();
-  }
-
-  return _staticSegments;
-}
-
-// this is a temporary random sorting sorting into segments,
-// just to get something in place
-export function segments() {
-  if (_staticSegments.length) {
-    return _staticSegments;
-  }
-
-  let segments = [];
-
-  for (let i = 0, lengthI = passage.length; i < lengthI; i++) {
-    let newSegment = {
-      lower: i
-    };
-
-    let length = Math.floor(Math.random() * (5 - 2 + 1)) + 2;
-
-    i += length;
-
-    // make sure the upper bound is valid
-    if (!passage[i]) {
-      newSegment.upper = passage.length - 1;
-    } else {
-      newSegment.upper = i;
-    }
-
-    segments[segments.length] = newSegment;
-  }
-
-  _staticSegments = segments;
-
-  return _staticSegments;
-}
-
-export function chapters() {
-  let chapters = {};
-
-  for (let i in passage) {
-    let currentVerse = passage[i];
-
-    // if this is the first verse in the chapter, assign the lower bound
-    if (!chapters[currentVerse.chapter]) {
-      chapters[currentVerse.chapter] = {
-        lower: parseInt(i)
-      };
-    }
-
-    // if this is the last verse in a chapter, assign the upper bound
-    if (!passage[i + 1] || passage[i + 1].chapter !== currentVerse.chapter) {
-      chapters[currentVerse.chapter].upper = parseInt(i);
-    }
-  }
-
-  return chapters;
-}
