@@ -1,52 +1,44 @@
 /*
  * Verse
  */
-
-import { asyncEnableRecall, asyncEnableRead, asyncPlayAudio, asyncPauseAudio, asyncNextVerse, asyncPreviousVerse } from '../actions/AppActions';
-import { VERSE_STATES } from '../constants/AppConstants';
+import { RECALL_STAGES } from '../constants/AppConstants';
 
 import React, { Component } from 'react';
-import AudioPlayer from './AudioPlayer.react';
-import Swipeable from 'react-swipeable';
 
 class Verse extends Component {
   render() {
-    const { index, book, chapter, text, verse, isAudioPlaying, verseState, dispatch } = this.props;
-    const verseMeta = book + ' ' + chapter + ':' + verse;
+    const { verse, text, recallStage } = this.props;
 
-    const audioUrl = "http://www.esvapi.org/v2/rest/passageQuery?key=IP&passage=" +
-      encodeURI(verseMeta) + "&output-format=mp3";
+    /**
+     * Render the text to the verse based on the recall mode.
+     */
+    function renderText(text) {
+      switch(recallStage) {
+        case RECALL_STAGES.FULL:
+          return text;
 
-    function splitText(text) {
-      return text.split(' ').map(function (word) {
-        return word[0] + word.slice(1, word.length).replace(/\w/g, ' ');
-      }).join(' ');
+        case RECALL_STAGES.FIRST:
+          return text.split(' ').map(function (word) {
+            return word[0] + word.slice(1, word.length).replace(/\w/g, ' ');
+          }).join(' ');
+
+        // the eventual fourth recall stage for random words would live here
+
+        case RECALL_STAGES.NONE:
+          return text.replace(/./g, ' ');
+      }
     }
 
     return (
-      <Swipeable
-        className="passage-card"
-        onSwipedLeft={() => { dispatch(asyncNextVerse()) }}
-        onSwipedRight={() => { dispatch(asyncPreviousVerse()) }}
-      >
-        <p className="passage-metadata">{ verseMeta }</p>
-        <p className="passage-text">{ verseState == VERSE_STATES.RECALL ? splitText(text) : text }</p>
+      <span className="verse-wrapper">
+        <span className="verse-number">
+          <strong>{ verse }</strong>
+        </span>
 
-        <ol className="passage-states">
-          <li
-            className={ verseState == VERSE_STATES.READ ? "active" : ""}
-            onClick={() => { dispatch(asyncEnableRead(index)) }}
-          >Know</li>
-          <li
-            className={ verseState == VERSE_STATES.RECALL ? "active" : ""}
-            onClick={() => { dispatch(asyncEnableRecall(index)) }}
-          >K___</li>
-          <AudioPlayer src={ audioUrl }
-                       dispatch={ dispatch }
-                       isAudioPlaying={ isAudioPlaying }
-                       index={ index } />
-        </ol>
-      </Swipeable>
+        <span className="verse-text">
+          { renderText(text) }
+        </span>
+      </span>
     );
   }
 }

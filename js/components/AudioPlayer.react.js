@@ -8,12 +8,12 @@ import { asyncPlayAudio, asyncPauseAudio } from '../actions/AppActions';
 
 class AudioPlayer extends Component {
   render() {
-    const { dispatch, src, isAudioPlaying, index } = this.props;
+    const { dispatch, src, isAudioPlaying } = this.props;
 
     if (isAudioPlaying) {
       return (
         <span className="audioContainer">
-          <li className="pauseAudio" onClick={() => {dispatch(asyncPauseAudio(index))} }>
+          <li className="pauseAudio" onClick={() => {dispatch(asyncPauseAudio())} }>
             <i className="fa fa-pause" title="pause"></i>
           </li>
           <audio src={ src } autoPlay="autoPlay" loop="loop"/>
@@ -22,7 +22,7 @@ class AudioPlayer extends Component {
     } else {
       return (
         <span className="audioContainer">
-          <li className="playAudio" onClick={() => {dispatch(asyncPlayAudio(index))} }>
+          <li className="playAudio" onClick={() => {dispatch(asyncPlayAudio())} }>
             <i className="fa fa-play" title="play"></i>
           </li>
         </span>

@@ -2,16 +2,16 @@ import expect from 'expect';
 import jsdomify from 'jsdomify';
 
 import * as passage from '../js/passage';
+import { RECALL_STAGES } from '../js/constants/AppConstants';
 
 import Verse from '../js/components/Verse.react';
-import { VERSE_STATES } from '../js/constants/AppConstants';
 
 describe('Verse', () => {
   let React, TestUtils, getInstance;
 
   let verse = passage.verses()[0];
 
-  before(() => {
+  beforeEach(() => {
     jsdomify.create();
 
     React     = require('react');
@@ -24,7 +24,7 @@ describe('Verse', () => {
     };
   });
 
-  after(() => {
+  afterEach(() => {
     jsdomify.destroy();
   });
 
@@ -34,16 +34,19 @@ describe('Verse', () => {
     expect(element).toBeTruthy();
   });
 
-  it('should render the correct information from the provided verse', () => {
-    let element     = getInstance(verse);
-    let metaElement = TestUtils.findRenderedDOMComponentWithClass(element, 'passage-metadata');
-    let textElement = TestUtils.findRenderedDOMComponentWithClass(element, 'passage-text');
+  it('should render the correct information from the provided verse in FULL recall', () => {
+    verse.recallStage = RECALL_STAGES.FULL;
 
-    expect(metaElement.textContent).toEqual(verse.book + ' ' + verse.chapter + ':' + verse.verse);
+    let element      = getInstance(verse);
+    let verseElement = TestUtils.findRenderedDOMComponentWithClass(element, 'verse-number');
+    let textElement  = TestUtils.findRenderedDOMComponentWithClass(element, 'verse-text');
+
+    // not sure why toEqual wasn't loose type checking like it should, but it wasn't
+    expect(verseElement.textContent).toEqual(verse.verse.toString());
     expect(textElement.textContent).toEqual(verse.text);
   });
 
-  it('should split the display text (leaving capitals and spacing) when in recall mode', () => {
+  it('should split the display text (leaving capitals and spacing) when in FIRST recall', () => {
     let sampleStrings = [
       'one',
       'two words',
@@ -58,13 +61,40 @@ describe('Verse', () => {
       'A c       L     '
     ];
 
-    verse.verseState = VERSE_STATES.RECALL;
+    verse.recallStage = RECALL_STAGES.FIRST;
 
     for (let i in sampleStrings) {
       verse.text = sampleStrings[i];
 
       let element     = getInstance(verse);
-      let textElement = TestUtils.findRenderedDOMComponentWithClass(element, 'passage-text');
+      let textElement = TestUtils.findRenderedDOMComponentWithClass(element, 'verse-text');
+
+      expect(textElement.textContent).toEqual(expectedStrings[i]);
+    }
+  });
+
+  it('should display no text when in NONE recall', () => {
+    let sampleStrings = [
+      'one',
+      'two words',
+      'three words',
+      'A capital Letter'
+    ];
+
+    let expectedStrings = [
+      '   ',
+      '         ',
+      '           ',
+      '                '
+    ];
+
+    verse.recallStage = RECALL_STAGES.NONE;
+
+    for (let i in sampleStrings) {
+      verse.text = sampleStrings[i];
+
+      let element     = getInstance(verse);
+      let textElement = TestUtils.findRenderedDOMComponentWithClass(element, 'verse-text');
 
       expect(textElement.textContent).toEqual(expectedStrings[i]);
     }
