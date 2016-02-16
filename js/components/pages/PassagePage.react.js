@@ -87,17 +87,27 @@ export class PassagePage extends Component {
         </Swipeable>
 
         <div className="stage-controls">
-          <button className="recall-stage" onClick={() => { dispatch(asyncChangeRecall(RECALL_STAGES.FULL)) }}>Know</button>
+          <button
+            className={ recallStage == RECALL_STAGES.FULL ? "active" : ""}
+            onClick={() => { dispatch(asyncChangeRecall(RECALL_STAGES.FULL)) }}
+          >Know</button>
 
-          <button className="recall-stage" onClick={() => { dispatch(asyncChangeRecall(RECALL_STAGES.FIRST)) }}>K___</button>
+          <button
+            className={ recallStage == RECALL_STAGES.FIRST ? "active" : ""}
+            onClick={() => { dispatch(asyncChangeRecall(RECALL_STAGES.FIRST)) }}
+          >K___</button>
 
-          <button className="recall-stage" onClick={() => { dispatch(asyncChangeRecall(RECALL_STAGES.NONE)) }}>____</button>
+          <button
+            className={ recallStage == RECALL_STAGES.NONE ? "active" : ""}
+            onClick={() => { dispatch(asyncChangeRecall(RECALL_STAGES.NONE)) }}
+          >____</button>
+
+          <AudioPlayer className="audio-controls"
+                       src={ activePassage.audioUrl() }
+                       dispatch={ dispatch }
+                       isAudioPlaying={ isAudioPlaying } />
         </div>
 
-        <AudioPlayer className="audio-controls"
-                     src={ activePassage.audioUrl() }
-                     dispatch={ dispatch }
-                     isAudioPlaying={ isAudioPlaying } />
 
         <p><a href="http://www.esv.org" className="copyright">ESV</a></p>
       </div>
