@@ -11,7 +11,22 @@ export class Passage {
       return bookChapter + this._verses[0].verse;
     }
   }
+
+  baseAudioUrl() {
+    return "http://www.esvapi.org/v2/rest/passageQuery?key=IP&passage=";
+  }
+
+  audioUrl() {
+    return encodeURI(this.baseAudioUrl() + this.metadata() + '&output-format=mp3');
+  }
+
+  readText() {
+    return this._verses.map(function (rawVerse) {
+      return '<sup>' + rawVerse.verse + '</sup>' + rawVerse.text;
+    }).join('');
+  }
 }
+
 export function verses() {
   return rawVerses;
 }
