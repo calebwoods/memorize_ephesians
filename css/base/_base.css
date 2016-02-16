@@ -24,15 +24,21 @@ body {
 }
 
 body {
+	background: #ecf0f1;
 	font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
 }
 
 .wrapper {
-	background-color: #FEFEFE;
 	color: #222222;
+	font-family: monospace;
 	max-width: 978px;
 	margin: 0 auto;
-	padding: 0.5em 0;
+	padding: 1em;
+	white-space: pre-wrap;
+}
+
+body.js-source-code-pro-loaded .wrapper {
+	font-family: 'Source Code Pro', monospace;
 }
 
 .app-name {
