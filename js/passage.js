@@ -4,9 +4,15 @@ export class Passage {
   }
 
   metadata() {
-    let bookChapter = this._verses[0].book + ' ' + this._verses[0].chapter + ':';
+    let firstVerse = this._verses[0];
+    let lastVerse = this._verses[this._verses.length - 1]
+    let bookChapter = firstVerse.book + ' ' + firstVerse.chapter + ':';
     if (this._verses.length > 1) {
-      return bookChapter + this._verses[0].verse + '-' + this._verses[this._verses.length - 1].verse;
+      if (firstVerse.chapter === lastVerse.chapter) {
+        return bookChapter + firstVerse.verse + '-' + lastVerse.verse;
+      } else {
+        return firstVerse.book + ' ' + firstVerse.chapter + ':' + firstVerse.verse + '-' + lastVerse.chapter + ':' + lastVerse.verse;
+      }
     } else {
       return bookChapter + this._verses[0].verse;
     }
@@ -70,7 +76,32 @@ export function segments() {
     [18, 2], // 1:19-20
     [20, 1], // 1:21
     [21, 2], // 1:22-23
-    [0, 23]  // 1:1-23
+    [0, 23], // 1:1-23
+    [23, 3], // 2:1-3
+    [26, 2], // 2:4-5
+    [27, 2], // 2:6-7
+    [30, 2], // 2:8-9
+    [32, 1], // 2:10
+    [33, 2], // 2:11-12
+    [35, 1], // 2:13
+    [36, 1], // 2:14
+    [37, 2], // 2:15-16
+    [39, 2], // 2:17-18
+    [41, 2], // 2:19-20
+    [43, 2], // 2:21-22
+    [0, 45], // 1:1-2:22
+    [45, 3], // 3:1-3
+    [48, 2], // 3:4-5
+    [50, 1], // 3:6
+    [51, 2], // 3:7-8
+    [53, 2], // 3:9-10
+    [55, 2], // 3:11-12
+    [57, 1], // 3:13
+    [58, 2], // 3:14-15
+    [60, 2], // 3:16-17
+    [62, 2], // 3:18-19
+    [64, 2], // 3:20-21
+    [0, 66]  // 1:1-3:21
   ];
 
   return segmentIndexes.map((touple) => {

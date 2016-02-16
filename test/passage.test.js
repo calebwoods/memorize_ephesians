@@ -23,6 +23,20 @@ const twoVerses = Object.freeze([
     "text": "and verse 2 ends like this."
   }
 ]);
+const crossChapterVerses = Object.freeze([
+  {
+    "book": "Ephesians",
+    "chapter": 1,
+    "verse": 1,
+    "text": "Text, of verse 1 "
+  },
+  {
+    "book": "Ephesians",
+    "chapter": 2,
+    "verse": 2,
+    "text": "and verse 2 ends like this."
+  }
+]);
 
 describe('Passage', () => {
   describe('#metadata', () => {
@@ -32,6 +46,10 @@ describe('Passage', () => {
 
     it('multiple verses', () => {
       expect(new Passage(twoVerses).metadata()).toEqual('Ephesians 1:1-2');
+    });
+
+    it('cross chapters verses', () => {
+      expect(new Passage(crossChapterVerses).metadata()).toEqual('Ephesians 1:1-2:2');
     });
   });
 
