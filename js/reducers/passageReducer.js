@@ -45,11 +45,21 @@ function passageReducer(state = initialState, action) {
   Object.freeze(state); // Don't mutate state directly, always use assign()!
 
   let newActive = {};
+  let activeCollection = [];
 
   switch (action.type) {
     case NAVIGATE_NEXT:
       newActive = state.active;
-      newActive[state.mode]++;
+      if (state.mode === VERSE_MODE) {
+        activeCollection = verses;
+      } else if (state.mode === SEGMENT_MODE) {
+        activeCollection = segments;
+      } else {
+        activeCollection = chapters;
+      }
+      if (newActive[state.mode] < activeCollection.length - 1) {
+        newActive[state.mode]++;
+      }
 
       return assignToEmpty(state, {
         active: newActive
@@ -57,7 +67,9 @@ function passageReducer(state = initialState, action) {
 
     case NAVIGATE_PREVIOUS:
       newActive = state.active;
-      newActive[state.mode]--;
+      if (newActive[state.mode] > 0) {
+        newActive[state.mode]--;
+      }
 
       return assignToEmpty(state, {
         active: newActive

@@ -36,7 +36,7 @@ describe('passageReducer', () => {
         };
       });
 
-      it('should increment both bounds by one on next', () => {
+      it('should increment active by one', () => {
         let initialReducer = passageReducer(initialState, {
           type: NAVIGATE_NEXT
         });
@@ -52,7 +52,7 @@ describe('passageReducer', () => {
         expect(secondReducer.active[VERSE_MODE]).toEqual(7);
       });
 
-      it('should decrement both bounds by one on next', () => {
+      it('should decrement active by one', () => {
         let initialReducer = passageReducer(initialState, {
           type: NAVIGATE_PREVIOUS
         });
@@ -83,7 +83,7 @@ describe('passageReducer', () => {
         };
       });
 
-      it('should increment both bounds by one on next', () => {
+      it('should increment active by one', () => {
         let initialReducer = passageReducer(initialState, {
           type: NAVIGATE_NEXT
         });
@@ -99,7 +99,7 @@ describe('passageReducer', () => {
         expect(secondReducer.active[SEGMENT_MODE]).toEqual(7);
       });
 
-      it('should decrement both bounds by one on next', () => {
+      it('should decrement active by one', () => {
         let initialReducer = passageReducer(initialState, {
           type: NAVIGATE_PREVIOUS
         });
@@ -130,7 +130,7 @@ describe('passageReducer', () => {
         };
       });
 
-      it('should increment both bounds by one on next', () => {
+      it('should increment active by one', () => {
         let initialReducer = passageReducer(initialState, {
           type: NAVIGATE_NEXT
         });
@@ -140,7 +140,7 @@ describe('passageReducer', () => {
         expect(initialReducer.active[SEGMENT_MODE]).toEqual(0);
       });
 
-      it('should decrement both bounds by one on next', () => {
+      it('should decrement active by one', () => {
         let initialReducer = passageReducer(initialState, {
           type: NAVIGATE_PREVIOUS
         });
@@ -149,6 +149,32 @@ describe('passageReducer', () => {
         expect(initialReducer.active[VERSE_MODE]).toEqual(0);
         expect(initialReducer.active[SEGMENT_MODE]).toEqual(0);
       });
+
+      it('should handle navigating below lower bounds', () => {
+        let initialReducer = passageReducer(initialState, {
+          type: NAVIGATE_PREVIOUS
+        });
+        let secondReducer = passageReducer(initialState, {
+          type: NAVIGATE_PREVIOUS
+        });
+
+        expect(initialReducer.active[CHAPTER_MODE]).toEqual(0);
+        expect(initialReducer.active[VERSE_MODE]).toEqual(0);
+        expect(initialReducer.active[SEGMENT_MODE]).toEqual(0);
+      })
+
+      it('should handle navigating above upper bounds', () => {
+        let initialReducer = passageReducer(initialState, {
+          type: NAVIGATE_NEXT
+        });
+        let secondReducer = passageReducer(initialState, {
+          type: NAVIGATE_NEXT
+        });
+
+        expect(initialReducer.active[CHAPTER_MODE]).toEqual(2);
+        expect(initialReducer.active[VERSE_MODE]).toEqual(0);
+        expect(initialReducer.active[SEGMENT_MODE]).toEqual(0);
+      })
     });
   });
 
