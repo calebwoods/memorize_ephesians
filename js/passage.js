@@ -10,8 +10,10 @@ export class Passage {
     if (this._verses.length > 1) {
       if (firstVerse.chapter === lastVerse.chapter) {
         return bookChapter + firstVerse.verse + '-' + lastVerse.verse;
+      } else if (firstVerse.book === lastVerse.book) {
+        return bookChapter + firstVerse.verse + '-' + lastVerse.chapter + ':' + lastVerse.verse;
       } else {
-        return firstVerse.book + ' ' + firstVerse.chapter + ':' + firstVerse.verse + '-' + lastVerse.chapter + ':' + lastVerse.verse;
+        return bookChapter + firstVerse.verse + ' - ' + lastVerse.book + ' ' + lastVerse.chapter + ':' + lastVerse.verse;
       }
     } else {
       return bookChapter + this._verses[0].verse;
@@ -59,8 +61,6 @@ export function verses() {
   });
 }
 
-// this is a temporary random sorting sorting into segments,
-// just to get something in place
 export function segments() {
   const segmentIndexes = [
     [0,  2], // 1:1-2

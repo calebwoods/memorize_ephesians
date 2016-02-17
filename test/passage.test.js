@@ -38,6 +38,21 @@ const crossChapterVerses = Object.freeze([
   }
 ]);
 
+const crossBookVerses = Object.freeze([
+  {
+    "book": "Galations",
+    "chapter": 6,
+    "verse": 18,
+    "text": "Christ be with your spirit, brothers. Amen."
+  },
+  {
+    "book": "Ephesians",
+    "chapter": 1,
+    "verse": 1,
+    "text": "Text, of verse 1 "
+  }
+]);
+
 describe('Passage', () => {
   describe('#metadata', () => {
     it('single verse', () => {
@@ -50,6 +65,10 @@ describe('Passage', () => {
 
     it('cross chapters verses', () => {
       expect(new Passage(crossChapterVerses).metadata()).toEqual('Ephesians 1:1-2:2');
+    });
+
+    it('cross book verses', () => {
+      expect(new Passage(crossBookVerses).metadata()).toEqual('Galations 6:18 - Ephesians 1:1');
     });
   });
 
