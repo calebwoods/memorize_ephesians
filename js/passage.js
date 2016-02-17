@@ -1,4 +1,127 @@
-const passage = Object.freeze([
+export class Passage {
+  constructor(verses) {
+    this._verses = verses;
+  }
+
+  metadata() {
+    let firstVerse = this._verses[0];
+    let lastVerse = this._verses[this._verses.length - 1]
+    let bookChapter = firstVerse.book + ' ' + firstVerse.chapter + ':';
+    if (this._verses.length > 1) {
+      if (firstVerse.chapter === lastVerse.chapter) {
+        return bookChapter + firstVerse.verse + '-' + lastVerse.verse;
+      } else if (firstVerse.book === lastVerse.book) {
+        return bookChapter + firstVerse.verse + '-' + lastVerse.chapter + ':' + lastVerse.verse;
+      } else {
+        return bookChapter + firstVerse.verse + ' - ' + lastVerse.book + ' ' + lastVerse.chapter + ':' + lastVerse.verse;
+      }
+    } else {
+      return bookChapter + this._verses[0].verse;
+    }
+  }
+
+  baseAudioUrl() {
+    return "http://www.esvapi.org/v2/rest/passageQuery?key=IP&passage=";
+  }
+
+  audioUrl() {
+    return encodeURI(this.baseAudioUrl() + this.metadata() + '&output-format=mp3');
+  }
+
+  readText() {
+    return this._verses.map(function (rawVerse) {
+      return '<sup>' + rawVerse.verse + '</sup>' + rawVerse.text;
+    }).join('');
+  }
+
+  recallFirstText() {
+    return this._verses.map(function (rawVerse) {
+      return '<sup>' + rawVerse.verse + '</sup>' + rawVerse.text.split(' ').map(function (word) {
+        if (word[0]) {
+          return word[0] + word.slice(1, word.length).replace(/\w/g, ' ');
+        } else {
+          return '';
+        }
+      }).join(' ');
+    }).join('');
+  }
+
+  recallNoneText() {
+    return this._verses.map(function (rawVerse) {
+      return '<sup>' + rawVerse.verse + '</sup>' + rawVerse.text.split(' ').map(function (word) {
+        return word.replace(/\w/g, ' ');
+      }).join(' ');
+    }).join('');
+  }
+}
+
+export function verses() {
+  return rawVerses.map((verse) => {
+    return new Passage([ verse ]);
+  });
+}
+
+export function segments() {
+  const segmentIndexes = [
+    [0,  2], // 1:1-2
+    [2,  2], // 1:3-4
+    [4,  2], // 1:5-6
+    [6,  2], // 1:7-8
+    [8,  2], // 1:9-10
+    [10, 2], // 1:11-12
+    [12, 2], // 1:13-14
+    [14, 2], // 1:15-16
+    [16, 1], // 1:17
+    [17, 1], // 1:18
+    [18, 2], // 1:19-20
+    [20, 1], // 1:21
+    [21, 2], // 1:22-23
+    [0, 23], // 1:1-23
+    [23, 3], // 2:1-3
+    [26, 2], // 2:4-5
+    [27, 2], // 2:6-7
+    [30, 2], // 2:8-9
+    [32, 1], // 2:10
+    [33, 2], // 2:11-12
+    [35, 1], // 2:13
+    [36, 1], // 2:14
+    [37, 2], // 2:15-16
+    [39, 2], // 2:17-18
+    [41, 2], // 2:19-20
+    [43, 2], // 2:21-22
+    [0, 45], // 1:1-2:22
+    [45, 3], // 3:1-3
+    [48, 2], // 3:4-5
+    [50, 1], // 3:6
+    [51, 2], // 3:7-8
+    [53, 2], // 3:9-10
+    [55, 2], // 3:11-12
+    [57, 1], // 3:13
+    [58, 2], // 3:14-15
+    [60, 2], // 3:16-17
+    [62, 2], // 3:18-19
+    [64, 2], // 3:20-21
+    [0, 66]  // 1:1-3:21
+  ];
+
+  return segmentIndexes.map((touple) => {
+    return new Passage(rawVerses.slice(touple[0], (touple[0] + touple[1])));
+  });
+}
+
+export function chapters() {
+  const chapterIndexes = [
+    [0,  23], // 1:1-23
+    [23, 22], // 2:1-22
+    [45, 21]  // 3:1-21
+  ];
+
+  return chapterIndexes.map((touple) => {
+    return new Passage(rawVerses.slice(touple[0], (touple[0] + touple[1])));
+  });
+}
+
+const rawVerses = Object.freeze([
     {
         "book": "Ephesians",
         "chapter": 1,
@@ -396,73 +519,3 @@ const passage = Object.freeze([
         "text": "to him be glory in the church and in Christ Jesus throughout all generations, forever and ever. Amen."
     }
 ]);
-
-
-export function verses() {
-  return passage;
-}
-
-let _staticSegments = [];
-
-export function staticSegments() {
-  if (!_staticSegments) {
-    segments();
-  }
-
-  return _staticSegments;
-}
-
-// this is a temporary random sorting sorting into segments,
-// just to get something in place
-export function segments() {
-  if (_staticSegments.length) {
-    return _staticSegments;
-  }
-
-  let segments = [];
-
-  for (let i = 0, lengthI = passage.length; i < lengthI; i++) {
-    let newSegment = {
-      lower: i
-    };
-
-    let length = Math.floor(Math.random() * (5 - 2 + 1)) + 2;
-
-    i += length;
-
-    // make sure the upper bound is valid
-    if (!passage[i]) {
-      newSegment.upper = passage.length - 1;
-    } else {
-      newSegment.upper = i;
-    }
-
-    segments[segments.length] = newSegment;
-  }
-
-  _staticSegments = segments;
-
-  return _staticSegments;
-}
-
-export function chapters() {
-  let chapters = {};
-
-  for (let i in passage) {
-    let currentVerse = passage[i];
-
-    // if this is the first verse in the chapter, assign the lower bound
-    if (!chapters[currentVerse.chapter]) {
-      chapters[currentVerse.chapter] = {
-        lower: parseInt(i)
-      };
-    }
-
-    // if this is the last verse in a chapter, assign the upper bound
-    if (!passage[i + 1] || passage[i + 1].chapter !== currentVerse.chapter) {
-      chapters[currentVerse.chapter].upper = parseInt(i);
-    }
-  }
-
-  return chapters;
-}

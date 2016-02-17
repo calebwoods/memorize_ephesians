@@ -1,6 +1,6 @@
 import expect from 'expect';
 
-import * as constants from '../js/constants/AppConstants';
+import { VERSE_MODE, SEGMENT_MODE, CHAPTER_MODE, RECALL_STAGES, CHANGE_MODE, NAVIGATE_NEXT, NAVIGATE_PREVIOUS } from '../js/constants/AppConstants';
 import * as passage from '../js/passage'
 
 import passageReducer from '../js/reducers/passageReducer';
@@ -9,14 +9,15 @@ describe('passageReducer', () => {
   it('should return the initial state', () => {
     const verses         = passage.verses();
     const segments       = passage.segments();
+    const chapters       = passage.chapters();
     const initialReducer = passageReducer(undefined, {});
 
-    expect(initialReducer.active[constants.VERSE_MODE]).toEqual(0);
-    expect(initialReducer.active[constants.SEGMENT_MODE]).toEqual(0);
-    expect(initialReducer.active[constants.CHAPTER_MODE]).toEqual('1');
+    expect(initialReducer.active[VERSE_MODE]).toEqual(0);
+    expect(initialReducer.active[SEGMENT_MODE]).toEqual(0);
+    expect(initialReducer.active[CHAPTER_MODE]).toEqual(0);
     expect(initialReducer.verses).toEqual(verses);
-    expect(initialReducer.mode).toEqual(constants.SEGMENT_MODE);
-    expect(initialReducer.recallStage).toEqual(constants.RECALL_STAGES.FULL);
+    expect(initialReducer.mode).toEqual(SEGMENT_MODE);
+    expect(initialReducer.recallStage).toEqual(RECALL_STAGES.FULL);
     expect(initialReducer.isAudioPlaying).toEqual(false);
   });
 
@@ -27,100 +28,91 @@ describe('passageReducer', () => {
       beforeEach(() => {
         initialState = {
           active: {
-            'VERSE_MODE': 5
+            VERSE_MODE: 5,
+            SEGMENT_MODE: 0,
+            CHAPTER_MODE: 0
           },
-          lowerBound : 5,
-          upperBound : 5,
-          mode       : constants.VERSE_MODE
+          mode: VERSE_MODE
         };
       });
 
-      it('should increment both bounds by one on next', () => {
+      it('should increment active by one', () => {
         let initialReducer = passageReducer(initialState, {
-          type: constants.NAVIGATE_NEXT
+          type: NAVIGATE_NEXT
         });
 
-        expect(initialReducer.lowerBound).toEqual(6);
-        expect(initialReducer.upperBound).toEqual(6);
-        expect(initialReducer.active[constants.VERSE_MODE]).toEqual(6);
+        expect(initialReducer.active[VERSE_MODE]).toEqual(6);
+        expect(initialReducer.active[SEGMENT_MODE]).toEqual(0);
+        expect(initialReducer.active[CHAPTER_MODE]).toEqual(0);
 
         let secondReducer = passageReducer(initialReducer, {
-          type: constants.NAVIGATE_NEXT
+          type: NAVIGATE_NEXT
         });
 
-        expect(secondReducer.lowerBound).toEqual(7);
-        expect(secondReducer.upperBound).toEqual(7);
-        expect(secondReducer.active[constants.VERSE_MODE]).toEqual(7);
+        expect(secondReducer.active[VERSE_MODE]).toEqual(7);
       });
 
-      it('should decrement both bounds by one on next', () => {
+      it('should decrement active by one', () => {
         let initialReducer = passageReducer(initialState, {
-          type: constants.NAVIGATE_PREVIOUS
+          type: NAVIGATE_PREVIOUS
         });
 
-        expect(initialReducer.lowerBound).toEqual(4);
-        expect(initialReducer.upperBound).toEqual(4);
-        expect(initialReducer.active[constants.VERSE_MODE]).toEqual(4);
+        expect(initialReducer.active[VERSE_MODE]).toEqual(4);
+        expect(initialReducer.active[SEGMENT_MODE]).toEqual(0);
+        expect(initialReducer.active[CHAPTER_MODE]).toEqual(0);
 
         let secondReducer = passageReducer(initialReducer, {
-          type: constants.NAVIGATE_PREVIOUS
+          type: NAVIGATE_PREVIOUS
         });
 
-        expect(secondReducer.lowerBound).toEqual(3);
-        expect(secondReducer.upperBound).toEqual(3);
-        expect(secondReducer.active[constants.VERSE_MODE]).toEqual(3);
+        expect(secondReducer.active[VERSE_MODE]).toEqual(3);
       });
     });
 
     describe('segment mode', () => {
-      let initialState   = {},
-          staticSegments = passage.staticSegments();
+      let initialState   = {};
 
       beforeEach(() => {
         initialState = {
           active: {
-            'SEGMENT_MODE': 5
+            VERSE_MODE: 0,
+            SEGMENT_MODE: 5,
+            CHAPTER_MODE: 0
           },
-          lowerBound : staticSegments[5].lower,
-          upperBound : staticSegments[5].upper,
-          mode       : constants.SEGMENT_MODE
+          mode: SEGMENT_MODE
         };
       });
 
-      it('should increment both bounds by one on next', () => {
+      it('should increment active by one', () => {
         let initialReducer = passageReducer(initialState, {
-          type: constants.NAVIGATE_NEXT
+          type: NAVIGATE_NEXT
         });
 
-        expect(initialReducer.lowerBound).toEqual(staticSegments[6].lower);
-        expect(initialReducer.upperBound).toEqual(staticSegments[6].upper);
-        expect(initialReducer.active[constants.SEGMENT_MODE]).toEqual(6);
+        expect(initialReducer.active[SEGMENT_MODE]).toEqual(6);
+        expect(initialReducer.active[VERSE_MODE]).toEqual(0);
+        expect(initialReducer.active[CHAPTER_MODE]).toEqual(0);
 
         let secondReducer = passageReducer(initialReducer, {
-          type: constants.NAVIGATE_NEXT
+          type: NAVIGATE_NEXT
         });
 
-        expect(secondReducer.lowerBound).toEqual(staticSegments[7].lower);
-        expect(secondReducer.upperBound).toEqual(staticSegments[7].upper);
-        expect(secondReducer.active[constants.SEGMENT_MODE]).toEqual(7);
+        expect(secondReducer.active[SEGMENT_MODE]).toEqual(7);
       });
 
-      it('should decrement both bounds by one on next', () => {
+      it('should decrement active by one', () => {
         let initialReducer = passageReducer(initialState, {
-          type: constants.NAVIGATE_PREVIOUS
+          type: NAVIGATE_PREVIOUS
         });
 
-        expect(initialReducer.lowerBound).toEqual(staticSegments[4].lower);
-        expect(initialReducer.upperBound).toEqual(staticSegments[4].upper);
-        expect(initialReducer.active[constants.SEGMENT_MODE]).toEqual(4);
+        expect(initialReducer.active[SEGMENT_MODE]).toEqual(4);
+        expect(initialReducer.active[VERSE_MODE]).toEqual(0);
+        expect(initialReducer.active[CHAPTER_MODE]).toEqual(0);
 
         let secondReducer = passageReducer(initialReducer, {
-          type: constants.NAVIGATE_PREVIOUS
+          type: NAVIGATE_PREVIOUS
         });
 
-        expect(secondReducer.lowerBound).toEqual(staticSegments[3].lower);
-        expect(secondReducer.upperBound).toEqual(staticSegments[3].upper);
-        expect(secondReducer.active[constants.SEGMENT_MODE]).toEqual(3);
+        expect(secondReducer.active[SEGMENT_MODE]).toEqual(3);
       });
     });
 
@@ -130,33 +122,59 @@ describe('passageReducer', () => {
       beforeEach(() => {
         initialState = {
           active: {
-            'CHAPTER_MODE': '2'
+            VERSE_MODE: 0,
+            SEGMENT_MODE: 0,
+            CHAPTER_MODE: 1
           },
-          lowerBound : passage.chapters()['2'].lower,
-          upperBound : passage.chapters()['2'].upper,
-          mode       : constants.CHAPTER_MODE
+          mode: CHAPTER_MODE
         };
       });
 
-      it('should increment both bounds by one on next', () => {
+      it('should increment active by one', () => {
         let initialReducer = passageReducer(initialState, {
-          type: constants.NAVIGATE_NEXT
+          type: NAVIGATE_NEXT
         });
 
-        expect(initialReducer.lowerBound).toEqual(passage.chapters()['3'].lower);
-        expect(initialReducer.upperBound).toEqual(passage.chapters()['3'].upper);
-        expect(initialReducer.active[constants.CHAPTER_MODE].toString()).toEqual('3');
+        expect(initialReducer.active[CHAPTER_MODE]).toEqual(2);
+        expect(initialReducer.active[VERSE_MODE]).toEqual(0);
+        expect(initialReducer.active[SEGMENT_MODE]).toEqual(0);
       });
 
-      it('should decrement both bounds by one on next', () => {
+      it('should decrement active by one', () => {
         let initialReducer = passageReducer(initialState, {
-          type: constants.NAVIGATE_PREVIOUS
+          type: NAVIGATE_PREVIOUS
         });
 
-        expect(initialReducer.lowerBound).toEqual(passage.chapters()['1'].lower);
-        expect(initialReducer.upperBound).toEqual(passage.chapters()['1'].upper);
-        expect(initialReducer.active[constants.CHAPTER_MODE].toString()).toEqual('1');
+        expect(initialReducer.active[CHAPTER_MODE]).toEqual(0);
+        expect(initialReducer.active[VERSE_MODE]).toEqual(0);
+        expect(initialReducer.active[SEGMENT_MODE]).toEqual(0);
       });
+
+      it('should handle navigating below lower bounds', () => {
+        let initialReducer = passageReducer(initialState, {
+          type: NAVIGATE_PREVIOUS
+        });
+        let secondReducer = passageReducer(initialState, {
+          type: NAVIGATE_PREVIOUS
+        });
+
+        expect(initialReducer.active[CHAPTER_MODE]).toEqual(0);
+        expect(initialReducer.active[VERSE_MODE]).toEqual(0);
+        expect(initialReducer.active[SEGMENT_MODE]).toEqual(0);
+      })
+
+      it('should handle navigating above upper bounds', () => {
+        let initialReducer = passageReducer(initialState, {
+          type: NAVIGATE_NEXT
+        });
+        let secondReducer = passageReducer(initialState, {
+          type: NAVIGATE_NEXT
+        });
+
+        expect(initialReducer.active[CHAPTER_MODE]).toEqual(2);
+        expect(initialReducer.active[VERSE_MODE]).toEqual(0);
+        expect(initialReducer.active[SEGMENT_MODE]).toEqual(0);
+      })
     });
   });
 
@@ -167,30 +185,21 @@ describe('passageReducer', () => {
       beforeEach(() => {
         initialState = {
           active: {
-            'VERSE_MODE': 0
+            VERSE_MODE: 0,
+            SEGMENT_MODE: 0,
+            CHAPTER_MODE: 0
           },
-          lowerBound : 5,
-          upperBound : 5
+          mode: SEGMENT_MODE
         };
       });
 
       it('should handle the CHANGE_MODE action', () => {
         let initialReducer = passageReducer(initialState, {
-          type: constants.CHANGE_MODE,
-          mode: constants.VERSE_MODE
+          type: CHANGE_MODE,
+          mode: VERSE_MODE
         });
 
-        expect(initialReducer.mode).toEqual(constants.VERSE_MODE);
-      });
-
-      it('should set the bounds based on the active element', () => {
-        let initialReducer = passageReducer(initialState, {
-          type: constants.CHANGE_MODE,
-          mode: constants.VERSE_MODE
-        });
-
-        expect(initialReducer.lowerBound).toEqual(0);
-        expect(initialReducer.upperBound).toEqual(0);
+        expect(initialReducer.mode).toEqual(VERSE_MODE);
       });
     });
 
@@ -200,30 +209,21 @@ describe('passageReducer', () => {
       beforeEach(() => {
         initialState = {
           active: {
-            'SEGMENT_MODE': 5
+            VERSE_MODE: 0,
+            SEGMENT_MODE: 0,
+            CHAPTER_MODE: 0
           },
-          lowerBound : 5,
-          upperBound : 5
+          mode: VERSE_MODE
         };
       });
 
       it('should handle the CHANGE_MODE action', () => {
         let initialReducer = passageReducer(undefined, {
-          type: constants.CHANGE_MODE,
-          mode: constants.SEGMENT_MODE
+          type: CHANGE_MODE,
+          mode: SEGMENT_MODE
         });
 
-        expect(initialReducer.mode).toEqual(constants.SEGMENT_MODE);
-      });
-
-      it('should set the bounds based on the active element', () => {
-        let initialReducer = passageReducer(initialState, {
-          type: constants.CHANGE_MODE,
-          mode: constants.SEGMENT_MODE
-        });
-
-        expect(initialReducer.lowerBound).toEqual(passage.staticSegments()[5].lower);
-        expect(initialReducer.upperBound).toEqual(passage.staticSegments()[5].upper);
+        expect(initialReducer.mode).toEqual(SEGMENT_MODE);
       });
     });
 
@@ -233,30 +233,21 @@ describe('passageReducer', () => {
       beforeEach(() => {
         initialState = {
           active: {
-            'CHAPTER_MODE': '1'
+            VERSE_MODE: 0,
+            SEGMENT_MODE: 0,
+            CHAPTER_MODE: 0
           },
-          lowerBound : 5,
-          upperBound : 5
+          mode: VERSE_MODE
         };
       });
 
       it('should handle the CHANGE_MODE action', () => {
         let initialReducer = passageReducer(undefined, {
-          type: constants.CHANGE_MODE,
-          mode: constants.CHAPTER_MODE
+          type: CHANGE_MODE,
+          mode: CHAPTER_MODE
         });
 
-        expect(initialReducer.mode).toEqual(constants.CHAPTER_MODE);
-      });
-
-      it('should set the bounds based on the active element', () => {
-        let initialReducer = passageReducer(initialState, {
-          type: constants.CHANGE_MODE,
-          mode: constants.CHAPTER_MODE
-        });
-
-        expect(initialReducer.lowerBound).toEqual(passage.chapters()['1'].lower);
-        expect(initialReducer.upperBound).toEqual(passage.chapters()['1'].upper);
+        expect(initialReducer.mode).toEqual(CHAPTER_MODE);
       });
     });
   });
