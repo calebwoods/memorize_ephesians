@@ -24,7 +24,7 @@ body {
 }
 
 body {
-	background: #ecf0f1;
+	background: $vintage-background;
 	font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
 }
 
