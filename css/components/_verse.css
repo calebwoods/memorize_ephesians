@@ -4,18 +4,34 @@
 	margin: 0 1em;
 }
 
+.verse-wrapper {
+  margin-bottom: 100px;
+}
+
 .stage-controls {
-  list-style: none;
-  padding-left: 0;
-	display: flex;
-	flex-direction: row;
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  display: flex;
+  width: 100%;
+  max-width: $large-width;
+  padding: $default-padding;
+  margin: 0 auto;
+  box-sizing: border-box;
+  box-shadow: 0 0 60px 10px $vintage-background;
+
+  background-color: rgba($vintage-background-rgb, .75);
 
   button {
+    display: inline-block;
+
     background: $vintage-eggy;
 		border: 0;
     border-radius: $corner-radius;
     color: $vintage-white;
-    display: inline-block;
+
     flex-grow: 1;
     margin: 0 0.5em;
     padding: 0.2em 0;
@@ -27,6 +43,14 @@
 
     &.active {
       background: $vintage-rust;
+    }
+
+    &:first-child {
+      margin-left: 0;
+    }
+
+    &:last-child {
+      margin-right: 0;
     }
   }
 }

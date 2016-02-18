@@ -84,6 +84,7 @@ export class PassagePage extends Component {
           onSwipedRight={() => { dispatch(asyncNavigatePrevious()) }}>
 
           <p dangerouslySetInnerHTML={{ __html: activePassage[recallStage]() }}></p>
+          <p><a href="http://www.esv.org" className="copyright">ESV</a></p>
         </Swipeable>
 
         <div className="stage-controls">
@@ -107,9 +108,6 @@ export class PassagePage extends Component {
                        dispatch={ dispatch }
                        isAudioPlaying={ isAudioPlaying } />
         </div>
-
-
-        <p><a href="http://www.esv.org" className="copyright">ESV</a></p>
       </div>
     );
   }
