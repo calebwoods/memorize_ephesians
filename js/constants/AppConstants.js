@@ -23,3 +23,6 @@ export const RECALL_STAGES = {
   FIRST: 'recallFirstText',
   NONE : 'recallNoneText'
 };
+
+export const COOKIE_LAST_STATE = 'last_state';
+export const COOKIE_OMIT_FROM_STATE = ['verses', 'segments', 'chapters', 'isAudioPlaying'];

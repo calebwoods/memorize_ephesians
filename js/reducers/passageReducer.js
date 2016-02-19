@@ -16,6 +16,7 @@ import assignToEmpty from '../utils/assign';
 
 import { NAVIGATE_NEXT, NAVIGATE_PREVIOUS, CHANGE_RECALL, PLAY_AUDIO, PAUSE_AUDIO, RECALL_STAGES } from '../constants/AppConstants';
 import { VERSE_MODE, SEGMENT_MODE, CHAPTER_MODE, CHANGE_MODE } from '../constants/AppConstants';
+import { saveState, restoreState } from '../saveState'
 import * as passage from '../passage'
 
 // import all verse data
@@ -27,7 +28,7 @@ const segments = passage.segments();
 // import all chapter data
 const chapters = passage.chapters();
 
-const initialState = assignToEmpty({
+const defaultState = assignToEmpty({
   active: {
     VERSE_MODE  : 0,
     SEGMENT_MODE: 0,
@@ -41,7 +42,7 @@ const initialState = assignToEmpty({
   isAudioPlaying: false
 });
 
-function passageReducer(state = initialState, action) {
+function passageReducer(state, action) {
   Object.freeze(state); // Don't mutate state directly, always use assign()!
 
   let newActive = {};
@@ -100,4 +101,14 @@ function passageReducer(state = initialState, action) {
   }
 }
 
-export default passageReducer;
+function stateSavingPassageReducer(state, action) {
+  if (!state) {
+    state = assignToEmpty(defaultState, restoreState());
+  }
+  Object.freeze(state);
+  const newState = passageReducer(state, action);
+  saveState(newState);
+  return newState;
+}
+
+export default stateSavingPassageReducer;

@@ -1,7 +1,8 @@
 import expect from 'expect';
 
-import { VERSE_MODE, SEGMENT_MODE, CHAPTER_MODE, RECALL_STAGES, CHANGE_MODE, NAVIGATE_NEXT, NAVIGATE_PREVIOUS } from '../js/constants/AppConstants';
+import { VERSE_MODE, SEGMENT_MODE, CHAPTER_MODE, CHANGE_RECALL, RECALL_STAGES, CHANGE_MODE, NAVIGATE_NEXT, NAVIGATE_PREVIOUS, PLAY_AUDIO } from '../js/constants/AppConstants';
 import * as passage from '../js/passage'
+import { clearSavedTestState } from '../js/saveState'
 
 import passageReducer from '../js/reducers/passageReducer';
 
@@ -250,5 +251,58 @@ describe('passageReducer', () => {
         expect(initialReducer.mode).toEqual(CHAPTER_MODE);
       });
     });
+  });
+
+  describe('save and restore state', () => {
+    let initialState = {};
+
+    beforeEach(() => {
+      initialState = {
+        active: {
+          VERSE_MODE: 0,
+          SEGMENT_MODE: 0,
+          CHAPTER_MODE: 0
+        },
+        mode: VERSE_MODE,
+        recallStage: RECALL_STAGES.FULL,
+        isAudioPlaying: false
+      };
+      clearSavedTestState();
+    });
+
+    it('should restore last state.active', () => {
+      passageReducer(initialState, {
+        type: NAVIGATE_NEXT
+      });
+      // Perform an empty action on undefined state to see what gets restored from cookie
+      expect(passageReducer(undefined, {}).active[VERSE_MODE]).toEqual(1);
+    });
+
+    it('should restore last state.mode', () => {
+      passageReducer(initialState, {
+        type: CHANGE_MODE,
+        mode: SEGMENT_MODE
+      });
+      // Perform an empty action on undefined state to see what gets restored from cookie
+      expect(passageReducer(undefined, {}).mode).toEqual(SEGMENT_MODE);        
+    });
+
+    it('should restore last state.recallState', () => {
+      passageReducer(initialState, {
+        type: CHANGE_RECALL,
+        mode: RECALL_STAGES.FIRST
+      });
+      // Perform an empty action on undefined state to see what gets restored from cookie
+      expect(passageReducer(undefined, {}).recallStage).toEqual(RECALL_STAGES.FIRST);
+    });
+
+    it('should NOT restore last state.isAudioPlaying', () => {
+      passageReducer(initialState, {
+        type: PLAY_AUDIO
+      });
+      // Perform an empty action on undefined state to see what gets restored from cookie
+      expect(passageReducer(undefined, {}).isAudioPlaying).toEqual(false);
+    });
+
   });
 });
