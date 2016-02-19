@@ -52,11 +52,20 @@ export class PassagePage extends Component {
       <div>
         <div className="top-nav">
           <div className="mode-controls">
-            <button className="scripture-mode" onClick={() => { dispatch(asyncChangeMode(VERSE_MODE)) }}>Single verse</button>
+            <button className={ mode == VERSE_MODE ? "active" : ""}
+                    onClick={() => { dispatch(asyncChangeMode(VERSE_MODE)) }}>
+              1:1
+            </button>
 
-            <button className="scripture-mode" onClick={() => { dispatch(asyncChangeMode(SEGMENT_MODE)) }}>Group of verses</button>
+            <button className={ mode == SEGMENT_MODE ? "active" : ""}
+                    onClick={() => { dispatch(asyncChangeMode(SEGMENT_MODE)) }}>
+              1:1 - 1:3
+            </button>
 
-            <button className="scripture-mode" onClick={() => { dispatch(asyncChangeMode(CHAPTER_MODE)) }}>Full chapter</button>
+            <button className={ mode == CHAPTER_MODE ? "active" : ""}
+                    onClick={() => { dispatch(asyncChangeMode(CHAPTER_MODE)) }}>
+              Ephesians 1
+            </button>
           </div>
 
           <div className="meta-information">
