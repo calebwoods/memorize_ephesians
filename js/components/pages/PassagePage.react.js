@@ -39,6 +39,15 @@ export class PassagePage extends Component {
       return true;
     }
 
+    /**
+     * Helper function for formatting strings of verse indices.
+     *
+     * @return string The formatted verse indices
+     */
+    function formatVerseIndices(verseObj) {
+      return verseObj.chapter+':'+verseObj.verse;
+    }
+
     let activePassage = {}
     if (mode === VERSE_MODE) {
       activePassage = verses[active[VERSE_MODE]];
@@ -51,11 +60,17 @@ export class PassagePage extends Component {
     return (
       <div>
         <div className="mode-controls">
-          <button className="scripture-mode" onClick={() => { dispatch(asyncChangeMode(VERSE_MODE)) }}>Single verse</button>
+          <button className="scripture-mode" onClick={() => { dispatch(asyncChangeMode(VERSE_MODE)) }}>
+            {verses[active[VERSE_MODE]]._verses[0].book.substr(0,3)+' '+formatVerseIndices(verses[active[VERSE_MODE]]._verses[0])}
+          </button>
 
-          <button className="scripture-mode" onClick={() => { dispatch(asyncChangeMode(SEGMENT_MODE)) }}>Group of verses</button>
+          <button className="scripture-mode" onClick={() => { dispatch(asyncChangeMode(SEGMENT_MODE)) }}>
+            {segments[active[SEGMENT_MODE]]._verses[0].book.substr(0,3)+' '+formatVerseIndices(segments[active[SEGMENT_MODE]]._verses[0])+'-'+formatVerseIndices(segments[active[SEGMENT_MODE]]._verses[1])}
+          </button>
 
-          <button className="scripture-mode" onClick={() => { dispatch(asyncChangeMode(CHAPTER_MODE)) }}>Full chapter</button>
+          <button className="scripture-mode" onClick={() => { dispatch(asyncChangeMode(CHAPTER_MODE)) }}>
+            {chapters[active[CHAPTER_MODE]]._verses[0].book.substr(0,3)+' '+chapters[active[CHAPTER_MODE]]._verses[0].chapter}
+          </button>
         </div>
 
         <div className="meta-information">
