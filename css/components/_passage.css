@@ -3,20 +3,39 @@
 }
 
 .verse-controls {
-	display: flex;
-	flex-direction: row;
-
   button {
-    background: $vintage-eggy;
+    position: fixed;
+
+    width: 10%;
+    padding: 0;
     border: 0;
-    color: $vintage-white;
-    flex-grow: 1;
-    margin: 0 0.2em;
-    text-transform: uppercase;
-    border-radius: $corner-radius;
+    outline: 0;
+
+    font-size: 3em;
+
+    background: transparent;
+    color: $vintage-gray;
+
+    transition: color 0.3s ease-in-out;
+
+    &:hover {
+      color: $vintage-rust;
+    }
 
     &:disabled {
-      background: $vintage-gray;
+      color: $vintage-background;
+    }
+
+    &.previous {
+      top: 0;
+      bottom: 0;
+      left: 0;
+    }
+
+    &.next {
+      top: 0;
+      right: 0;
+      bottom: 0;
     }
   }
 

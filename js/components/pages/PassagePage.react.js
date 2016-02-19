@@ -50,16 +50,18 @@ export class PassagePage extends Component {
 
     return (
       <div>
-        <div className="mode-controls">
-          <button className="scripture-mode" onClick={() => { dispatch(asyncChangeMode(VERSE_MODE)) }}>Single verse</button>
+        <div className="top-nav">
+          <div className="mode-controls">
+            <button className="scripture-mode" onClick={() => { dispatch(asyncChangeMode(VERSE_MODE)) }}>Single verse</button>
 
-          <button className="scripture-mode" onClick={() => { dispatch(asyncChangeMode(SEGMENT_MODE)) }}>Group of verses</button>
+            <button className="scripture-mode" onClick={() => { dispatch(asyncChangeMode(SEGMENT_MODE)) }}>Group of verses</button>
 
-          <button className="scripture-mode" onClick={() => { dispatch(asyncChangeMode(CHAPTER_MODE)) }}>Full chapter</button>
-        </div>
+            <button className="scripture-mode" onClick={() => { dispatch(asyncChangeMode(CHAPTER_MODE)) }}>Full chapter</button>
+          </div>
 
-        <div className="meta-information">
-          { activePassage.metadata() }
+          <div className="meta-information">
+            { activePassage.metadata() }
+          </div>
         </div>
 
         <div className="verse-controls">
@@ -67,25 +69,27 @@ export class PassagePage extends Component {
                   title="Previous"
                   disabled={ !canNavigatePrevious() }
                   onClick={() => { dispatch(asyncNavigatePrevious()) }}>
-            Previous
+            &lt;
           </button>
 
           <button className="next"
                   title="Next"
                   disabled={ !canNavigateNext() }
                   onClick={() => { dispatch(asyncNavigateNext()) }}>
-            Next
+            &gt;
           </button>
         </div>
 
-        <Swipeable
-          className="verse-wrapper"
-          onSwipedLeft={() => { dispatch(asyncNavigateNext()) }}
-          onSwipedRight={() => { dispatch(asyncNavigatePrevious()) }}>
+        <div>
+          <Swipeable
+            className="verse-wrapper"
+            onSwipedLeft={() => { dispatch(asyncNavigateNext()) }}
+            onSwipedRight={() => { dispatch(asyncNavigatePrevious()) }}>
 
-          <p dangerouslySetInnerHTML={{ __html: activePassage[recallStage]() }}></p>
-          <p><a href="http://www.esv.org" className="copyright">ESV</a></p>
-        </Swipeable>
+            <p dangerouslySetInnerHTML={{ __html: activePassage[recallStage]() }}></p>
+            <p><a href="http://www.esv.org" className="copyright">ESV</a></p>
+          </Swipeable>
+        </div>
 
         <div className="stage-controls">
           <button
