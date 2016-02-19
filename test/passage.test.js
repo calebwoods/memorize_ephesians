@@ -1,5 +1,5 @@
 import expect from 'expect';
-import { Passage } from '../js/passage'
+import { Passage, chapters } from '../js/passage'
 
 const oneVerse = Object.freeze([
   {
@@ -118,6 +118,15 @@ describe('Passage', () => {
       expect(new Passage(twoVerses).recallNoneText()).toEqual(
         '<sup>1</sup>    ,            <sup>2</sup>                          .'
       );
+    });
+  });
+
+  describe('chapters()', () => {
+    it('breaks things into 3 chapters', () => {
+      expect(chapters().length).toEqual(3);
+      expect(chapters()[0].metadata()).toEqual('Ephesians 1:1-23');
+      expect(chapters()[1].metadata()).toEqual('Ephesians 2:1-22');
+      expect(chapters()[2].metadata()).toEqual('Ephesians 3:1-21');
     });
   });
 });
