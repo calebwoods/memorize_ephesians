@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 export class Passage {
   constructor(verses) {
     this._verses = verses;
@@ -110,15 +112,17 @@ export function segments() {
 }
 
 export function chapters() {
-  const chapterIndexes = [
-    [0,  23], // 1:1-23
-    [23, 22], // 2:1-22
-    [45, 21]  // 3:1-21
-  ];
+  let _chapters = {};
+  let key = '';
 
-  return chapterIndexes.map((touple) => {
-    return new Passage(rawVerses.slice(touple[0], (touple[0] + touple[1])));
+  rawVerses.forEach((verse) => {
+    key = verse.book + verse.chapter
+
+    if (!_chapters[key]) { _chapters[key] = []; }
+
+    _chapters[key].push(verse);
   });
+  return _.map(_chapters, (verses) => { return new Passage(verses) });
 }
 
 const rawVerses = Object.freeze([
