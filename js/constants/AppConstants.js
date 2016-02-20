@@ -23,3 +23,11 @@ export const RECALL_STAGES = {
   FIRST: 'recallFirstText',
   NONE : 'recallNoneText'
 };
+
+export const RESTORE_STATE = 'RESTORE_STATE';
+
+/*
+ * Other constants
+ */
+export const COOKIE_LAST_STATE = 'memorize_ephesians_last_state';
+export const COOKIE_OMIT_FROM_STATE = ['verses', 'segments', 'chapters', 'isAudioPlaying'];

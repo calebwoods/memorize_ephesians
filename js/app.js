@@ -65,6 +65,11 @@ if (module.hot) {
   });
 }
 
+// Restore last state
+import { getLastState } from './saveState';
+import { asyncRestoreState } from './actions/AppActions'
+store.dispatch(asyncRestoreState(getLastState()));
+
 // Mostly boilerplate, except for the Routes. These are the pages you can go to,
 // which are all wrapped in the App component, which contains the navigation etc
 ReactDOM.render(

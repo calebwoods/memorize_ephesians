@@ -26,7 +26,7 @@
 // Disable the no-use-before-define eslint rule for this file
 // It makes more sense to have the asnyc actions before the non-async ones
 /* eslint-disable no-use-before-define */
-import { NAVIGATE_NEXT, NAVIGATE_PREVIOUS, CHANGE_MODE, CHANGE_RECALL, PLAY_AUDIO, PAUSE_AUDIO } from '../constants/AppConstants';
+import { NAVIGATE_NEXT, NAVIGATE_PREVIOUS, CHANGE_MODE, CHANGE_RECALL, PLAY_AUDIO, PAUSE_AUDIO, RESTORE_STATE } from '../constants/AppConstants';
 
 export function asyncNavigateNext() {
   return (dispatch) => {
@@ -104,4 +104,17 @@ export function asyncPauseAudio() {
 
 export function pauseAudio() {
   return { type: PAUSE_AUDIO };
+}
+
+export function asyncRestoreState(state) {
+  return (dispatch) => {
+    // You can do async stuff here!
+    // API fetching, Animations,...
+    // For more information as to how and why you would do this, check https://github.com/gaearon/redux-thunk
+    return dispatch(restoreState(state));
+  }
+}
+
+export function restoreState(state) {
+  return { type: RESTORE_STATE, state };
 }

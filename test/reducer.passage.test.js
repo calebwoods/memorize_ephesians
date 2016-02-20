@@ -1,7 +1,8 @@
 import expect from 'expect';
 
-import { VERSE_MODE, SEGMENT_MODE, CHAPTER_MODE, RECALL_STAGES, CHANGE_MODE, NAVIGATE_NEXT, NAVIGATE_PREVIOUS } from '../js/constants/AppConstants';
+import { VERSE_MODE, SEGMENT_MODE, CHAPTER_MODE, CHANGE_RECALL, RECALL_STAGES, CHANGE_MODE, NAVIGATE_NEXT, NAVIGATE_PREVIOUS, PLAY_AUDIO, RESTORE_STATE } from '../js/constants/AppConstants';
 import * as passage from '../js/passage'
+import { getLastState, clearSavedTestState } from '../js/saveState'
 
 import passageReducer from '../js/reducers/passageReducer';
 
@@ -249,6 +250,94 @@ describe('passageReducer', () => {
 
         expect(initialReducer.mode).toEqual(CHAPTER_MODE);
       });
+    });
+  });
+
+  describe('save and restore state', () => {
+    let initialState = {};
+
+    beforeEach(() => {
+      initialState = {
+        active: {
+          VERSE_MODE: 0,
+          SEGMENT_MODE: 0,
+          CHAPTER_MODE: 0
+        },
+        mode: VERSE_MODE,
+        recallStage: RECALL_STAGES.FULL,
+        isAudioPlaying: false
+      };
+      clearSavedTestState();
+    });
+
+    it('should restore state', () => {
+      let newState = passageReducer(initialState, {
+        type: RESTORE_STATE,
+        state: {
+          active: {
+            VERSE_MODE: 7,
+            SEGMENT_MODE: 6,
+            CHAPTER_MODE: 3
+          },
+          mode: SEGMENT_MODE,
+          recallStage: RECALL_STAGES.FIRST
+        }
+      });
+      expect(newState.active.VERSE_MODE).toEqual(7);
+      expect(newState.active.SEGMENT_MODE).toEqual(6);
+      expect(newState.active.CHAPTER_MODE).toEqual(3);
+      expect(newState.mode).toEqual(SEGMENT_MODE);
+      expect(newState.recallStage).toEqual(RECALL_STAGES.FIRST);
+      expect(newState.isAudioPlaying).toEqual(false);
+    });
+
+    it('should save state.active', () => {
+      passageReducer(initialState, {
+        type: NAVIGATE_NEXT
+      });
+      let lastState = getLastState();
+      expect(lastState.active.VERSE_MODE).toEqual(1);
+    });
+
+    it('should save state.mode', () => {
+      passageReducer(initialState, {
+        type: CHANGE_MODE,
+        mode: CHAPTER_MODE
+      });
+      let lastState = getLastState();
+      expect(lastState.mode).toEqual(CHAPTER_MODE);
+    });
+
+    it('should save state.recallStage', () => {
+      passageReducer(initialState, {
+        type: CHANGE_RECALL,
+        mode: RECALL_STAGES.FIRST
+      });
+      let lastState = getLastState();
+      expect(lastState.recallStage).toEqual(RECALL_STAGES.FIRST);
+    });
+
+    it('should save subsequent state changes', () => {
+      let state = passageReducer(initialState, {
+        type: CHANGE_MODE,
+        mode: SEGMENT_MODE
+      });
+      passageReducer(state, {
+        type: NAVIGATE_NEXT
+      });
+      let lastState = getLastState();
+      expect(lastState.mode).toEqual(SEGMENT_MODE);
+      expect(lastState.active.VERSE_MODE).toEqual(0);
+      expect(lastState.active.SEGMENT_MODE).toEqual(1);
+
+    });
+
+    it('should NOT save state.isAudioPlaying', () => {
+      passageReducer(initialState, {
+        type: PLAY_AUDIO
+      });
+      let lastState = getLastState();
+      expect(lastState.isAudioPlaying).toNotExist();
     });
   });
 });

@@ -15,7 +15,8 @@
 import assignToEmpty from '../utils/assign';
 
 import { NAVIGATE_NEXT, NAVIGATE_PREVIOUS, CHANGE_RECALL, PLAY_AUDIO, PAUSE_AUDIO, RECALL_STAGES } from '../constants/AppConstants';
-import { VERSE_MODE, SEGMENT_MODE, CHAPTER_MODE, CHANGE_MODE } from '../constants/AppConstants';
+import { VERSE_MODE, SEGMENT_MODE, CHAPTER_MODE, CHANGE_MODE, RESTORE_STATE } from '../constants/AppConstants';
+import { saveState } from '../saveState'
 import * as passage from '../passage'
 
 // import all verse data
@@ -46,6 +47,7 @@ function passageReducer(state = initialState, action) {
 
   let newActive = {};
   let activeCollection = [];
+  let newState;
 
   switch (action.type) {
     case NAVIGATE_NEXT:
@@ -61,9 +63,11 @@ function passageReducer(state = initialState, action) {
         newActive[state.mode]++;
       }
 
-      return assignToEmpty(state, {
+      newState = assignToEmpty(state, {
         active: newActive
       });
+      saveState(newState);
+      return newState;
 
     case NAVIGATE_PREVIOUS:
       newActive = state.active;
@@ -71,19 +75,25 @@ function passageReducer(state = initialState, action) {
         newActive[state.mode]--;
       }
 
-      return assignToEmpty(state, {
+      newState = assignToEmpty(state, {
         active: newActive
       });
+      saveState(newState);
+      return newState;
 
     case CHANGE_RECALL:
-      return assignToEmpty(state, {
+      newState = assignToEmpty(state, {
         recallStage: action.mode
       });
+      saveState(newState);
+      return newState;
 
     case CHANGE_MODE:
-      return assignToEmpty(state, {
+      newState = assignToEmpty(state, {
         mode: action.mode
       });
+      saveState(newState);
+      return newState;
 
     case PLAY_AUDIO:
       return assignToEmpty(state, {
@@ -94,6 +104,9 @@ function passageReducer(state = initialState, action) {
       return assignToEmpty(state, {
         isAudioPlaying: false
       });
+
+    case RESTORE_STATE:
+      return assignToEmpty(state, action.state);
 
     default:
       return state;
