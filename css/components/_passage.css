@@ -62,13 +62,17 @@
       outline: 0;
     }
 
-    &:first-child {
+    &:first-of-type {
       margin-left: 0;
     }
 
-    &:last-child {
+    &:last-of-type {
       margin-right: 0;
     }
+  }
+
+  .audioContainer button {
+    margin-left: 1em;
   }
 }
 
@@ -111,16 +115,6 @@
       right: 0;
       bottom: 0;
     }
-  }
-
-  @media screen and (max-width: 319px) {
-  	.previous {
-  		order: -2;
-  	}
-
-  	.next {
-  		order: -1;
-  	}
   }
 }
 
