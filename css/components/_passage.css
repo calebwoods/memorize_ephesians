@@ -1,31 +1,123 @@
+.top-nav {
+  top: 0;
+
+  text-align: center;
+
+  background-color: $vintage-background;
+
+  .meta-information {
+    margin-top: 1em;
+
+    font-size: 1.25em;
+
+    color: $vintage-gray;
+  }
+}
+
+.stage-controls {
+  bottom: 0;
+
+  display: flex;
+  box-shadow: 0 0 60px 10px $vintage-background;
+
+  background-color: rgba($vintage-background-rgb, .75);
+}
+
+.top-nav,
+.stage-controls {
+  position: fixed;
+  right: 0;
+  left: 0;
+  z-index: 2;
+
+  width: 100%;
+  max-width: $large-width;
+  padding: $default-padding;
+  margin: 0 auto;
+  box-sizing: border-box;
+
+  button {
+    display: inline-block;
+
+    background: $vintage-eggy;
+		border: 0;
+    border-radius: $corner-radius;
+    color: $vintage-white;
+
+    flex-grow: 1;
+    margin: 0 0.5em;
+    text-align: center;
+
+    user-select: none;
+
+    i.fa {
+      width: 2em;
+    }
+
+    &.active {
+      background: $vintage-rust;
+    }
+
+    &:focus {
+      outline: 0;
+    }
+
+    &:first-of-type {
+      margin-left: 0;
+    }
+
+    &:last-of-type {
+      margin-right: 0;
+    }
+  }
+
+  .audioContainer button {
+    margin-left: 1em;
+  }
+}
+
 .passage {
   line-height: 2em;
 }
 
 .verse-controls {
-	display: flex;
-	flex-direction: row;
-
   button {
-    background: #27ae60;
+    position: fixed;
+
+    width: 10%;
+    padding: 0;
     border: 0;
-    color: white;
-    flex-grow: 1;
-    margin: 0 0.2em;
-    text-transform: uppercase;
+    outline: 0;
+
+    font-size: 3em;
+
+    background: transparent;
+    color: $vintage-gray;
+
+    transition: color 0.3s ease-in-out;
+
+    &:hover {
+      color: $vintage-rust;
+    }
 
     &:disabled {
-      background: #95a5a6;
+      color: $vintage-background;
+    }
+
+    &.previous {
+      top: 0;
+      bottom: 0;
+      left: 0;
+    }
+
+    &.next {
+      top: 0;
+      right: 0;
+      bottom: 0;
     }
   }
+}
 
-  @media screen and (max-width: 319px) {
-  	.previous {
-  		order: -2;
-  	}
-
-  	.next {
-  		order: -1;
-  	}
-  }
+.verse-wrapper {
+  margin: 7em 10%;
 }

@@ -24,16 +24,15 @@ body {
 }
 
 body {
-	background: #ecf0f1;
+	background: $vintage-background;
 	font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
 }
 
 .wrapper {
 	color: #222222;
 	font-family: monospace;
-	max-width: 978px;
+	max-width: $large-width;
 	margin: 0 auto;
-	padding: 1em;
 	white-space: pre-wrap;
 }
 
