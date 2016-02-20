@@ -1,8 +1,8 @@
 import expect from 'expect';
 
-import { VERSE_MODE, SEGMENT_MODE, CHAPTER_MODE, CHANGE_RECALL, RECALL_STAGES, CHANGE_MODE, NAVIGATE_NEXT, NAVIGATE_PREVIOUS, PLAY_AUDIO } from '../js/constants/AppConstants';
+import { VERSE_MODE, SEGMENT_MODE, CHAPTER_MODE, CHANGE_RECALL, RECALL_STAGES, CHANGE_MODE, NAVIGATE_NEXT, NAVIGATE_PREVIOUS, PLAY_AUDIO, RESTORE_STATE } from '../js/constants/AppConstants';
 import * as passage from '../js/passage'
-import { clearSavedTestState } from '../js/saveState'
+import { getLastState, clearSavedTestState } from '../js/saveState'
 
 import passageReducer from '../js/reducers/passageReducer';
 
@@ -270,39 +270,74 @@ describe('passageReducer', () => {
       clearSavedTestState();
     });
 
-    it('should restore last state.active', () => {
+    it('should restore state', () => {
+      let newState = passageReducer(initialState, {
+        type: RESTORE_STATE,
+        state: {
+          active: {
+            VERSE_MODE: 7,
+            SEGMENT_MODE: 6,
+            CHAPTER_MODE: 3
+          },
+          mode: SEGMENT_MODE,
+          recallStage: RECALL_STAGES.FIRST
+        }
+      });
+      expect(newState.active.VERSE_MODE).toEqual(7);
+      expect(newState.active.SEGMENT_MODE).toEqual(6);
+      expect(newState.active.CHAPTER_MODE).toEqual(3);
+      expect(newState.mode).toEqual(SEGMENT_MODE);
+      expect(newState.recallStage).toEqual(RECALL_STAGES.FIRST);
+      expect(newState.isAudioPlaying).toEqual(false);
+    });
+
+    it('should save state.active', () => {
       passageReducer(initialState, {
         type: NAVIGATE_NEXT
       });
-      // Perform an empty action on undefined state to see what gets restored from cookie
-      expect(passageReducer(undefined, {}).active[VERSE_MODE]).toEqual(1);
+      let lastState = getLastState();
+      expect(lastState.active.VERSE_MODE).toEqual(1);
     });
 
-    it('should restore last state.mode', () => {
+    it('should save state.mode', () => {
       passageReducer(initialState, {
         type: CHANGE_MODE,
-        mode: SEGMENT_MODE
+        mode: CHAPTER_MODE
       });
-      // Perform an empty action on undefined state to see what gets restored from cookie
-      expect(passageReducer(undefined, {}).mode).toEqual(SEGMENT_MODE);        
+      let lastState = getLastState();
+      expect(lastState.mode).toEqual(CHAPTER_MODE);
     });
 
-    it('should restore last state.recallState', () => {
+    it('should save state.recallStage', () => {
       passageReducer(initialState, {
         type: CHANGE_RECALL,
         mode: RECALL_STAGES.FIRST
       });
-      // Perform an empty action on undefined state to see what gets restored from cookie
-      expect(passageReducer(undefined, {}).recallStage).toEqual(RECALL_STAGES.FIRST);
+      let lastState = getLastState();
+      expect(lastState.recallStage).toEqual(RECALL_STAGES.FIRST);
     });
 
-    it('should NOT restore last state.isAudioPlaying', () => {
+    it('should save subsequent state changes', () => {
+      let state = passageReducer(initialState, {
+        type: CHANGE_MODE,
+        mode: SEGMENT_MODE
+      });
+      passageReducer(state, {
+        type: NAVIGATE_NEXT
+      });
+      let lastState = getLastState();
+      expect(lastState.mode).toEqual(SEGMENT_MODE);
+      expect(lastState.active.VERSE_MODE).toEqual(0);
+      expect(lastState.active.SEGMENT_MODE).toEqual(1);
+
+    });
+
+    it('should NOT save state.isAudioPlaying', () => {
       passageReducer(initialState, {
         type: PLAY_AUDIO
       });
-      // Perform an empty action on undefined state to see what gets restored from cookie
-      expect(passageReducer(undefined, {}).isAudioPlaying).toEqual(false);
+      let lastState = getLastState();
+      expect(lastState.isAudioPlaying).toNotExist();
     });
-
   });
 });

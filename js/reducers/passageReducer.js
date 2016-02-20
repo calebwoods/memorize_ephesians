@@ -15,8 +15,8 @@
 import assignToEmpty from '../utils/assign';
 
 import { NAVIGATE_NEXT, NAVIGATE_PREVIOUS, CHANGE_RECALL, PLAY_AUDIO, PAUSE_AUDIO, RECALL_STAGES } from '../constants/AppConstants';
-import { VERSE_MODE, SEGMENT_MODE, CHAPTER_MODE, CHANGE_MODE } from '../constants/AppConstants';
-import { saveState, restoreState } from '../saveState'
+import { VERSE_MODE, SEGMENT_MODE, CHAPTER_MODE, CHANGE_MODE, RESTORE_STATE } from '../constants/AppConstants';
+import { saveState } from '../saveState'
 import * as passage from '../passage'
 
 // import all verse data
@@ -28,7 +28,7 @@ const segments = passage.segments();
 // import all chapter data
 const chapters = passage.chapters();
 
-const defaultState = assignToEmpty({
+const initialState = assignToEmpty({
   active: {
     VERSE_MODE  : 0,
     SEGMENT_MODE: 0,
@@ -42,11 +42,12 @@ const defaultState = assignToEmpty({
   isAudioPlaying: false
 });
 
-function passageReducer(state, action) {
+function passageReducer(state = initialState, action) {
   Object.freeze(state); // Don't mutate state directly, always use assign()!
 
   let newActive = {};
   let activeCollection = [];
+  let newState;
 
   switch (action.type) {
     case NAVIGATE_NEXT:
@@ -62,9 +63,11 @@ function passageReducer(state, action) {
         newActive[state.mode]++;
       }
 
-      return assignToEmpty(state, {
+      newState = assignToEmpty(state, {
         active: newActive
       });
+      saveState(newState);
+      return newState;
 
     case NAVIGATE_PREVIOUS:
       newActive = state.active;
@@ -72,19 +75,25 @@ function passageReducer(state, action) {
         newActive[state.mode]--;
       }
 
-      return assignToEmpty(state, {
+      newState = assignToEmpty(state, {
         active: newActive
       });
+      saveState(newState);
+      return newState;
 
     case CHANGE_RECALL:
-      return assignToEmpty(state, {
+      newState = assignToEmpty(state, {
         recallStage: action.mode
       });
+      saveState(newState);
+      return newState;
 
     case CHANGE_MODE:
-      return assignToEmpty(state, {
+      newState = assignToEmpty(state, {
         mode: action.mode
       });
+      saveState(newState);
+      return newState;
 
     case PLAY_AUDIO:
       return assignToEmpty(state, {
@@ -96,19 +105,12 @@ function passageReducer(state, action) {
         isAudioPlaying: false
       });
 
+    case RESTORE_STATE:
+      return assignToEmpty(state, action.state);
+
     default:
       return state;
   }
 }
 
-function stateSavingPassageReducer(state, action) {
-  if (!state) {
-    state = assignToEmpty(defaultState, restoreState());
-  }
-  Object.freeze(state);
-  const newState = passageReducer(state, action);
-  saveState(newState);
-  return newState;
-}
-
-export default stateSavingPassageReducer;
+export default passageReducer;
