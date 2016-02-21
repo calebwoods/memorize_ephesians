@@ -4,6 +4,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
+import Mousetrap from 'mousetrap'
 
 import { asyncNavigateNext, asyncNavigatePrevious, asyncChangeMode, asyncChangeRecall } from '../../actions/AppActions';
 import { VERSE_MODE, SEGMENT_MODE, CHAPTER_MODE, RECALL_STAGES } from '../../constants/AppConstants';
@@ -14,6 +15,28 @@ import Swipeable from 'react-swipeable';
 
 // use named export for unconnected component (unit tests)
 export class PassagePage extends Component {
+  componentDidMount() {
+    Mousetrap.bind('right', () => { this.props.dispatch(asyncNavigateNext()) });
+    Mousetrap.bind('left', () => { this.props.dispatch(asyncNavigatePrevious()) });
+    Mousetrap.bind('v', () => { this.props.dispatch(asyncChangeMode(VERSE_MODE)) });
+    Mousetrap.bind('s', () => { this.props.dispatch(asyncChangeMode(SEGMENT_MODE)) });
+    Mousetrap.bind('c', () => { this.props.dispatch(asyncChangeMode(CHAPTER_MODE)) });
+    Mousetrap.bind('1', () => { this.props.dispatch(asyncChangeRecall(RECALL_STAGES.FULL)) });
+    Mousetrap.bind('2', () => { this.props.dispatch(asyncChangeRecall(RECALL_STAGES.FIRST)) });
+    Mousetrap.bind('3', () => { this.props.dispatch(asyncChangeRecall(RECALL_STAGES.NONE)) });
+  }
+
+  componentWillUnmount() {
+    Mousetrap.unbind('right');
+    Mousetrap.unbind('left');
+    Mousetrap.unbind('v');
+    Mousetrap.unbind('s');
+    Mousetrap.unbind('c');
+    Mousetrap.unbind('1');
+    Mousetrap.unbind('2');
+    Mousetrap.unbind('3');
+  }
+
   render() {
     const dispatch = this.props.dispatch;
     const { active, verses, segments, chapters, mode, recallStage, isAudioPlaying } = this.props.data;
@@ -104,7 +127,8 @@ export class PassagePage extends Component {
           <Swipeable
             className="verse-wrapper"
             onSwipedLeft={() => { dispatch(asyncNavigateNext()) }}
-            onSwipedRight={() => { dispatch(asyncNavigatePrevious()) }}>
+            onSwipedRight={() => { dispatch(asyncNavigatePrevious()) }}
+          >
 
             <p dangerouslySetInnerHTML={{ __html: activePassage[recallStage]() }}></p>
             <p><a href="http://www.esv.org" className="copyright">ESV</a></p>

@@ -2,11 +2,24 @@
  * AudioPlayer
  */
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-
+import Mousetrap from 'mousetrap'
 import { asyncPlayAudio, asyncPauseAudio } from '../actions/AppActions';
 
 class AudioPlayer extends Component {
+  componentDidMount() {
+    Mousetrap.bind('p', () => {
+      if (this.props.isAudioPlaying) {
+        this.props.dispatch(asyncPauseAudio())
+      } else {
+        this.props.dispatch(asyncPlayAudio())
+      }
+    });
+  }
+
+  componentWillUnmount() {
+    Mousetrap.unbind('p');
+  }
+
   render() {
     const { dispatch, src, isAudioPlaying } = this.props;
 
