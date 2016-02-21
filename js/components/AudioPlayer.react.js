@@ -2,12 +2,13 @@
  * AudioPlayer
  */
 import React, { Component } from 'react';
-import Mousetrap from 'mousetrap'
+import Combokeys from 'combokeys'
 import { asyncPlayAudio, asyncPauseAudio } from '../actions/AppActions';
 
 class AudioPlayer extends Component {
   componentDidMount() {
-    Mousetrap.bind('p', () => {
+    let combokeys = new Combokeys(document.documentElement);
+    combokeys.bind('p', () => {
       if (this.props.isAudioPlaying) {
         this.props.dispatch(asyncPauseAudio())
       } else {
@@ -17,7 +18,8 @@ class AudioPlayer extends Component {
   }
 
   componentWillUnmount() {
-    Mousetrap.unbind('p');
+    let combokeys = new Combokeys(document.documentElement);
+    combokeys.unbind('p');
   }
 
   render() {

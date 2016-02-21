@@ -2,7 +2,7 @@
  * KeyboardShortcutHUD
  */
 import React, { Component } from 'react';
-import Mousetrap from 'mousetrap'
+import Combokeys from 'combokeys'
 
 class KeyboardShortcutHUD extends Component {
   constructor(props) {
@@ -11,11 +11,13 @@ class KeyboardShortcutHUD extends Component {
   }
 
   componentDidMount() {
-    Mousetrap.bind('?', () => { this.setState({ show: !this.state.show }); });
+    let combokeys = new Combokeys(document.documentElement);
+    combokeys.bind('?', () => { this.setState({ show: !this.state.show }); });
   }
 
   componentWillUnmount() {
-    Mousetrap.unbind('?');
+    let combokeys = new Combokeys(document.documentElement);
+    combokeys.unbind('?');
   }
 
   render() {
