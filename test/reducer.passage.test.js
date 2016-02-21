@@ -1,6 +1,6 @@
 import expect from 'expect';
 
-import { VERSE_MODE, SEGMENT_MODE, CHAPTER_MODE, CHANGE_RECALL, RECALL_STAGES, CHANGE_MODE, NAVIGATE_NEXT, NAVIGATE_PREVIOUS, PLAY_AUDIO, RESTORE_STATE } from '../js/constants/AppConstants';
+import { VERSE_MODE, SEGMENT_MODE, CHAPTER_MODE, CHANGE_RECALL, RECALL_STAGES, CHANGE_MODE, NAVIGATE_NEXT, NAVIGATE_PREVIOUS, NAVIGATE_INDEX, PLAY_AUDIO, RESTORE_STATE } from '../js/constants/AppConstants';
 import * as passage from '../js/passage'
 import { getLastState, clearSavedTestState } from '../js/saveState'
 
@@ -68,6 +68,26 @@ describe('passageReducer', () => {
 
         expect(secondReducer.active[VERSE_MODE]).toEqual(3);
       });
+
+      it('should navigate to index', () => {
+        let initialReducer = passageReducer(initialState, {
+          type: NAVIGATE_INDEX, index: 2
+        });
+
+        expect(initialReducer.active[VERSE_MODE]).toEqual(2);
+        expect(initialReducer.active[SEGMENT_MODE]).toEqual(0);
+        expect(initialReducer.active[CHAPTER_MODE]).toEqual(0);
+      });
+
+      it('should ignore invalid index', () => {
+        let initialReducer = passageReducer(initialState, {
+          type: NAVIGATE_INDEX, index: 1000
+        });
+
+        expect(initialReducer.active[VERSE_MODE]).toEqual(5);
+        expect(initialReducer.active[SEGMENT_MODE]).toEqual(0);
+        expect(initialReducer.active[CHAPTER_MODE]).toEqual(0);
+      });
     });
 
     describe('segment mode', () => {
@@ -115,6 +135,26 @@ describe('passageReducer', () => {
 
         expect(secondReducer.active[SEGMENT_MODE]).toEqual(3);
       });
+
+      it('should navigate to index', () => {
+        let initialReducer = passageReducer(initialState, {
+          type: NAVIGATE_INDEX, index: 2
+        });
+
+        expect(initialReducer.active[SEGMENT_MODE]).toEqual(2);
+        expect(initialReducer.active[VERSE_MODE]).toEqual(0);
+        expect(initialReducer.active[CHAPTER_MODE]).toEqual(0);
+      });
+
+      it('should ignore invalid index', () => {
+        let initialReducer = passageReducer(initialState, {
+          type: NAVIGATE_INDEX, index: 1000
+        });
+
+        expect(initialReducer.active[SEGMENT_MODE]).toEqual(5);
+        expect(initialReducer.active[VERSE_MODE]).toEqual(0);
+        expect(initialReducer.active[CHAPTER_MODE]).toEqual(0);
+      });
     });
 
     describe('chapter mode', () => {
@@ -147,6 +187,26 @@ describe('passageReducer', () => {
         });
 
         expect(initialReducer.active[CHAPTER_MODE]).toEqual(0);
+        expect(initialReducer.active[VERSE_MODE]).toEqual(0);
+        expect(initialReducer.active[SEGMENT_MODE]).toEqual(0);
+      });
+
+      it('should navigate to index', () => {
+        let initialReducer = passageReducer(initialState, {
+          type: NAVIGATE_INDEX, index: 2
+        });
+
+        expect(initialReducer.active[CHAPTER_MODE]).toEqual(2);
+        expect(initialReducer.active[VERSE_MODE]).toEqual(0);
+        expect(initialReducer.active[SEGMENT_MODE]).toEqual(0);
+      });
+
+      it('should ignore invalid index', () => {
+        let initialReducer = passageReducer(initialState, {
+          type: NAVIGATE_INDEX, index: 1000
+        });
+
+        expect(initialReducer.active[CHAPTER_MODE]).toEqual(1);
         expect(initialReducer.active[VERSE_MODE]).toEqual(0);
         expect(initialReducer.active[SEGMENT_MODE]).toEqual(0);
       });

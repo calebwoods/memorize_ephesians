@@ -14,7 +14,7 @@
  */
 import assignToEmpty from '../utils/assign';
 
-import { NAVIGATE_NEXT, NAVIGATE_PREVIOUS, CHANGE_RECALL, PLAY_AUDIO, PAUSE_AUDIO, RECALL_STAGES } from '../constants/AppConstants';
+import { NAVIGATE_NEXT, NAVIGATE_PREVIOUS, NAVIGATE_INDEX, CHANGE_RECALL, PLAY_AUDIO, PAUSE_AUDIO, RECALL_STAGES } from '../constants/AppConstants';
 import { VERSE_MODE, SEGMENT_MODE, CHAPTER_MODE, CHANGE_MODE, RESTORE_STATE } from '../constants/AppConstants';
 import { saveState } from '../saveState'
 import * as passage from '../passage'
@@ -73,6 +73,26 @@ function passageReducer(state = initialState, action) {
       newActive = state.active;
       if (newActive[state.mode] > 0) {
         newActive[state.mode]--;
+      }
+
+      newState = assignToEmpty(state, {
+        active: newActive
+      });
+      saveState(newState);
+      return newState;
+
+    case NAVIGATE_INDEX:
+      newActive = state.active;
+      if (state.mode === VERSE_MODE) {
+        activeCollection = verses;
+      } else if (state.mode === SEGMENT_MODE) {
+        activeCollection = segments;
+      } else {
+        activeCollection = chapters;
+      }
+
+      if (activeCollection[action.index]) {
+        newActive[state.mode] = action.index;
       }
 
       newState = assignToEmpty(state, {
