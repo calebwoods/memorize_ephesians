@@ -42,32 +42,37 @@ const initialState = assignToEmpty({
   isAudioPlaying: false
 });
 
+function assignAndSave(oldState, newState) {
+  let state = assignToEmpty(oldState, newState)
+  saveState(state);
+  return state;
+}
+
+function activeCollection(state) {
+  if (state.mode === VERSE_MODE) {
+    return verses;
+  } else if (state.mode === SEGMENT_MODE) {
+    return segments;
+  } else {
+    return chapters;
+  }
+}
+
 function passageReducer(state = initialState, action) {
   Object.freeze(state); // Don't mutate state directly, always use assign()!
 
   let newActive = {};
-  let activeCollection = [];
-  let newState;
 
   switch (action.type) {
     case NAVIGATE_NEXT:
       newActive = state.active;
-      if (state.mode === VERSE_MODE) {
-        activeCollection = verses;
-      } else if (state.mode === SEGMENT_MODE) {
-        activeCollection = segments;
-      } else {
-        activeCollection = chapters;
-      }
-      if (newActive[state.mode] < activeCollection.length - 1) {
+      if (newActive[state.mode] < activeCollection(state).length - 1) {
         newActive[state.mode]++;
       }
 
-      newState = assignToEmpty(state, {
+      return assignAndSave(state, {
         active: newActive
       });
-      saveState(newState);
-      return newState;
 
     case NAVIGATE_PREVIOUS:
       newActive = state.active;
@@ -75,45 +80,30 @@ function passageReducer(state = initialState, action) {
         newActive[state.mode]--;
       }
 
-      newState = assignToEmpty(state, {
+      return assignAndSave(state, {
         active: newActive
       });
-      saveState(newState);
-      return newState;
 
     case NAVIGATE_INDEX:
       newActive = state.active;
-      if (state.mode === VERSE_MODE) {
-        activeCollection = verses;
-      } else if (state.mode === SEGMENT_MODE) {
-        activeCollection = segments;
-      } else {
-        activeCollection = chapters;
-      }
 
-      if (activeCollection[action.index]) {
+      if (activeCollection(state)[action.index]) {
         newActive[state.mode] = action.index;
       }
 
-      newState = assignToEmpty(state, {
+      return assignAndSave(state, {
         active: newActive
       });
-      saveState(newState);
-      return newState;
 
     case CHANGE_RECALL:
-      newState = assignToEmpty(state, {
+      return assignAndSave(state, {
         recallStage: action.mode
       });
-      saveState(newState);
-      return newState;
 
     case CHANGE_MODE:
-      newState = assignToEmpty(state, {
+      return assignAndSave(state, {
         mode: action.mode
       });
-      saveState(newState);
-      return newState;
 
     case PLAY_AUDIO:
       return assignToEmpty(state, {
