@@ -11,6 +11,7 @@ import { VERSE_MODE, SEGMENT_MODE, CHAPTER_MODE, RECALL_STAGES } from '../../con
 
 import AudioPlayer from '../AudioPlayer.react';
 import PassageSelect from '../PassageSelect.react';
+import KeyboardShortcutHUD from '../KeyboardShortcutHUD.react';
 import Swipeable from 'react-swipeable';
 
 // use named export for unconnected component (unit tests)
@@ -80,6 +81,7 @@ export class PassagePage extends Component {
 
     return (
       <div>
+        <KeyboardShortcutHUD />
         <div className="top-nav">
           <div className="mode-controls">
             <button className={ mode == VERSE_MODE ? "active" : ""}
