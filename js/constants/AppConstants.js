@@ -8,6 +8,7 @@
  */
 export const NAVIGATE_PREVIOUS = 'NAVIGATE_PREVIOUS';
 export const NAVIGATE_NEXT     = 'NAVIGATE_NEXT';
+export const NAVIGATE_INDEX    = 'NAVIGATE_INDEX';
 
 export const PLAY_AUDIO  = 'PLAY_AUDIO';
 export const PAUSE_AUDIO = 'PAUSE_AUDIO';

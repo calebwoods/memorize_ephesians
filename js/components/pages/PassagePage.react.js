@@ -9,6 +9,7 @@ import { asyncNavigateNext, asyncNavigatePrevious, asyncChangeMode, asyncChangeR
 import { VERSE_MODE, SEGMENT_MODE, CHAPTER_MODE, RECALL_STAGES } from '../../constants/AppConstants';
 
 import AudioPlayer from '../AudioPlayer.react';
+import PassageSelect from '../PassageSelect.react';
 import Swipeable from 'react-swipeable';
 
 // use named export for unconnected component (unit tests)
@@ -39,14 +40,20 @@ export class PassagePage extends Component {
       return true;
     }
 
-    let activePassage = {}
+    let activePassage = {};
+    let activeCollection = [];
+    let activeIndex = 0;
     if (mode === VERSE_MODE) {
-      activePassage = verses[active[VERSE_MODE]];
+      activeCollection = verses;
+      activeIndex = active[VERSE_MODE];
     } else if (mode === SEGMENT_MODE) {
-      activePassage = segments[active[SEGMENT_MODE]];
+      activeCollection = segments;
+      activeIndex = active[SEGMENT_MODE];
     } else {
-      activePassage = chapters[active[CHAPTER_MODE]];
+      activeCollection = chapters;
+      activeIndex = active[CHAPTER_MODE];
     }
+    activePassage = activeCollection[activeIndex];
 
     return (
       <div>
@@ -69,7 +76,11 @@ export class PassagePage extends Component {
           </div>
 
           <div className="meta-information">
-            { activePassage.metadata() }
+            <PassageSelect
+              dispatch={dispatch}
+              collection={activeCollection}
+              selectedIndex={activeIndex}
+            ></PassageSelect>
           </div>
         </div>
 
