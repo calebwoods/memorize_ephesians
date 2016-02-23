@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/calebwoods/memorize_ephesians.svg?branch=master)](https://travis-ci.org/calebwoods/memorize_ephesians)
+
 # Memorize Ephesians
 
 Web app used by Vintage Church in 2016 to memorize Ephesians 1-3.  Initial project structure build using https://github.com/mxstbr/react-boilerplate
@@ -18,7 +20,9 @@ Note the server is setup to auto reload assets as they change.
 
 1. Run `npm run build`, which will compile all the necessary files in a `build` folder.
 
-2. Run `npm run deploy` to deploy to github pages [ephesians.calebwoods.com](http://ephesians.calebwoods.com).
+2. Run `npm run deploy:stagings` to deploy to github pages [ephesians.calebwoods.com](http://ephesians.calebwoods.com).  
+
+3. `master` is automatically deployed to production [ephesians.vintagenc.com](http://ephesians.vintagenc.com) after a successful build.
 
 ## Features
 
