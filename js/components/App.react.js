@@ -15,7 +15,6 @@ class App extends Component {
   render() {
     return (
       <div className="wrapper">
-        <h1 className="app-name">Memorize Ephesians 1-3</h1>
         { this.props.children }
       </div>
     );

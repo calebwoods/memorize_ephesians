@@ -4,15 +4,42 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
+import Combokeys from 'combokeys'
 
 import { asyncNavigateNext, asyncNavigatePrevious, asyncChangeMode, asyncChangeRecall } from '../../actions/AppActions';
 import { VERSE_MODE, SEGMENT_MODE, CHAPTER_MODE, RECALL_STAGES } from '../../constants/AppConstants';
 
 import AudioPlayer from '../AudioPlayer.react';
+import PassageSelect from '../PassageSelect.react';
+import KeyboardShortcutHUD from '../KeyboardShortcutHUD.react';
 import Swipeable from 'react-swipeable';
 
 // use named export for unconnected component (unit tests)
 export class PassagePage extends Component {
+  componentDidMount() {
+    let combokeys = new Combokeys(document.documentElement);
+    combokeys.bind('right', () => { this.props.dispatch(asyncNavigateNext()) });
+    combokeys.bind('left', () => { this.props.dispatch(asyncNavigatePrevious()) });
+    combokeys.bind('v', () => { this.props.dispatch(asyncChangeMode(VERSE_MODE)) });
+    combokeys.bind('s', () => { this.props.dispatch(asyncChangeMode(SEGMENT_MODE)) });
+    combokeys.bind('c', () => { this.props.dispatch(asyncChangeMode(CHAPTER_MODE)) });
+    combokeys.bind('1', () => { this.props.dispatch(asyncChangeRecall(RECALL_STAGES.FULL)) });
+    combokeys.bind('2', () => { this.props.dispatch(asyncChangeRecall(RECALL_STAGES.FIRST)) });
+    combokeys.bind('3', () => { this.props.dispatch(asyncChangeRecall(RECALL_STAGES.NONE)) });
+  }
+
+  componentWillUnmount() {
+    let combokeys = new Combokeys(document.documentElement);
+    combokeys.unbind('right');
+    combokeys.unbind('left');
+    combokeys.unbind('v');
+    combokeys.unbind('s');
+    combokeys.unbind('c');
+    combokeys.unbind('1');
+    combokeys.unbind('2');
+    combokeys.unbind('3');
+  }
+
   render() {
     const dispatch = this.props.dispatch;
     const { active, verses, segments, chapters, mode, recallStage, isAudioPlaying } = this.props.data;
@@ -48,33 +75,50 @@ export class PassagePage extends Component {
       return verseObj.chapter+':'+verseObj.verse;
     }
 
-    let activePassage = {}
+    let activePassage = {};
+    let activeCollection = [];
+    let activeIndex = 0;
+
     if (mode === VERSE_MODE) {
-      activePassage = verses[active[VERSE_MODE]];
+      activeCollection = verses;
+      activeIndex = active[VERSE_MODE];
     } else if (mode === SEGMENT_MODE) {
-      activePassage = segments[active[SEGMENT_MODE]];
+      activeCollection = segments;
+      activeIndex = active[SEGMENT_MODE];
     } else {
-      activePassage = chapters[active[CHAPTER_MODE]];
+      activeCollection = chapters;
+      activeIndex = active[CHAPTER_MODE];
     }
+    activePassage = activeCollection[activeIndex];
 
     return (
       <div>
-        <div className="mode-controls">
-          <button className="scripture-mode" onClick={() => { dispatch(asyncChangeMode(VERSE_MODE)) }}>
-            {verses[active[VERSE_MODE]]._verses[0].book.substr(0,3)+' '+formatVerseIndices(verses[active[VERSE_MODE]]._verses[0])}
-          </button>
+        <KeyboardShortcutHUD />
+        <div className="top-nav">
+          <div className="mode-controls">
+            <button className={ mode == VERSE_MODE ? "active" : ""}
+                    onClick={() => { dispatch(asyncChangeMode(VERSE_MODE)) }}>
+              {verses[active[VERSE_MODE]]._verses[0].book.substr(0,3)+' '+formatVerseIndices(verses[active[VERSE_MODE]]._verses[0])}
+            </button>
 
-          <button className="scripture-mode" onClick={() => { dispatch(asyncChangeMode(SEGMENT_MODE)) }}>
-            {segments[active[SEGMENT_MODE]]._verses[0].book.substr(0,3)+' '+formatVerseIndices(segments[active[SEGMENT_MODE]]._verses[0])+'-'+formatVerseIndices(segments[active[SEGMENT_MODE]]._verses[1])}
-          </button>
+            <button className={ mode == SEGMENT_MODE ? "active" : ""}
+                    onClick={() => { dispatch(asyncChangeMode(SEGMENT_MODE)) }}>
+              {segments[active[SEGMENT_MODE]]._verses[0].book.substr(0,3)+' '+formatVerseIndices(segments[active[SEGMENT_MODE]]._verses[0])+'-'+formatVerseIndices(segments[active[SEGMENT_MODE]]._verses[1])}
+            </button>
 
-          <button className="scripture-mode" onClick={() => { dispatch(asyncChangeMode(CHAPTER_MODE)) }}>
-            {chapters[active[CHAPTER_MODE]]._verses[0].book.substr(0,3)+' '+chapters[active[CHAPTER_MODE]]._verses[0].chapter}
-          </button>
-        </div>
+            <button className={ mode == CHAPTER_MODE ? "active" : ""}
+                    onClick={() => { dispatch(asyncChangeMode(CHAPTER_MODE)) }}>
+              {chapters[active[CHAPTER_MODE]]._verses[0].book.substr(0,3)+' '+chapters[active[CHAPTER_MODE]]._verses[0].chapter}
+            </button>
+          </div>
 
-        <div className="meta-information">
-          { activePassage.metadata() }
+          <div className="meta-information">
+            <PassageSelect
+              dispatch={dispatch}
+              collection={activeCollection}
+              selectedIndex={activeIndex}
+            ></PassageSelect>
+          </div>
         </div>
 
         <div className="verse-controls">
@@ -82,24 +126,28 @@ export class PassagePage extends Component {
                   title="Previous"
                   disabled={ !canNavigatePrevious() }
                   onClick={() => { dispatch(asyncNavigatePrevious()) }}>
-            Previous
+            &lt;
           </button>
 
           <button className="next"
                   title="Next"
                   disabled={ !canNavigateNext() }
                   onClick={() => { dispatch(asyncNavigateNext()) }}>
-            Next
+            &gt;
           </button>
         </div>
 
-        <Swipeable
-          className="verse-wrapper"
-          onSwipedLeft={() => { dispatch(asyncNavigateNext()) }}
-          onSwipedRight={() => { dispatch(asyncNavigatePrevious()) }}>
+        <div>
+          <Swipeable
+            className="verse-wrapper"
+            onSwipedLeft={() => { dispatch(asyncNavigateNext()) }}
+            onSwipedRight={() => { dispatch(asyncNavigatePrevious()) }}
+          >
 
-          <p dangerouslySetInnerHTML={{ __html: activePassage[recallStage]() }}></p>
-        </Swipeable>
+            <p dangerouslySetInnerHTML={{ __html: activePassage[recallStage]() }}></p>
+            <p><a href="http://www.esv.org" className="copyright">ESV</a></p>
+          </Swipeable>
+        </div>
 
         <div className="stage-controls">
           <button
@@ -122,9 +170,6 @@ export class PassagePage extends Component {
                        dispatch={ dispatch }
                        isAudioPlaying={ isAudioPlaying } />
         </div>
-
-
-        <p><a href="http://www.esv.org" className="copyright">ESV</a></p>
       </div>
     );
   }
