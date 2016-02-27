@@ -2,8 +2,7 @@
  * AudioPlayer
  */
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-
+import Combokeys from 'combokeys'
 import { asyncPlayAudio, asyncPauseAudio } from '../actions/AppActions';
 
 class AudioPlayer extends Component {
@@ -43,7 +42,23 @@ class AudioPlayer extends Component {
         { isAudioPlaying ? this.renderPauseButton() : this.renderPlayButton() }
         { this.renderAudioElement() }
       </span>
-    )
+    );
+  }
+
+  componentDidMount() {
+    let combokeys = new Combokeys(document.documentElement);
+    combokeys.bind('p', () => {
+      if (this.props.isAudioPlaying) {
+        this.props.dispatch(asyncPauseAudio(this._audioElement))
+      } else {
+        this.props.dispatch(asyncPlayAudio(this._audioElement))
+      }
+    });
+  }
+
+  componentWillUnmount() {
+    let combokeys = new Combokeys(document.documentElement);
+    combokeys.unbind('p');
   }
 
   componentDidUpdate() {
