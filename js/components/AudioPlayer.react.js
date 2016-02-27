@@ -2,11 +2,26 @@
  * AudioPlayer
  */
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-
+import Combokeys from 'combokeys'
 import { asyncPlayAudio, asyncPauseAudio } from '../actions/AppActions';
 
 class AudioPlayer extends Component {
+  componentDidMount() {
+    let combokeys = new Combokeys(document.documentElement);
+    combokeys.bind('p', () => {
+      if (this.props.isAudioPlaying) {
+        this.props.dispatch(asyncPauseAudio())
+      } else {
+        this.props.dispatch(asyncPlayAudio())
+      }
+    });
+  }
+
+  componentWillUnmount() {
+    let combokeys = new Combokeys(document.documentElement);
+    combokeys.unbind('p');
+  }
+
   render() {
     const { dispatch, src, isAudioPlaying } = this.props;
 
