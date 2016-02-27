@@ -66,15 +66,6 @@ export class PassagePage extends Component {
       return true;
     }
 
-    /**
-     * Helper function for formatting strings of verse indices.
-     *
-     * @return string The formatted verse indices
-     */
-    function formatVerseIndices(verseObj) {
-      return verseObj.chapter+':'+verseObj.verse;
-    }
-
     let activePassage = {};
     let activeCollection = [];
     let activeIndex = 0;
@@ -98,17 +89,17 @@ export class PassagePage extends Component {
           <div className="mode-controls">
             <button className={ mode == VERSE_MODE ? "active" : ""}
                     onClick={() => { dispatch(asyncChangeMode(VERSE_MODE)) }}>
-              {verses[active[VERSE_MODE]]._verses[0].book.substr(0,3)+' '+formatVerseIndices(verses[active[VERSE_MODE]]._verses[0])}
+              {verses[active[VERSE_MODE]].shortMetadata()}
             </button>
 
             <button className={ mode == SEGMENT_MODE ? "active" : ""}
                     onClick={() => { dispatch(asyncChangeMode(SEGMENT_MODE)) }}>
-              {segments[active[SEGMENT_MODE]]._verses[0].book.substr(0,3)+' '+formatVerseIndices(segments[active[SEGMENT_MODE]]._verses[0])+'-'+formatVerseIndices(segments[active[SEGMENT_MODE]]._verses[1])}
+              {segments[active[SEGMENT_MODE]].shortMetadata()}
             </button>
 
             <button className={ mode == CHAPTER_MODE ? "active" : ""}
                     onClick={() => { dispatch(asyncChangeMode(CHAPTER_MODE)) }}>
-              {chapters[active[CHAPTER_MODE]]._verses[0].book.substr(0,3)+' '+chapters[active[CHAPTER_MODE]]._verses[0].chapter}
+              {chapters[active[CHAPTER_MODE]].bookAndChapter()}
             </button>
           </div>
 

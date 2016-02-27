@@ -1,25 +1,37 @@
 import _ from 'lodash';
 
+const SHORT_BOOK_LENGTH = 3;
 export class Passage {
   constructor(verses) {
     this._verses = verses;
   }
 
-  metadata() {
+  metadata(bookLimit) {
     let firstVerse = this._verses[0];
     let lastVerse = this._verses[this._verses.length - 1]
-    let bookChapter = firstVerse.book + ' ' + firstVerse.chapter + ':';
+    let firstBookLimit = bookLimit ? bookLimit : firstVerse.length
+    let bookChapter = firstVerse.book.substr(0, firstBookLimit) + ' ' + firstVerse.chapter + ':';
     if (this._verses.length > 1) {
       if (firstVerse.chapter === lastVerse.chapter) {
         return bookChapter + firstVerse.verse + '-' + lastVerse.verse;
       } else if (firstVerse.book === lastVerse.book) {
         return bookChapter + firstVerse.verse + '-' + lastVerse.chapter + ':' + lastVerse.verse;
       } else {
-        return bookChapter + firstVerse.verse + ' - ' + lastVerse.book + ' ' + lastVerse.chapter + ':' + lastVerse.verse;
+        let lastBookLimit = bookLimit ? bookLimit : lastVerse.length
+        return bookChapter + firstVerse.verse + ' - ' + lastVerse.book.substr(0, lastBookLimit) + ' ' + lastVerse.chapter + ':' + lastVerse.verse;
       }
     } else {
       return bookChapter + this._verses[0].verse;
     }
+  }
+
+  shortMetadata() {
+    return this.metadata(SHORT_BOOK_LENGTH);
+  }
+
+  bookAndChapter() {
+    let firstVerse = this._verses[0];
+    return firstVerse.book.substr(0, SHORT_BOOK_LENGTH) + ' ' + firstVerse.chapter;
   }
 
   baseAudioUrl() {
