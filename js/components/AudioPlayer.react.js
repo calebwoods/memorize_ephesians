@@ -12,21 +12,18 @@ class AudioPlayer extends Component {
     const { dispatch } = this.props;
     this._audioElement = null;
     return (
-      <button className="playAudio" onClick={() => {dispatch(asyncPlayAudio());}}>
+      <button className="playAudio" onClick={() => {dispatch(asyncPlayAudio(this._audioElement));}}>
         <i className="fa fa-play" title="play"></i>
       </button>
     );
   }
 
-  renderPauseButtonAndAudio() {
+  renderPauseButton() {
     const { dispatch } = this.props;
     return (
-      <span>
-        <button className="pauseAudio" onClick={() => {dispatch(asyncPauseAudio())}}>
-          <i className="fa fa-pause" title="pause"></i>
-        </button>
-        { this.renderAudioElement() }
-      </span>
+      <button className="pauseAudio" onClick={() => {dispatch(asyncPauseAudio(this._audioElement))}}>
+        <i className="fa fa-pause" title="pause"></i>
+      </button>
     );
   }
 
@@ -43,7 +40,8 @@ class AudioPlayer extends Component {
     const { isAudioPlaying } = this.props;
     return (
       <span className="audioContainer">
-        { isAudioPlaying ? this.renderPauseButtonAndAudio() : this.renderPlayButton() }
+        { isAudioPlaying ? this.renderPauseButton() : this.renderPlayButton() }
+        { this.renderAudioElement() }
       </span>
     )
   }
