@@ -72,6 +72,34 @@ describe('Passage', () => {
     });
   });
 
+  describe('#shortMetadata', () => {
+    it('single verse', () => {
+      expect(new Passage(oneVerse).shortMetadata()).toEqual('Eph 1:1');
+    });
+
+    it('multiple verses', () => {
+      expect(new Passage(twoVerses).shortMetadata()).toEqual('Eph 1:1-2');
+    });
+
+    it('cross chapters verses', () => {
+      expect(new Passage(crossChapterVerses).shortMetadata()).toEqual('Eph 1:1-2:2');
+    });
+
+    it('cross book verses', () => {
+      expect(new Passage(crossBookVerses).shortMetadata()).toEqual('Gal 6:18 - Eph 1:1');
+    });
+  });
+
+  describe('#bookAndChapter', () => {
+    it('single verse', () => {
+      expect(new Passage(oneVerse).bookAndChapter()).toEqual('Eph 1');
+    });
+
+    it('multiple verses', () => {
+      expect(new Passage(twoVerses).bookAndChapter()).toEqual('Eph 1');
+    });
+  });
+
   describe('#audoUrl', () => {
     const baseAudioUrl = (new Passage).baseAudioUrl();
     it('single verse', () => {

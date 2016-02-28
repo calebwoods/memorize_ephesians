@@ -69,6 +69,7 @@ export class PassagePage extends Component {
     let activePassage = {};
     let activeCollection = [];
     let activeIndex = 0;
+
     if (mode === VERSE_MODE) {
       activeCollection = verses;
       activeIndex = active[VERSE_MODE];
@@ -88,17 +89,17 @@ export class PassagePage extends Component {
           <div className="mode-controls">
             <button className={ mode == VERSE_MODE ? "active" : ""}
                     onClick={() => { dispatch(asyncChangeMode(VERSE_MODE)) }}>
-              1:1
+              {verses[active[VERSE_MODE]].shortMetadata()}
             </button>
 
             <button className={ mode == SEGMENT_MODE ? "active" : ""}
                     onClick={() => { dispatch(asyncChangeMode(SEGMENT_MODE)) }}>
-              1:1 - 1:3
+              {segments[active[SEGMENT_MODE]].shortMetadata()}
             </button>
 
             <button className={ mode == CHAPTER_MODE ? "active" : ""}
                     onClick={() => { dispatch(asyncChangeMode(CHAPTER_MODE)) }}>
-              Ephesians 1
+              {chapters[active[CHAPTER_MODE]].bookAndChapter()}
             </button>
           </div>
 
