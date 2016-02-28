@@ -1,5 +1,7 @@
 [![Build Status](https://travis-ci.org/calebwoods/memorize_ephesians.svg?branch=master)](https://travis-ci.org/calebwoods/memorize_ephesians)
 
+[![Code Climate](https://codeclimate.com/github/calebwoods/memorize_ephesians/badges/gpa.svg)](https://codeclimate.com/github/calebwoods/memorize_ephesians)
+
 # Memorize Ephesians
 
 Web app used by Vintage Church in 2016 to memorize Ephesians 1-3.  Initial project structure build using https://github.com/mxstbr/react-boilerplate
