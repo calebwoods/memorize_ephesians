@@ -93,11 +93,12 @@ export function changeRecall(mode) {
   return { type: CHANGE_RECALL, mode };
 }
 
-export function asyncPlayAudio() {
+export function asyncPlayAudio(audioElement) {
   return (dispatch) => {
     // You can do async stuff here!
     // API fetching, Animations,...
     // For more information as to how and why you would do this, check https://github.com/gaearon/redux-thunk
+    audioElement.play();
     return dispatch(playAudio());
   }
 }
@@ -106,11 +107,12 @@ export function playAudio() {
   return { type: PLAY_AUDIO };
 }
 
-export function asyncPauseAudio() {
+export function asyncPauseAudio(audioElement) {
   return (dispatch) => {
     // You can do async stuff here!
     // API fetching, Animations,...
     // For more information as to how and why you would do this, check https://github.com/gaearon/redux-thunk
+    audioElement.pause();
     return dispatch(pauseAudio());
   }
 }

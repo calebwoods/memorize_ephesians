@@ -6,13 +6,52 @@ import Combokeys from 'combokeys'
 import { asyncPlayAudio, asyncPauseAudio } from '../actions/AppActions';
 
 class AudioPlayer extends Component {
+
+  renderPlayButton() {
+    const { dispatch } = this.props;
+    this._audioElement = null;
+    return (
+      <button className="playAudio" onClick={() => {dispatch(asyncPlayAudio(this._audioElement));}}>
+        <i className="fa fa-play" title="play"></i>
+      </button>
+    );
+  }
+
+  renderPauseButton() {
+    const { dispatch } = this.props;
+    return (
+      <button className="pauseAudio" onClick={() => {dispatch(asyncPauseAudio(this._audioElement))}}>
+        <i className="fa fa-pause" title="pause"></i>
+      </button>
+    );
+  }
+
+  renderAudioElement() {
+    const { src } = this.props;
+    return (
+      <audio ref={(me) => {this._audioElement = me}} loop="loop">
+        <source src={ src } type="audio/mp3"/>
+      </audio>
+    );
+  }
+
+  render() {
+    const { isAudioPlaying } = this.props;
+    return (
+      <span className="audioContainer">
+        { isAudioPlaying ? this.renderPauseButton() : this.renderPlayButton() }
+        { this.renderAudioElement() }
+      </span>
+    );
+  }
+
   componentDidMount() {
     let combokeys = new Combokeys(document.documentElement);
     combokeys.bind('p', () => {
       if (this.props.isAudioPlaying) {
-        this.props.dispatch(asyncPauseAudio())
+        this.props.dispatch(asyncPauseAudio(this._audioElement))
       } else {
-        this.props.dispatch(asyncPlayAudio())
+        this.props.dispatch(asyncPlayAudio(this._audioElement))
       }
     });
   }
@@ -22,26 +61,12 @@ class AudioPlayer extends Component {
     combokeys.unbind('p');
   }
 
-  render() {
-    const { dispatch, src, isAudioPlaying } = this.props;
-
-    if (isAudioPlaying) {
-      return (
-        <span className="audioContainer">
-          <button className="pauseAudio" onClick={() => {dispatch(asyncPauseAudio())} }>
-            <i className="fa fa-pause" title="pause"></i>
-          </button>
-          <audio src={ src } autoPlay="autoPlay" loop="loop"/>
-        </span>
-      );
-    } else {
-      return (
-        <span className="audioContainer">
-          <button className="playAudio" onClick={() => {dispatch(asyncPlayAudio())} }>
-            <i className="fa fa-play" title="play"></i>
-          </button>
-        </span>
-      );
+  componentDidUpdate() {
+    if (this.props.isAudioPlaying) {
+      // Call load in case we change verses while the audio is playing
+      // Or else the audio element will keep using the old src
+      this._audioElement.load();
+      this._audioElement.play();
     }
   }
 }
