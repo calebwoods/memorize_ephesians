@@ -130,7 +130,7 @@ export class PassagePage extends Component {
 
         <div>
           <Swipeable
-            className="verse-wrapper"
+            className={ "verse-wrapper " + recallStage }
             onSwipedLeft={() => { dispatch(asyncNavigateNext()) }}
             onSwipedRight={() => { dispatch(asyncNavigatePrevious()) }}
           >

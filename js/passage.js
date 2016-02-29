@@ -3,7 +3,16 @@ import _ from 'lodash';
 const SHORT_BOOK_LENGTH = 3;
 export class Passage {
   constructor(verses) {
-    this._verses = verses;
+    this._verses = _.map(verses, (v) => {
+      let { book, chapter, verse, text } = v,
+        spannifiedText = text && text.replace(/\B([A-Za-z])/g, "<span class='char'>$1</span>");
+      return {
+        book,
+        chapter,
+        verse,
+        text: spannifiedText
+      }
+    });
   }
 
   metadata(bookLimit) {
@@ -49,6 +58,7 @@ export class Passage {
   }
 
   recallFirstText() {
+    /*
     return this._verses.map(function (rawVerse) {
       return '<sup>' + rawVerse.verse + '</sup>' + rawVerse.text.split(' ').map(function (word) {
         if (word[0]) {
@@ -58,14 +68,12 @@ export class Passage {
         }
       }).join(' ');
     }).join('');
+    */
+    return this.readText();
   }
 
   recallNoneText() {
-    return this._verses.map(function (rawVerse) {
-      return '<sup>' + rawVerse.verse + '</sup>' + rawVerse.text.split(' ').map(function (word) {
-        return word.replace(/\w/g, ' ');
-      }).join(' ');
-    }).join('');
+    return "";
   }
 }
 
