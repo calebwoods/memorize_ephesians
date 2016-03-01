@@ -84,6 +84,9 @@ module.exports = function(options) {
           test:   /\.css$/, // Transform all .css files required somewhere within an entry point...
           loader: cssLoaders // ...with PostCSS
         }, {
+          test: /\.(ttf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/, 
+          loader: 'file-loader?name=webfonts/[name].[ext]' 
+        }, {
           test: /\.jpe?g$|\.gif$|\.png$/i,
           loader: "url-loader?limit=10000"
         }, {
