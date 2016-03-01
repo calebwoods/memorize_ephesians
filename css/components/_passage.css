@@ -1,31 +1,29 @@
 .top-nav {
+  background-color: $vintage-background;
   top: 0;
-
   text-align: center;
 
-  background-color: $vintage-background;
-
   .meta-information {
-    margin-top: 1em;
-
-    font-size: 1.25em;
-
     color: $vintage-gray;
+    font-size: 1.25em;
+    margin-top: 1em;
+  }
+
+  .mode-controls {
+    display: flex;
   }
 }
 
 .stage-controls {
-  bottom: 0;
-
-  display: flex;
-  box-shadow: 0 0 60px 10px $vintage-background;
-
   background-color: rgba($vintage-background-rgb, .75);
+  bottom: 0;
+  box-shadow: 0 0 60px 10px $vintage-background;
+  display: flex;
+  position: fixed;
 }
 
 .top-nav,
 .stage-controls {
-  position: fixed;
   right: 0;
   left: 0;
   z-index: 2;
@@ -37,17 +35,15 @@
   box-sizing: border-box;
 
   button {
-    display: inline-block;
-
     background: $vintage-eggy;
 		border: 0;
     border-radius: $corner-radius;
     color: $vintage-white;
-
+    display: inline-block;
     flex-grow: 1;
-    margin: 0 0.5em;
+    margin-right: 0.5em;
+    padding: 0.25em 0;
     text-align: center;
-
     user-select: none;
 
     i.fa {
@@ -60,10 +56,6 @@
 
     &:focus {
       outline: 0;
-    }
-
-    &:first-of-type {
-      margin-left: 0;
     }
 
     &:last-of-type {
@@ -82,19 +74,15 @@
 
 .verse-controls {
   button {
-    position: fixed;
-
-    width: 10%;
-    padding: 0;
-    border: 0;
-    outline: 0;
-
-    font-size: 3em;
-
     background: transparent;
+    border: 0;
     color: $vintage-gray;
-
+    font-size: 3em;
+    outline: 0;
+    padding: 0;
+    position: fixed;
     transition: color 0.3s ease-in-out;
+    width: 10%;
 
     &:hover {
       color: $vintage-rust;
@@ -119,5 +107,5 @@
 }
 
 .verse-wrapper {
-  margin: 7em 10%;
+  margin: 0 10% 7em 10%;
 }
