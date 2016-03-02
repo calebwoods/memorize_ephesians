@@ -1,3 +1,4 @@
+import { CROSSWAY_API_KEY } from './env';
 import _ from 'lodash';
 
 const SHORT_BOOK_LENGTH = 3;
@@ -35,7 +36,7 @@ export class Passage {
   }
 
   baseAudioUrl() {
-    return "http://www.esvapi.org/v2/rest/passageQuery?key=IP&passage=";
+    return "http://www.esvapi.org/v2/rest/passageQuery?key=" + CROSSWAY_API_KEY + "&passage=";
   }
 
   audioUrl() {

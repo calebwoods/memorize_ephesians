@@ -41,7 +41,8 @@ module.exports = function(options) {
       new ExtractTextPlugin("css/main.css"),
       new webpack.DefinePlugin({
         "process.env": {
-          NODE_ENV: JSON.stringify("production")
+          NODE_ENV: JSON.stringify("production"),
+          CROSSWAY_API_KEY: JSON.stringify(process.env.CROSSWAY_API_KEY)
         }
       })
     ];
