@@ -2,8 +2,8 @@
  * Basic typography style for copy text
  */
 .verse-wrapper {
-	font-family: CenturySchoolbookBT-Roman;
-	font-size: 1.5em;
-	line-height: 3em;
-	color: $almost-black;
+  font-family: $text-font-stack;
+  font-size: 1.5em;
+  line-height: 3em;
+  color: $almost-black;
 }

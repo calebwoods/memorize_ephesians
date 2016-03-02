@@ -3,16 +3,7 @@ import _ from 'lodash';
 const SHORT_BOOK_LENGTH = 3;
 export class Passage {
   constructor(verses) {
-    this._verses = _.map(verses, (v) => {
-      let { book, chapter, verse, text } = v,
-        spannifiedText = text && text.replace(/\B([A-Za-z])/g, "<span class='char'>$1</span>");
-      return {
-        book,
-        chapter,
-        verse,
-        text: spannifiedText
-      }
-    });
+    this._verses = verses;
   }
 
   metadata(bookLimit) {
@@ -51,30 +42,18 @@ export class Passage {
     return encodeURI(this.baseAudioUrl() + this.metadata() + '&output-format=mp3');
   }
 
-  readText() {
+  formattedText() {
     return this._verses.map(function (rawVerse) {
-      return '<sup>' + rawVerse.verse + '</sup>' + rawVerse.text;
+      return '<sup>' + rawVerse.verse + '</sup>' + spannifyText(rawVerse.text);
     }).join('');
   }
+}
 
-  recallFirstText() {
-    /*
-    return this._verses.map(function (rawVerse) {
-      return '<sup>' + rawVerse.verse + '</sup>' + rawVerse.text.split(' ').map(function (word) {
-        if (word[0]) {
-          return word[0] + word.slice(1, word.length).replace(/\w/g, ' ');
-        } else {
-          return '';
-        }
-      }).join(' ');
-    }).join('');
-    */
-    return this.readText();
-  }
-
-  recallNoneText() {
-    return "";
-  }
+function spannifyText(text) {
+  return text.split(/\b/).map((word) => {
+    let spannifiedWord = word.replace(/([A-Za-z])/g, '<span class="char">$1</span>');
+    return '<span class="word">' + spannifiedWord + '</span>';
+  }).join('');
 }
 
 export function verses() {

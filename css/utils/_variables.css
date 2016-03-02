@@ -1,9 +1,10 @@
 /*This file contains all application-wide CSS variables.*/
 
-$text-font-stack: 'Helvetica Neue Light', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
-$code-font-stack: 'Courier New', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Monaco', monospace;
+$text-font-stack: 'CenturySchoolbookBT-Roman', 'Times New Roman', serif;
+$ui-font-stack: 'Frank-Light', 'Helvetica Neue Light', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
 
-$almost-black: #080808;
+$almost-black: rgba(0, 0, 0, 0.8);
+$transparent: rgba(0, 0, 0, 0);
 
 $vintage-eggy: #69BECD;
 $vintage-punchy: #F15A22;

@@ -40,6 +40,14 @@ export class PassagePage extends Component {
     combokeys.unbind('3');
   }
 
+  renderPassageText(recallStage, activePassage) {
+    if (recallStage !== RECALL_STAGES.NONE) {
+      return (
+        <p dangerouslySetInnerHTML={{ __html: activePassage.formattedText() }}></p>
+      );
+    }
+  }
+
   render() {
     const dispatch = this.props.dispatch;
     const { active, verses, segments, chapters, mode, recallStage, isAudioPlaying } = this.props.data;
@@ -135,7 +143,8 @@ export class PassagePage extends Component {
             onSwipedRight={() => { dispatch(asyncNavigatePrevious()) }}
           >
 
-            <p dangerouslySetInnerHTML={{ __html: activePassage[recallStage]() }}></p>
+            { this.renderPassageText(recallStage, activePassage) }
+
             <p><a href="http://www.esv.org" className="copyright">ESV</a></p>
           </Swipeable>
         </div>
@@ -144,7 +153,7 @@ export class PassagePage extends Component {
           <button
             className={ recallStage == RECALL_STAGES.FULL ? "active" : ""}
             onClick={() => { dispatch(asyncChangeRecall(RECALL_STAGES.FULL)) }}
-          >Know</button>
+          >KNOW</button>
 
           <button
             className={ recallStage == RECALL_STAGES.FIRST ? "active" : ""}
