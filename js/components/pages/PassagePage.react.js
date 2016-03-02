@@ -125,14 +125,14 @@ export class PassagePage extends Component {
                   title="Previous"
                   disabled={ !canNavigatePrevious() }
                   onClick={() => { dispatch(asyncNavigatePrevious()) }}>
-            &lt;
+            <i className="fa fa-angle-left"></i>
           </button>
 
           <button className="next"
                   title="Next"
                   disabled={ !canNavigateNext() }
                   onClick={() => { dispatch(asyncNavigateNext()) }}>
-            &gt;
+            <i className="fa fa-angle-right"></i>
           </button>
         </div>
 
