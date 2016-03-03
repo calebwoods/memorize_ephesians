@@ -108,4 +108,12 @@
 
 .verse-wrapper {
   margin: 0 10% 7em 10%;
+
+  &.recallFirstText {
+    .char:not(:first-of-type) {
+      color: $transparent;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+    }
+  }
+
 }

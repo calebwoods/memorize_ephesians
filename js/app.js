@@ -30,18 +30,7 @@ import { Provider } from 'react-redux';
 import { Router, Route } from 'react-router';
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
-import FontFaceObserver from 'fontfaceobserver';
 import createHistory from 'history/lib/createBrowserHistory';
-
-// Observer loading of Source Code Pro (to remove open sans, remove the <link> tag in the index.html file and this observer)
-const sourceCodeProObserver = new FontFaceObserver('Source Code Pro', {});
-
-// When Source Code Pro is loaded, add the js-source-code-pro-loaded class to the body
-sourceCodeProObserver.check().then(() => {
-  document.body.classList.add('js-source-code-pro-loaded');
-}, () => {
-  document.body.classList.remove('js-source-code-pro-loaded');
-});
 
 // Import the pages
 import PassagePage from './components/pages/PassagePage.react';

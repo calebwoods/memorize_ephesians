@@ -100,7 +100,7 @@ describe('Passage', () => {
     });
   });
 
-  describe('#audoUrl', () => {
+  describe('#audioUrl', () => {
     const baseAudioUrl = (new Passage).baseAudioUrl();
     it('single verse', () => {
       expect(new Passage(oneVerse).audioUrl()).toEqual(baseAudioUrl + 'Ephesians%201:1' + '&output-format=mp3');
@@ -111,41 +111,97 @@ describe('Passage', () => {
     });
   });
 
-  describe('#readText', () => {
+  describe('#formattedText', () => {
     it('single verse', () => {
-      expect(new Passage(oneVerse).readText()).toEqual('<sup>1</sup>Text, of verse 1 ');
+      expect(new Passage(oneVerse).formattedText()).toEqual(
+        '<sup>1</sup>' +
+        '<span class="word">' +
+          '<span class="char">T</span>' +
+          '<span class="char">e</span>' +
+          '<span class="char">x</span>' +
+          '<span class="char">t</span>' +
+        '</span>' +
+        '<span class="word">, </span>' +
+        '<span class="word">' +
+          '<span class="char">o</span>' +
+          '<span class="char">f</span>' +
+        '</span>' + 
+        '<span class="word"> </span>' + 
+        '<span class="word">' +
+          '<span class="char">v</span>' +
+          '<span class="char">e</span>' +
+          '<span class="char">r</span>' +
+          '<span class="char">s</span>' +
+          '<span class="char">e</span>' +
+        '</span>' +
+        '<span class="word"> </span>' +
+        '<span class="word">1</span>' +
+        '<span class="word"> </span>');
     });
 
     it('multiple verses', () => {
-      expect(new Passage(twoVerses).readText()).toEqual('<sup>1</sup>Text, of verse 1 <sup>2</sup>and verse 2 ends like this.');
-    });
-  });
-
-  describe('#recallFirstText', () => {
-    it('single verse', () => {
-      expect(new Passage(oneVerse).recallFirstText()).toEqual(
-        '<sup>1</sup>T   , o  v     1 '
-      );
-    });
-
-    it('multiple verses', () => {
-      expect(new Passage(twoVerses).recallFirstText()).toEqual(
-        '<sup>1</sup>T   , o  v     1 <sup>2</sup>a   v     2 e    l    t   .'
-      );
-    });
-  });
-
-  describe('#recallNoneText', () => {
-    it('single verse', () => {
-      expect(new Passage(oneVerse).recallNoneText()).toEqual(
-        '<sup>1</sup>    ,            '
-      );
-    });
-
-    it('multiple verses', () => {
-      expect(new Passage(twoVerses).recallNoneText()).toEqual(
-        '<sup>1</sup>    ,            <sup>2</sup>                          .'
-      );
+      expect(new Passage(twoVerses).formattedText()).toEqual(
+        '<sup>1</sup>' +
+        '<span class="word">' +
+          '<span class="char">T</span>' +
+          '<span class="char">e</span>' +
+          '<span class="char">x</span>' +
+          '<span class="char">t</span>' +
+        '</span>' +
+        '<span class="word">, </span>' +
+        '<span class="word">' +
+          '<span class="char">o</span>' +
+          '<span class="char">f</span>' +
+        '</span>' + 
+        '<span class="word"> </span>' + 
+        '<span class="word">' +
+          '<span class="char">v</span>' +
+          '<span class="char">e</span>' +
+          '<span class="char">r</span>' +
+          '<span class="char">s</span>' +
+          '<span class="char">e</span>' +
+        '</span>' +
+        '<span class="word"> </span>' +
+        '<span class="word">1</span>' +
+        '<span class="word"> </span>' +
+        '<sup>2</sup>' +
+        '<span class="word">' +
+          '<span class="char">a</span>' +
+          '<span class="char">n</span>' +
+          '<span class="char">d</span>' +
+        '</span>' +
+        '<span class="word"> </span>' +
+        '<span class="word">' +
+          '<span class="char">v</span>' +
+          '<span class="char">e</span>' +
+          '<span class="char">r</span>' +
+          '<span class="char">s</span>' +
+          '<span class="char">e</span>' +
+        '</span>' +
+        '<span class="word"> </span>' +
+        '<span class="word">2</span>' +
+        '<span class="word"> </span>' +
+        '<span class="word">' +
+          '<span class="char">e</span>' +
+          '<span class="char">n</span>' +
+          '<span class="char">d</span>' +
+          '<span class="char">s</span>' +
+        '</span>' +
+        '<span class="word"> </span>' +
+        '<span class="word">' +
+          '<span class="char">l</span>' +
+          '<span class="char">i</span>' +
+          '<span class="char">k</span>' +
+          '<span class="char">e</span>' +
+        '</span>' + 
+        '<span class="word"> </span>' +
+        '<span class="word">' +
+          '<span class="char">t</span>' +
+          '<span class="char">h</span>' +
+          '<span class="char">i</span>' +
+          '<span class="char">s</span>' +
+        '</span>' +
+        '<span class="word">.</span>');
     });
   });
 

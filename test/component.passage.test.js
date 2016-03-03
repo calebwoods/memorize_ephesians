@@ -57,7 +57,7 @@ describe('PassagePage', () => {
       let element        = getInstance(props);
       let renderedVerses = TestUtils.scryRenderedDOMComponentsWithClass(element, 'verse-wrapper');
 
-      expect(renderedVerses[0].innerHTML).toInclude(passage.verses()[0].readText());
+      expect(renderedVerses[0].innerHTML).toInclude(passage.verses()[0].formattedText());
     });
 
     it('should render all verses for a segment in segment mode', () => {
@@ -66,7 +66,7 @@ describe('PassagePage', () => {
       let element        = getInstance(props);
       let renderedVerses = TestUtils.scryRenderedDOMComponentsWithClass(element, 'verse-wrapper');
 
-      expect(renderedVerses[0].innerHTML).toInclude(passage.segments()[0].readText());
+      expect(renderedVerses[0].innerHTML).toInclude(passage.segments()[0].formattedText());
     });
 
     it('should render all verses for a chapter in chapter mode', () => {
@@ -75,7 +75,7 @@ describe('PassagePage', () => {
       let element        = getInstance(props);
       let renderedVerses = TestUtils.scryRenderedDOMComponentsWithClass(element, 'verse-wrapper');
 
-      expect(renderedVerses[0].innerHTML).toInclude(passage.chapters()[0].readText());
+      expect(renderedVerses[0].innerHTML).toInclude(passage.chapters()[0].formattedText());
     });
   });
 });
