@@ -112,6 +112,8 @@ export class PassagePage extends Component {
           </div>
 
           <div className="meta-information">
+            <a className="left" href="http://www.esv.org">ESV</a>
+            <a className="right" href="#">Help</a>
             <PassageSelect
               dispatch={dispatch}
               collection={activeCollection}
@@ -145,7 +147,6 @@ export class PassagePage extends Component {
 
             { this.renderPassageText(recallStage, activePassage) }
 
-            <p><a href="http://www.esv.org" className="copyright">ESV</a></p>
           </Swipeable>
         </div>
 
