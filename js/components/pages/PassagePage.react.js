@@ -119,7 +119,7 @@ export class PassagePage extends Component {
               collection={activeCollection}
               selectedIndex={activeIndex}
             ></PassageSelect>
-            <a href="#">Help</a>
+            <Link className="right" to="/help">Help</Link>
           </div>
         </div>
 

@@ -34,6 +34,7 @@ import createHistory from 'history/lib/createBrowserHistory';
 
 // Import the pages
 import PassagePage from './components/pages/PassagePage.react';
+import HelpPage from './components/pages/HelpPage.react';
 import NotFoundPage from './components/pages/NotFound.react';
 import App from './components/App.react';
 
@@ -66,6 +67,7 @@ ReactDOM.render(
     <Router history={createHistory()}>
       <Route component={App}>
         <Route path="/" component={PassagePage} />
+        <Route path="/help" component={HelpPage} />
         <Route path="*" component={NotFoundPage} />
       </Route>
     </Router>
