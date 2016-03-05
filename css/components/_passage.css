@@ -110,7 +110,8 @@
 }
 
 .verse-wrapper {
-  margin: 0 10% 7em 10%;
+  margin: 0 10%;
+  padding-bottom: 7em;
 
   &.recallFirstText {
     .char:not(:first-of-type) {
