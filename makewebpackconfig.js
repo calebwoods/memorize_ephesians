@@ -11,6 +11,7 @@ module.exports = function(options) {
     // Entry
     entry = [
       'static?!./CNAME?output=CNAME',
+      'static?!./favicon.png?output=favicon.png',
       path.resolve(__dirname, 'js/app.js') // Start with js/app.js...
     ];
     cssLoaders = ExtractTextPlugin.extract('style-loader', 'css-loader!postcss-loader');
@@ -86,7 +87,7 @@ module.exports = function(options) {
           test: /\.jpe?g$|\.gif$|\.png$/i,
           loader: "url-loader?limit=10000"
         }, {
-          test: /CNAME/i,
+          test: /CNAME|favicon\.png/i,
           loader: "static-loader"
         }
       ]
