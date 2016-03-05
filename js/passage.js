@@ -46,7 +46,7 @@ export class Passage {
   formattedText() {
     return this._verses.map(function (rawVerse) {
       return '<sup>' + rawVerse.verse + '</sup>' + spannifyText(rawVerse.text);
-    }).join('');
+    }).join('<span class="word"> </span>');
   }
 }
 
