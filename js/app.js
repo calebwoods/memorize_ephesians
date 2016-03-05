@@ -59,12 +59,16 @@ if (module.hot) {
 import { getLastState } from './saveState';
 import { asyncRestoreState } from './actions/AppActions'
 store.dispatch(asyncRestoreState(getLastState()));
+import { recordPageview } from './analytics';
 
 // Mostly boilerplate, except for the Routes. These are the pages you can go to,
 // which are all wrapped in the App component, which contains the navigation etc
 ReactDOM.render(
   <Provider store={store}>
-    <Router history={createHistory()}>
+    <Router
+      history={createHistory()}
+      onUpdate={() => { recordPageview() }}
+    >
       <Route component={App}>
         <Route path="/" component={PassagePage} />
         <Route path="/help" component={HelpPage} />
