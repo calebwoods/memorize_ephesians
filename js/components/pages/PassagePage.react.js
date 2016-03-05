@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import Combokeys from 'combokeys'
 
-import { asyncNavigateNext, asyncNavigatePrevious, asyncChangeMode, asyncChangeRecall } from '../../actions/AppActions';
+import { asyncNavigateNext, asyncNavigatePrevious, asyncCompletePassage, asyncChangeMode, asyncChangeRecall } from '../../actions/AppActions';
 import { VERSE_MODE, SEGMENT_MODE, CHAPTER_MODE, RECALL_STAGES } from '../../constants/AppConstants';
 
 import AudioPlayer from '../AudioPlayer.react';
@@ -40,8 +40,31 @@ export class PassagePage extends Component {
     combokeys.unbind('3');
   }
 
-  renderPassageText(recallStage, activePassage) {
-    if (recallStage !== RECALL_STAGES.NONE) {
+  renderPassageText(dispatch, recallStage, activePassage) {
+    if (recallStage === RECALL_STAGES.NONE) {
+      return (
+        <div className="reciteMode">
+          <h3>Recite the passage</h3>
+
+          <p>How did you do?</p>
+
+          <div className="actions">
+            <button
+              className="restart"
+              onClick={() => { dispatch(asyncChangeRecall(RECALL_STAGES.FULL)) }}
+            >
+              <i className="fa fa-undo"></i> More practice
+            </button>
+            <button
+              className="complete"
+              onClick={() => { dispatch(asyncCompletePassage()) }}
+            >
+              <i className="fa fa-check"></i> Nailed it!
+            </button>
+          </div>
+        </div>
+      )
+    } else {
       return (
         <p dangerouslySetInnerHTML={{ __html: activePassage.formattedText() }}></p>
       );
@@ -51,28 +74,6 @@ export class PassagePage extends Component {
   render() {
     const dispatch = this.props.dispatch;
     const { active, verses, segments, chapters, mode, recallStage, isAudioPlaying } = this.props.data;
-
-    /**
-     * Take into account the current mode, and determine if we can navigation backward.
-     *
-     * @TODO make this better than a simple index check (which is only good for verse mode)
-     *
-     * @return boolean Whether or not we can navigate backward
-     */
-    function canNavigatePrevious() {
-      return true;
-    }
-
-    /**
-     * Take into account the current mode, and determine if we can navigation backward.
-     *
-     * @TODO make this work.
-     *
-     * @return boolean Whether or not we can navigate forward
-     */
-    function canNavigateNext() {
-      return true;
-    }
 
     let activePassage = {};
     let activeCollection = [];
@@ -125,14 +126,12 @@ export class PassagePage extends Component {
         <div className="verse-controls">
           <button className="previous"
                   title="Previous"
-                  disabled={ !canNavigatePrevious() }
                   onClick={() => { dispatch(asyncNavigatePrevious()) }}>
             <i className="fa fa-angle-left"></i>
           </button>
 
           <button className="next"
                   title="Next"
-                  disabled={ !canNavigateNext() }
                   onClick={() => { dispatch(asyncNavigateNext()) }}>
             <i className="fa fa-angle-right"></i>
           </button>
@@ -145,7 +144,7 @@ export class PassagePage extends Component {
             onSwipedRight={() => { dispatch(asyncNavigatePrevious()) }}
           >
 
-            { this.renderPassageText(recallStage, activePassage) }
+            { this.renderPassageText(dispatch, recallStage, activePassage) }
 
           </Swipeable>
         </div>

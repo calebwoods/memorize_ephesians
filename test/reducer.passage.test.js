@@ -1,6 +1,6 @@
 import expect from 'expect';
 
-import { VERSE_MODE, SEGMENT_MODE, CHAPTER_MODE, CHANGE_RECALL, RECALL_STAGES, CHANGE_MODE, NAVIGATE_NEXT, NAVIGATE_PREVIOUS, NAVIGATE_INDEX, PLAY_AUDIO, RESTORE_STATE } from '../js/constants/AppConstants';
+import { VERSE_MODE, SEGMENT_MODE, CHAPTER_MODE, CHANGE_RECALL, RECALL_STAGES, CHANGE_MODE, NAVIGATE_NEXT, NAVIGATE_PREVIOUS, NAVIGATE_INDEX, COMPLETE_PASSAGE, PLAY_AUDIO, RESTORE_STATE } from '../js/constants/AppConstants';
 import * as passage from '../js/passage'
 import { getLastState, clearSavedTestState } from '../js/saveState'
 
@@ -398,6 +398,58 @@ describe('passageReducer', () => {
       });
       let lastState = getLastState();
       expect(lastState.isAudioPlaying).toNotExist();
+    });
+  });
+
+  describe('complete passage', () => {
+    describe('verse mode', () => {
+      let initialState = {};
+
+      beforeEach(() => {
+        initialState = {
+          active: {
+            VERSE_MODE: 1,
+            SEGMENT_MODE: 0,
+            CHAPTER_MODE: 0
+          },
+          mode: VERSE_MODE,
+          recallStage: RECALL_STAGES.NONE
+        };
+      });
+
+      it('should increment active by one and switch recall mode', () => {
+        let intialReduction = passageReducer(initialState, {
+          type: COMPLETE_PASSAGE
+        });
+
+        expect(intialReduction.active[VERSE_MODE]).toEqual(2);
+        expect(intialReduction.recallStage).toEqual(RECALL_STAGES.FULL);
+      });
+    });
+
+    describe('chapter mode', () => {
+      let initialState = {};
+
+      beforeEach(() => {
+        initialState = {
+          active: {
+            VERSE_MODE: 0,
+            SEGMENT_MODE: 0,
+            CHAPTER_MODE: 2
+          },
+          mode: CHAPTER_MODE,
+          recallStage: RECALL_STAGES.NONE
+        };
+      });
+
+      it('when last passage, just switch recall mode', () => {
+        let intialReduction = passageReducer(initialState, {
+          type: COMPLETE_PASSAGE
+        });
+
+        expect(intialReduction.active[CHAPTER_MODE]).toEqual(2);
+        expect(intialReduction.recallStage).toEqual(RECALL_STAGES.FULL);
+      });
     });
   });
 });
