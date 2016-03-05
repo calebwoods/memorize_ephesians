@@ -12,6 +12,10 @@ import 'file?name=[name].[ext]!../serviceworker.js';
 import 'file?name=[name].[ext]!../manifest.json';
 import 'file?name=[name].[ext]!../.htaccess';
 
+// Handle 300ms click delay on mobile
+import FastClick from 'fastclick';
+FastClick.attach(document.body);
+
 // Check for ServiceWorker support before trying to install it
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('/serviceworker.js').then(() => {
