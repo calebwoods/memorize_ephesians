@@ -112,13 +112,13 @@ export class PassagePage extends Component {
           </div>
 
           <div className="meta-information">
-            <a className="left" href="http://www.esv.org">ESV</a>
-            <a className="right" href="#">Help</a>
+            <a href="http://www.esv.org">ESV</a>
             <PassageSelect
               dispatch={dispatch}
               collection={activeCollection}
               selectedIndex={activeIndex}
             ></PassageSelect>
+            <a href="#">Help</a>
           </div>
         </div>
 
