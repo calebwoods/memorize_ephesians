@@ -27,12 +27,11 @@
 // It makes more sense to have the asnyc actions before the non-async ones
 /* eslint-disable no-use-before-define */
 import { NAVIGATE_NEXT, NAVIGATE_PREVIOUS, NAVIGATE_INDEX, COMPLETE_PASSAGE, CHANGE_MODE, CHANGE_RECALL, PLAY_AUDIO, PAUSE_AUDIO, RESTORE_STATE } from '../constants/AppConstants';
+import { recordAction } from '../analytics';
 
 export function asyncNavigateNext() {
   return (dispatch) => {
-    // You can do async stuff here!
-    // API fetching, Animations,...
-    // For more information as to how and why you would do this, check https://github.com/gaearon/redux-thunk
+    recordAction(NAVIGATE_NEXT);
     return dispatch(navigateNext());
   };
 }
@@ -43,9 +42,7 @@ export function navigateNext() {
 
 export function asyncNavigatePrevious() {
   return (dispatch) => {
-    // You can do async stuff here!
-    // API fetching, Animations,...
-    // For more information as to how and why you would do this, check https://github.com/gaearon/redux-thunk
+    recordAction(NAVIGATE_PREVIOUS);
     return dispatch(navigatePrevious());
   };
 }
@@ -56,9 +53,7 @@ export function navigatePrevious() {
 
 export function asyncNavigateIndex(index) {
   return (dispatch) => {
-    // You can do async stuff here!
-    // API fetching, Animations,...
-    // For more information as to how and why you would do this, check https://github.com/gaearon/redux-thunk
+    recordAction(NAVIGATE_INDEX);
     return dispatch(navigateIndex(index));
   };
 }
@@ -69,9 +64,7 @@ export function navigateIndex(index) {
 
 export function asyncCompletePassage() {
   return (dispatch) => {
-    // You can do async stuff here!
-    // API fetching, Animations,...
-    // For more information as to how and why you would do this, check https://github.com/gaearon/redux-thunk
+    recordAction(COMPLETE_PASSAGE);
     return dispatch(completePassage());
   };
 }
@@ -82,9 +75,7 @@ export function completePassage() {
 
 export function asyncChangeMode(mode) {
   return (dispatch) => {
-    // You can do async stuff here!
-    // API fetching, Animations,...
-    // For more information as to how and why you would do this, check https://github.com/gaearon/redux-thunk
+    recordAction(CHANGE_MODE + ' - ' + mode);
     return dispatch(changeMode(mode));
   }
 }
@@ -95,9 +86,7 @@ export function changeMode(mode) {
 
 export function asyncChangeRecall(mode) {
   return (dispatch) => {
-    // You can do async stuff here!
-    // API fetching, Animations,...
-    // For more information as to how and why you would do this, check https://github.com/gaearon/redux-thunk
+    recordAction(CHANGE_RECALL + ' - ' + mode);
     return dispatch(changeRecall(mode));
   }
 }
@@ -108,9 +97,7 @@ export function changeRecall(mode) {
 
 export function asyncPlayAudio(audioElement) {
   return (dispatch) => {
-    // You can do async stuff here!
-    // API fetching, Animations,...
-    // For more information as to how and why you would do this, check https://github.com/gaearon/redux-thunk
+    recordAction(PLAY_AUDIO);
     audioElement.play();
     return dispatch(playAudio());
   }
@@ -122,9 +109,7 @@ export function playAudio() {
 
 export function asyncPauseAudio(audioElement) {
   return (dispatch) => {
-    // You can do async stuff here!
-    // API fetching, Animations,...
-    // For more information as to how and why you would do this, check https://github.com/gaearon/redux-thunk
+    recordAction(PAUSE_AUDIO);
     audioElement.pause();
     return dispatch(pauseAudio());
   }
@@ -136,9 +121,6 @@ export function pauseAudio() {
 
 export function asyncRestoreState(state) {
   return (dispatch) => {
-    // You can do async stuff here!
-    // API fetching, Animations,...
-    // For more information as to how and why you would do this, check https://github.com/gaearon/redux-thunk
     return dispatch(restoreState(state));
   }
 }
