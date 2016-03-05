@@ -120,3 +120,34 @@
   }
 
 }
+
+.reciteMode {
+  text-align: center;
+
+  .actions {
+    display: flex;
+    justify-content: space-around;;
+
+    button {
+      background-color: $vintage-eggy;
+      border: 0;
+      border-radius: $corner-radius;
+      color: $vintage-white;
+      display: inline-block;
+      font-family: $ui-font-stack;
+      font-size: 75%;
+      flex-grow: 1;
+      padding: 0.25em;
+      margin: 0 0.25em;
+      text-align: center;
+      text-transform: uppercase;
+      user-select: none;
+    }
+
+    .restart {
+      background: $vintage-background;
+      border: 1px solid $almost-black;
+      color: $almost-black;
+    }
+  }
+}
