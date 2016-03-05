@@ -5,6 +5,7 @@ class HelpPage extends Component {
   render() {
     return (
       <article className="wrapper">
+        <Link to="/" className="back"><i className="fa fa-arrow-left"></i></Link>
         <h1>Help</h1>
 
         <h3>WHAT IS THIS FOR?</h3>
