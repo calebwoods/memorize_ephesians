@@ -8,9 +8,7 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Logo from '../../img/logo.png';
 
-// <img className="logo" src={Logo} />
 class App extends Component {
   render() {
     return (

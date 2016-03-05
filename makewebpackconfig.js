@@ -1,7 +1,6 @@
 var path = require('path');
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
-var AppCachePlugin = require('appcache-webpack-plugin');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = function(options) {
@@ -12,6 +11,7 @@ module.exports = function(options) {
     // Entry
     entry = [
       'static?!./CNAME?output=CNAME',
+      'static?!./favicon.png?output=favicon.png',
       path.resolve(__dirname, 'js/app.js') // Start with js/app.js...
     ];
     cssLoaders = ExtractTextPlugin.extract('style-loader', 'css-loader!postcss-loader');
@@ -66,10 +66,6 @@ module.exports = function(options) {
     ]
   }
 
-  plugins.push(new AppCachePlugin({ // AppCache should be in both prod and dev env
-    exclude: ['.htaccess'] // No need to cache that. See https://support.hostgator.com/articles/403-forbidden-or-no-permission-to-access
-  }));
-
   return {
     entry: entry,
     output: { // Compile into js/build.js
@@ -82,8 +78,8 @@ module.exports = function(options) {
           loader: 'babel', // ...with the specified loaders...
           exclude: path.join(__dirname, '/node_modules/') // ...except for the node_modules folder.
         }, {
-          test: /\.(ttf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/, 
-          loader: 'url-loader?limit=100000' 
+          test: /\.(ttf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
+          loader: 'url-loader?limit=100000'
         }, {
           test:   /\.css$/, // Transform all .css files required somewhere within an entry point...
           loader: cssLoaders // ...with PostCSS
@@ -91,7 +87,7 @@ module.exports = function(options) {
           test: /\.jpe?g$|\.gif$|\.png$/i,
           loader: "url-loader?limit=10000"
         }, {
-          test: /CNAME/i,
+          test: /CNAME|favicon\.png/i,
           loader: "static-loader"
         }
       ]
