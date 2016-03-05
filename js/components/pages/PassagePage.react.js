@@ -52,28 +52,6 @@ export class PassagePage extends Component {
     const dispatch = this.props.dispatch;
     const { active, verses, segments, chapters, mode, recallStage, isAudioPlaying } = this.props.data;
 
-    /**
-     * Take into account the current mode, and determine if we can navigation backward.
-     *
-     * @TODO make this better than a simple index check (which is only good for verse mode)
-     *
-     * @return boolean Whether or not we can navigate backward
-     */
-    function canNavigatePrevious() {
-      return true;
-    }
-
-    /**
-     * Take into account the current mode, and determine if we can navigation backward.
-     *
-     * @TODO make this work.
-     *
-     * @return boolean Whether or not we can navigate forward
-     */
-    function canNavigateNext() {
-      return true;
-    }
-
     let activePassage = {};
     let activeCollection = [];
     let activeIndex = 0;
@@ -125,14 +103,12 @@ export class PassagePage extends Component {
         <div className="verse-controls">
           <button className="previous"
                   title="Previous"
-                  disabled={ !canNavigatePrevious() }
                   onClick={() => { dispatch(asyncNavigatePrevious()) }}>
             <i className="fa fa-angle-left"></i>
           </button>
 
           <button className="next"
                   title="Next"
-                  disabled={ !canNavigateNext() }
                   onClick={() => { dispatch(asyncNavigateNext()) }}>
             <i className="fa fa-angle-right"></i>
           </button>
