@@ -6,7 +6,7 @@ const oneVerse = Object.freeze([
     "book": "Ephesians",
     "chapter": 1,
     "verse": 1,
-    "text": "Text, of verse 1 "
+    "text": "Text, of verse 1"
   }
 ]);
 const twoVerses = Object.freeze([
@@ -14,7 +14,7 @@ const twoVerses = Object.freeze([
     "book": "Ephesians",
     "chapter": 1,
     "verse": 1,
-    "text": "Text, of verse 1 "
+    "text": "Text, of verse 1"
   },
   {
     "book": "Ephesians",
@@ -28,7 +28,7 @@ const crossChapterVerses = Object.freeze([
     "book": "Ephesians",
     "chapter": 1,
     "verse": 1,
-    "text": "Text, of verse 1 "
+    "text": "Text, of verse 1"
   },
   {
     "book": "Ephesians",
@@ -125,8 +125,8 @@ describe('Passage', () => {
         '<span class="word">' +
           '<span class="char">o</span>' +
           '<span class="char">f</span>' +
-        '</span>' + 
-        '<span class="word"> </span>' + 
+        '</span>' +
+        '<span class="word"> </span>' +
         '<span class="word">' +
           '<span class="char">v</span>' +
           '<span class="char">e</span>' +
@@ -135,8 +135,7 @@ describe('Passage', () => {
           '<span class="char">e</span>' +
         '</span>' +
         '<span class="word"> </span>' +
-        '<span class="word">1</span>' +
-        '<span class="word"> </span>');
+        '<span class="word">1</span>');
     });
 
     it('multiple verses', () => {
@@ -152,8 +151,8 @@ describe('Passage', () => {
         '<span class="word">' +
           '<span class="char">o</span>' +
           '<span class="char">f</span>' +
-        '</span>' + 
-        '<span class="word"> </span>' + 
+        '</span>' +
+        '<span class="word"> </span>' +
         '<span class="word">' +
           '<span class="char">v</span>' +
           '<span class="char">e</span>' +
@@ -193,7 +192,7 @@ describe('Passage', () => {
           '<span class="char">i</span>' +
           '<span class="char">k</span>' +
           '<span class="char">e</span>' +
-        '</span>' + 
+        '</span>' +
         '<span class="word"> </span>' +
         '<span class="word">' +
           '<span class="char">t</span>' +
