@@ -1,5 +1,20 @@
+article {
+  padding: $default-padding;
+}
+
 .highlight {
-  background-color: #d97d27;
+  background-color: $vintage-rust;
   color: #ffffff;
-  padding: 3px;
+  padding: 0.25em 1em;
+}
+
+.btn {
+  color: #ffffff;
+  background-color: $vintage-rust;
+  display: block;
+  margin: auto;
+  padding: 0.5em 1em;
+  text-decoration: none;
+  text-align: center;
+  width: 200px;
 }
