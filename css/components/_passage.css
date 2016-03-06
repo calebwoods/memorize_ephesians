@@ -6,7 +6,7 @@
   .meta-information {
     color: $vintage-gray;
     display: inline-flex;
-    justify-content: space-between;
+    justify-content: space-around;
     font-size: 1.25em;
     margin-top: 1em;
     width: 100%;
