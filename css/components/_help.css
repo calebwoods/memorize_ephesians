@@ -18,6 +18,10 @@ article {
     margin-right: 0.5em;
   }
 
+  a.feedback {
+    float: right;
+  }
+
   p {
     font-family: $text-font-stack;
     line-height: 1.5em;
