@@ -153,17 +153,34 @@ export class PassagePage extends Component {
           <button
             className={ recallStage == RECALL_STAGES.FULL ? "active" : ""}
             onClick={() => { dispatch(asyncChangeRecall(RECALL_STAGES.FULL)) }}
-          >KNOW</button>
+          >
+            KNOW<br />
+            LIVE
+          </button>
+
+          <button
+            className={ recallStage == RECALL_STAGES.WORDS ? "active" : ""}
+            onClick={() => { dispatch(asyncChangeRecall(RECALL_STAGES.WORDS)) }}
+          >
+            KNOW<br />
+            ____
+          </button>
 
           <button
             className={ recallStage == RECALL_STAGES.FIRST ? "active" : ""}
             onClick={() => { dispatch(asyncChangeRecall(RECALL_STAGES.FIRST)) }}
-          >K___</button>
+          >
+            K___<br />
+            L___
+          </button>
 
           <button
             className={ recallStage == RECALL_STAGES.NONE ? "active" : ""}
             onClick={() => { dispatch(asyncChangeRecall(RECALL_STAGES.NONE)) }}
-          >____</button>
+          >
+            ____<br />
+            ____
+          </button>
 
           <AudioPlayer className="audio-controls"
                        src={ activePassage.audioUrl() }

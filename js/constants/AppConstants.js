@@ -22,6 +22,7 @@ export const CHAPTER_MODE = 'CHAPTER_MODE';
 export const CHANGE_RECALL = 'CHANGE_RECALL';
 export const RECALL_STAGES = {
   FULL : 'readText',
+  WORDS: 'recallWords',
   FIRST: 'recallFirstText',
   NONE : 'recallNoneText'
 };
