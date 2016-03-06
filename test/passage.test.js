@@ -121,12 +121,12 @@ describe('Passage', () => {
           '<span class="char">x</span>' +
           '<span class="char">t</span>' +
         '</span>' +
-        '<span class="word">, </span>' +
+        '<span class="space">, </span>' +
         '<span class="word">' +
           '<span class="char">o</span>' +
           '<span class="char">f</span>' +
         '</span>' +
-        '<span class="word"> </span>' +
+        '<span class="space"> </span>' +
         '<span class="word">' +
           '<span class="char">v</span>' +
           '<span class="char">e</span>' +
@@ -134,7 +134,7 @@ describe('Passage', () => {
           '<span class="char">s</span>' +
           '<span class="char">e</span>' +
         '</span>' +
-        '<span class="word"> </span>' +
+        '<span class="space"> </span>' +
         '<span class="word">1</span>');
     });
 
@@ -147,12 +147,12 @@ describe('Passage', () => {
           '<span class="char">x</span>' +
           '<span class="char">t</span>' +
         '</span>' +
-        '<span class="word">, </span>' +
+        '<span class="space">, </span>' +
         '<span class="word">' +
           '<span class="char">o</span>' +
           '<span class="char">f</span>' +
         '</span>' +
-        '<span class="word"> </span>' +
+        '<span class="space"> </span>' +
         '<span class="word">' +
           '<span class="char">v</span>' +
           '<span class="char">e</span>' +
@@ -160,16 +160,16 @@ describe('Passage', () => {
           '<span class="char">s</span>' +
           '<span class="char">e</span>' +
         '</span>' +
-        '<span class="word"> </span>' +
+        '<span class="space"> </span>' +
         '<span class="word">1</span>' +
-        '<span class="word"> </span>' +
+        '<span class="space"> </span>' +
         '<sup>2</sup>' +
         '<span class="word">' +
           '<span class="char">a</span>' +
           '<span class="char">n</span>' +
           '<span class="char">d</span>' +
         '</span>' +
-        '<span class="word"> </span>' +
+        '<span class="space"> </span>' +
         '<span class="word">' +
           '<span class="char">v</span>' +
           '<span class="char">e</span>' +
@@ -177,30 +177,30 @@ describe('Passage', () => {
           '<span class="char">s</span>' +
           '<span class="char">e</span>' +
         '</span>' +
-        '<span class="word"> </span>' +
+        '<span class="space"> </span>' +
         '<span class="word">2</span>' +
-        '<span class="word"> </span>' +
+        '<span class="space"> </span>' +
         '<span class="word">' +
           '<span class="char">e</span>' +
           '<span class="char">n</span>' +
           '<span class="char">d</span>' +
           '<span class="char">s</span>' +
         '</span>' +
-        '<span class="word"> </span>' +
+        '<span class="space"> </span>' +
         '<span class="word">' +
           '<span class="char">l</span>' +
           '<span class="char">i</span>' +
           '<span class="char">k</span>' +
           '<span class="char">e</span>' +
         '</span>' +
-        '<span class="word"> </span>' +
+        '<span class="space"> </span>' +
         '<span class="word">' +
           '<span class="char">t</span>' +
           '<span class="char">h</span>' +
           '<span class="char">i</span>' +
           '<span class="char">s</span>' +
         '</span>' +
-        '<span class="word">.</span>');
+        '<span class="space">.</span>');
     });
   });
 
